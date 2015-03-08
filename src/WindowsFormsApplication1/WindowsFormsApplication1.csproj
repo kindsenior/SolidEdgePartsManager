@@ -36,6 +36,18 @@
       <HintPath>obj\x86\Debug\Interop.IWshRuntimeLibrary.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Interop.SolidEdgeAssembly">
+      <HintPath>obj\x86\Debug\Interop.SolidEdgeAssembly.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.SolidEdgeDraft">
+      <HintPath>obj\x86\Debug\Interop.SolidEdgeDraft.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.SolidEdgeFramework">
+      <HintPath>obj\x86\Debug\Interop.SolidEdgeFramework.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

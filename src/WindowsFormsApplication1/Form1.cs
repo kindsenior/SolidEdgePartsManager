@@ -120,15 +120,16 @@ namespace WindowsFormsApplication1
             MessageBox.Show(TextboxDestAsm.Text);
 
             if (!IsSolidEdge()) return;
-            getChildFile();
+            getChildFile(TextboxDestAsm.Text);
         }
 
-        private void getChildFile()
+        private void getChildFile(string filename)
         {
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
-            SolidEdgeDraft.DraftDocument draft = null;
-            bool IsOverwrite = CheckboxIsOverwrite.Checked;
+            SolidEdgeAssembly.AssemblyDocument asm = null;
+            //SolidEdgeDraft.DraftDocument draft = null;
+            //bool IsOverwrite = CheckboxIsOverwrite.Checked;
             bool ret = false;
 
             try
@@ -137,39 +138,40 @@ namespace WindowsFormsApplication1
                 if (!System.IO.File.Exists(filename))
                     throw (new System.Exception("file not found: " + filename));
 
-                //check if the directory
-                if (!System.IO.Directory.Exists(destdir))
-                    throw (new System.Exception("directory not found: " + destdir));
+                ////check if the directory
+                //if (!System.IO.Directory.Exists(destdir))
+                //    throw (new System.Exception("directory not found: " + destdir));
 
                 //check if the file ext is dft
-                if (System.IO.Path.GetExtension(filename) != ".dft")
-                    throw (new System.Exception("This is not a Draft file: " + filename));
+                if (System.IO.Path.GetExtension(filename) != ".asm")
+                    throw (new System.Exception("This is not a Assembly file: " + filename));
 
                 //connect to solidedge instance
                 application = (SolidEdgeFramework.Application)Marshal.GetActiveObject("SolidEdge.Application");
                 documents = application.Documents;
                 if (debug) MessageBox.Show("solid edge found");
 
-                if (debug) MessageBox.Show("open draft");
+                if (debug) MessageBox.Show("open asm");
                 //draft = (SolidEdgeDraft.DraftDocument)documents.Add("SolidEdge.DraftDocument", Missing.Value);
-                draft = (SolidEdgeDraft.DraftDocument)documents.Open(filename);
+                asm = (SolidEdgeAssembly.AssemblyDocument)documents.Open(filename);
 
+                MessageBox.Show("opened asm");
 
-                string outfile = destdir + "\\" + System.IO.Path.GetFileNameWithoutExtension(filename) + "." + ext;
-                if (debug) MessageBox.Show("filename: " + outfile);
+                //string outfile = destdir + "\\" + System.IO.Path.GetFileNameWithoutExtension(filename) + "." + ext;
+                //if (debug) MessageBox.Show("filename: " + outfile);
 
-                if (IsOverwrite)
-                {
-                    //delete exist file
-                    if (debug) MessageBox.Show("delete file");
-                    System.IO.File.Delete(outfile);
-                }
+                //if (IsOverwrite)
+                //{
+                //    //delete exist file
+                //    if (debug) MessageBox.Show("delete file");
+                //    System.IO.File.Delete(outfile);
+                //}
 
-                if (debug) MessageBox.Show("save file");
-                draft.SaveAs(outfile);
+                //if (debug) MessageBox.Show("save file");
+                //draft.SaveAs(outfile);
 
                 if (debug) MessageBox.Show("close draft");
-                draft.Close(false);
+                asm.Close(false);
 
                 ret = true;
             }
@@ -179,10 +181,10 @@ namespace WindowsFormsApplication1
             }
             finally
             {
-                if (draft != null)
+                if (asm != null)
                 {
-                    Marshal.ReleaseComObject(draft);
-                    draft = null;
+                    Marshal.ReleaseComObject(asm);
+                    asm = null;
                 }
                 if (documents != null)
                 {
