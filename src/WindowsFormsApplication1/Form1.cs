@@ -138,10 +138,6 @@ namespace WindowsFormsApplication1
                 if (!System.IO.File.Exists(filename))
                     throw (new System.Exception("file not found: " + filename));
 
-                ////check if the directory
-                //if (!System.IO.Directory.Exists(destdir))
-                //    throw (new System.Exception("directory not found: " + destdir));
-
                 //check if the file ext is dft
                 if (System.IO.Path.GetExtension(filename) != ".asm")
                     throw (new System.Exception("This is not a Assembly file: " + filename));
@@ -155,21 +151,13 @@ namespace WindowsFormsApplication1
                 //draft = (SolidEdgeDraft.DraftDocument)documents.Add("SolidEdge.DraftDocument", Missing.Value);
                 asm = (SolidEdgeAssembly.AssemblyDocument)documents.Open(filename);
 
-                MessageBox.Show("opened asm");
-
-                //string outfile = destdir + "\\" + System.IO.Path.GetFileNameWithoutExtension(filename) + "." + ext;
-                //if (debug) MessageBox.Show("filename: " + outfile);
-
-                //if (IsOverwrite)
-                //{
-                //    //delete exist file
-                //    if (debug) MessageBox.Show("delete file");
-                //    System.IO.File.Delete(outfile);
-                //}
-
-                //if (debug) MessageBox.Show("save file");
-                //draft.SaveAs(outfile);
-
+                SolidEdgeAssembly.Occurrences subs = asm.Occurrences;
+                MessageBox.Show(subs.Count.ToString());
+                for (int i = 1; i <= subs.Count; ++i)
+                {
+                    MessageBox.Show( "sub:" + subs.Item(i).OccurrenceFileName );
+                }
+                
                 if (debug) MessageBox.Show("close draft");
                 asm.Close(false);
 

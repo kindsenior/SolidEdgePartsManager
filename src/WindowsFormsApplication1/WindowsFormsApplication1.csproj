@@ -48,6 +48,10 @@
       <HintPath>obj\x86\Debug\Interop.SolidEdgeFramework.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Interop.SolidEdgePart">
+      <HintPath>obj\x86\Debug\Interop.SolidEdgePart.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
