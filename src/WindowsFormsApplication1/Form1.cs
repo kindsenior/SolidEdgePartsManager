@@ -115,12 +115,11 @@ namespace WindowsFormsApplication1
             dialog.Dispose();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ButtonUpdateAllPartsNumber_Click(object sender, EventArgs e)
         {
             MessageBox.Show(TextboxDestAsm.Text);
 
             //if (!IsSolidEdge()) return;
-            //GetChildFile(TextboxDestAsm.Text);
 
             RefreshAccessToken();
 
@@ -129,74 +128,22 @@ namespace WindowsFormsApplication1
             Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
 
             SpreadsheetManager spreadsheetManager = new SpreadsheetManager();
-            spreadsheetManager.GetPartsPathFromGDrive(service);
+            //spreadsheetManager.GetPartsPathFromGDrive(service);
 
-        }
+            SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
-        private void GetChildFile(string filename)
-        {
-            SolidEdgeFramework.Application application = null;
-            SolidEdgeFramework.Documents documents = null;
-            SolidEdgeAssembly.AssemblyDocument asm = null;
-            //SolidEdgeDraft.DraftDocument draft = null;
-            //bool IsOverwrite = CheckboxIsOverwrite.Checked;
-            bool ret = false;
+            solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
+            //for(){// limb
+            //GetOccurenceFiles();
+            //for(){// link
+            //createWorksheet()
+            //GeneratePartsList()
+            //writePartsList()
+            //}
+            //}
 
-            try
-            {
-                //check if the file exists
-                if (!System.IO.File.Exists(filename))
-                    throw (new System.Exception("file not found: " + filename));
 
-                //check if the file ext is dft
-                if (System.IO.Path.GetExtension(filename) != ".asm")
-                    throw (new System.Exception("This is not a Assembly file: " + filename));
 
-                //connect to solidedge instance
-                application = (SolidEdgeFramework.Application)Marshal.GetActiveObject("SolidEdge.Application");
-                documents = application.Documents;
-                if (debug) MessageBox.Show("solid edge found");
-
-                if (debug) MessageBox.Show("open asm");
-                //draft = (SolidEdgeDraft.DraftDocument)documents.Add("SolidEdge.DraftDocument", Missing.Value);
-                asm = (SolidEdgeAssembly.AssemblyDocument)documents.Open(filename);
-
-                SolidEdgeAssembly.Occurrences subs = asm.Occurrences;
-                MessageBox.Show(subs.Count.ToString());
-                for (int i = 1; i <= subs.Count; ++i)
-                {
-                    MessageBox.Show( "sub:" + subs.Item(i).OccurrenceFileName );
-                }
-                
-                if (debug) MessageBox.Show("close draft");
-                asm.Close(false);
-
-                ret = true;
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                if (asm != null)
-                {
-                    Marshal.ReleaseComObject(asm);
-                    asm = null;
-                }
-                if (documents != null)
-                {
-                    Marshal.ReleaseComObject(documents);
-                    documents = null;
-                }
-                if (application != null)
-                {
-                    Marshal.ReleaseComObject(application);
-                    application = null;
-                }
-            }
-
-            return;
         }
 
         private bool RefreshAccessToken()

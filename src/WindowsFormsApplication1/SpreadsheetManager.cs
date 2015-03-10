@@ -44,8 +44,6 @@ namespace WindowsFormsApplication1
                     }
                 }
             }
-            Console.WriteLine("hoge");
-
         }
 
     }

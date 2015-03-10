@@ -31,7 +31,7 @@
             this.TextboxDestAsm = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonLoadDestAsm = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ButtonUpdateAllPartsNumber = new System.Windows.Forms.Button();
             this.TextboxImiAccount = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -67,15 +67,15 @@
             this.ButtonLoadDestAsm.UseVisualStyleBackColor = true;
             this.ButtonLoadDestAsm.Click += new System.EventHandler(this.ButtonLoadDestAsm_Click);
             // 
-            // button1
+            // ButtonUpdateAllPartsNumber
             // 
-            this.button1.Location = new System.Drawing.Point(631, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(631, 44);
+            this.ButtonUpdateAllPartsNumber.Name = "ButtonUpdateAllPartsNumber";
+            this.ButtonUpdateAllPartsNumber.Size = new System.Drawing.Size(75, 23);
+            this.ButtonUpdateAllPartsNumber.TabIndex = 3;
+            this.ButtonUpdateAllPartsNumber.Text = "Update";
+            this.ButtonUpdateAllPartsNumber.UseVisualStyleBackColor = true;
+            this.ButtonUpdateAllPartsNumber.Click += new System.EventHandler(this.ButtonUpdateAllPartsNumber_Click);
             // 
             // TextboxImiAccount
             // 
@@ -121,7 +121,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TextboxImiAccount);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ButtonUpdateAllPartsNumber);
             this.Controls.Add(this.ButtonLoadDestAsm);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TextboxDestAsm);
@@ -137,7 +137,7 @@
         private System.Windows.Forms.TextBox TextboxDestAsm;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ButtonLoadDestAsm;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ButtonUpdateAllPartsNumber;
         private System.Windows.Forms.TextBox TextboxImiAccount;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
