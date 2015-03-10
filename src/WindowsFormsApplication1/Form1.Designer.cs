@@ -32,6 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonLoadDestAsm = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.TextboxImiAccount = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TextBoxImiPass = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // TextboxDestAsm
@@ -65,7 +69,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(631, 94);
+            this.button1.Location = new System.Drawing.Point(631, 44);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -73,11 +77,50 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // TextboxImiAccount
+            // 
+            this.TextboxImiAccount.AllowDrop = true;
+            this.TextboxImiAccount.Location = new System.Drawing.Point(109, 46);
+            this.TextboxImiAccount.Name = "TextboxImiAccount";
+            this.TextboxImiAccount.Size = new System.Drawing.Size(225, 19);
+            this.TextboxImiAccount.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(91, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "JSK imi Account";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(340, 49);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 12);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Pass";
+            // 
+            // TextBoxImiPass
+            // 
+            this.TextBoxImiPass.AllowDrop = true;
+            this.TextBoxImiPass.Location = new System.Drawing.Point(376, 46);
+            this.TextBoxImiPass.Name = "TextBoxImiPass";
+            this.TextBoxImiPass.PasswordChar = '*';
+            this.TextBoxImiPass.Size = new System.Drawing.Size(249, 19);
+            this.TextBoxImiPass.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
+            this.Controls.Add(this.TextBoxImiPass);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.TextboxImiAccount);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ButtonLoadDestAsm);
             this.Controls.Add(this.label1);
@@ -95,6 +138,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ButtonLoadDestAsm;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox TextboxImiAccount;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox TextBoxImiPass;
     }
 }
 

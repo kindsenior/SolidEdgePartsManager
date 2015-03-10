@@ -122,10 +122,14 @@ namespace WindowsFormsApplication1
             MessageBox.Show(TextboxDestAsm.Text);
 
             //if (!IsSolidEdge()) return;
-            //getChildFile(TextboxDestAsm.Text);
+            //GetChildFile(TextboxDestAsm.Text);
+
+            RefreshAccessToken();
+            GetPartsPathFromGDrive();
+
         }
 
-        private void getChildFile(string filename)
+        private void GetChildFile(string filename)
         {
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
@@ -191,20 +195,15 @@ namespace WindowsFormsApplication1
             return;
         }
 
-
-        private void GetPartsPathFromGDrive()
+        private bool RefreshAccessToken()
         {
             string CLIENT_ID = "1006233954353-1cauii1ksqvmip6kttlt2h9ku6hhpa4o.apps.googleusercontent.com";
             string CLIENT_SECRET = "vhA55KV3ZQTVKbbKVS5z41pi";
-            
-            //string SCOPE = "https://www.googleapis.com/auth/drive";
-            string SCOPE = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata";
-            
+
+            string SCOPE = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://spreadsheets.google.com/feeds https://docs.google.com/feeds";
+
             //string REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
             string REDIRECT_URI = "http://localhost";
-
-            //string REDIRECT_URI = "http://www.example.com/oauth2callback";
-            //string REDIRECT_URI = "https://code.google.com/apis/console";
 
             OAuth2Parameters parameters = new OAuth2Parameters();
             parameters.ClientId = CLIENT_ID;
@@ -217,7 +216,7 @@ namespace WindowsFormsApplication1
             //Console.WriteLine("Please visit the URL above to authorize your OAuth request token.  Once that is complete, type in your access code to continue...");
             //parameters.AccessCode = Console.ReadLine();
             parameters.AccessCode = "4/deIE1CH-cRFBTSdrsk4u78d0dYulzBzP5-XzSw2z9L4.Ys4jiJaGcykSBrG_bnfDxpJ2zoLzlwI";
-            Console.WriteLine(" AuthorizationCode(AccessCode): "+parameters.AccessCode);
+            Console.WriteLine(" AuthorizationCode(AccessCode): " + parameters.AccessCode);
 
             //string redirectUrl = "http://www.example.com/oauth2callback?code=SOME-RETURNED-VALUE";
             //string redirectUrl = "https://code.google.com/apis/console?code=SOME-RETURNED-VALUE";
@@ -226,7 +225,7 @@ namespace WindowsFormsApplication1
             //OAuthUtil.GetAccessToken(uri.Query, parameters);
 
             string accessToken = "ya29.MAHytisyJiuz-nz8IPriQ-872u8hy-Xe0wsrRjgw9FdqufZmCHQPypBnSls5UR-uF9GNFy9ShchNRA";
-            string refreshToken = "1/nrxh65IqcBQS6erUO2hj3wRKJVyAWlGz_C2IWej68dg";
+            string refreshToken = "1/nrxh65IqcBQS6erUO2hj3wRKJVyAWlGz_C2IWej68dg"; // リフレッシュトークンは変わらない?
             parameters.AccessToken = accessToken;
             parameters.RefreshToken = refreshToken;
             OAuthUtil.RefreshAccessToken(parameters);
@@ -237,18 +236,27 @@ namespace WindowsFormsApplication1
             refreshToken = parameters.RefreshToken;
             Console.WriteLine(" Refresh Token: " + refreshToken);
 
-
             GOAuth2RequestFactory requestFactory = new GOAuth2RequestFactory(null, "MySpreadsheetIntegration-v1", parameters);
             SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
             service.RequestFactory = requestFactory;
 
+            return true;
+        }
+
+
+        private void GetPartsPathFromGDrive()
+        {
+            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+            service.setUserCredentials(TextboxImiAccount.Text, TextBoxImiPass.Text);
+            Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: "+TextBoxImiPass.Text);
+
             SpreadsheetQuery query = new SpreadsheetQuery();
-            //SpreadsheetFeed feed = service.Query(query);
-            //foreach (SpreadsheetEntry entry in feed.Entries)
-            //{
-            //    // Print the title of this spreadsheet to the screen
-            //    Console.WriteLine(entry.Title.Text);
-            //}
+            
+            SpreadsheetFeed feed = service.Query(query);
+            foreach (SpreadsheetEntry entry in feed.Entries)
+            {
+                Console.WriteLine(entry.Title.Text);
+            }
 
         }
 
