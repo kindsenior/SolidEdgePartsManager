@@ -117,15 +117,19 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            GetPartsPathFromGDrive();
-            
             MessageBox.Show(TextboxDestAsm.Text);
 
             //if (!IsSolidEdge()) return;
             //GetChildFile(TextboxDestAsm.Text);
 
             RefreshAccessToken();
-            GetPartsPathFromGDrive();
+
+            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+            service.setUserCredentials(TextboxImiAccount.Text, TextBoxImiPass.Text);
+            Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
+
+            SpreadsheetManager spreadsheetManager = new SpreadsheetManager();
+            spreadsheetManager.GetPartsPathFromGDrive(service);
 
         }
 
@@ -241,23 +245,6 @@ namespace WindowsFormsApplication1
             service.RequestFactory = requestFactory;
 
             return true;
-        }
-
-
-        private void GetPartsPathFromGDrive()
-        {
-            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            service.setUserCredentials(TextboxImiAccount.Text, TextBoxImiPass.Text);
-            Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: "+TextBoxImiPass.Text);
-
-            SpreadsheetQuery query = new SpreadsheetQuery();
-            
-            SpreadsheetFeed feed = service.Query(query);
-            foreach (SpreadsheetEntry entry in feed.Entries)
-            {
-                Console.WriteLine(entry.Title.Text);
-            }
-
         }
 
     }
