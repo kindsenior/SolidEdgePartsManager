@@ -71,28 +71,38 @@ namespace WindowsFormsApplication1
                     {
                         WorksheetEntry newWorksheet = new WorksheetEntry();
                         newWorksheet.Title.Text = worksheetTitle;
-                        newWorksheet.Cols = 8; newWorksheet.Rows = 20;
+                        newWorksheet.Cols = 8; newWorksheet.Rows = 100;
                         m_service.Insert(m_spreadsheet.Worksheets, newWorksheet);
                     }
                     worksheet = GetWorksheetEntry(worksheetTitle);
                     Console.WriteLine(worksheet.Title.Text);
 
-                    CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
-                    CellFeed cellFeed = m_service.Query(cellQuery);
-                    CellEntry entry = new CellEntry(1, 3, "c");
-                    cellFeed.Insert(entry);
+                    
 
-                    AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
-                    ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
-                    ListFeed listFeed = m_service.Query(listQuery);
-
-                    IDataObject data = Clipboard.GetDataObject();
+                    IDataObject data = Clipboard.GetDataObject();// get data from clipboard
                     if (data.GetDataPresent(DataFormats.Text))
                     {
                         string clipboardStr = (string)data.GetData(DataFormats.Text);
                         //Console.WriteLine(clipboardStr);
 
                         string[] rowStrs = clipboardStr.Split('\n');
+                        Console.WriteLine(rowStrs.Length);
+
+                        //string[] headRowStrs = rowStrs[0].Split('\t');
+                        string[] headRowStrs = new string[8] { "itemnum", "filename", "numbers", "process", "material", "order", "type", "path" };
+
+                        for (uint i = 0; i < headRowStrs.Length; ++i)
+                        {
+                            CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
+                            CellFeed cellFeed = m_service.Query(cellQuery);
+                            CellEntry entry = new CellEntry(1, i+1, headRowStrs[i]);
+                            cellFeed.Insert(entry);
+                        }
+
+                        AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
+                        ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
+                        ListFeed listFeed = m_service.Query(listQuery);
+
                         foreach (string rowStr in rowStrs)
                         {
                             //string pattern = @"\t+";
@@ -100,15 +110,19 @@ namespace WindowsFormsApplication1
                             //string[] cellStrs = rgx.Split(rowStr);
                             string[] cellStrs = rowStr.Split('\t');
 
+                            if (cellStrs.Length == headRowStrs.Length)
+                            {
+                                ListEntry newrow = new ListEntry();
+                                for (uint i = 0; i < cellStrs.Length; ++i)
+                                {
+                                    newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[i], Value = cellStrs[i] });
+                                    Console.Write(" "+cellStrs[i]);
+                                } Console.WriteLine();
+                                m_service.Insert(listFeed, newrow);
+                            }
                         }
 
-                    }
-                    
-
-                    //ListEntry newrow = new ListEntry();
-                    //newrow.Elements.Add(new ListEntry.Custom() { LocalName = "a", Value = "Joe" });
-                    //newrow.Elements.Add(new ListEntry.Custom() { LocalName = "b", Value = "Smith" });
-                    //m_service.Insert(listFeed, newrow);
+                    }                    
 
                     //foreach (ListEntry row in listFeed.Entries)
                     //{
