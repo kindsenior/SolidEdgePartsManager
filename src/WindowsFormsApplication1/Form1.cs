@@ -117,6 +117,7 @@ namespace WindowsFormsApplication1
 
         private void ButtonUpdateAllPartsNumber_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("UpdateAllPartsNumber()");
             if(debug) MessageBox.Show("open asm: " + TextboxDestAsm.Text);
 
             if (!IsSolidEdge()) return;
@@ -124,7 +125,7 @@ namespace WindowsFormsApplication1
             RefreshAccessToken();
 
             SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            service.setUserCredentials(TextboxImiAccount.Text, TextBoxImiPass.Text);
+            service.setUserCredentials(TextboxImiAccount.Text+"@jsk.imi.i.u-tokyo.ac.jp", TextBoxImiPass.Text);
             Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
 
             SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
@@ -132,32 +133,34 @@ namespace WindowsFormsApplication1
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
-            //TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\Hand-link.asm";
-            //List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
-            //Console.WriteLine(occurrenceFiles.Count.ToString());
-            //foreach (String occurrenceFile in occurrenceFiles)
-            //{// limb
-            //    Console.WriteLine(occurrenceFile);
-            //    System.IO.Path.GetFileNameWithoutExtension(occurrenceFile);
+            TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\Arm-limb.asm";
+            List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
+            Console.WriteLine(occurrenceFiles.Count.ToString());
+            foreach (String occurrenceFile in occurrenceFiles)
+            {// limb
+                Console.WriteLine(occurrenceFile);
 
-            //    solidedgeManager.GetProperties(occurrenceFile);
-                
-            //    //GetOccurenceFiles();
-            //    //for(){// link
-            //    //createWorksheet()
-            //    //GeneratePartsList()
-            //    //writePartsList()
-            //    //}
-            //}
+                //solidedgeManager.GetProperties(occurrenceFile);
 
-            string dftname = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\dft\\Hand-link.dft";
-            solidedgeManager.GetPartsList(dftname);
-            spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
+                string dftname = System.IO.Path.GetDirectoryName(occurrenceFile) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile)+".dft";
+                solidedgeManager.CopyPartsListToClipboard(dftname);
+                spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
+
+                //GetOccurenceFiles();
+                //for(){// link
+                //createWorksheet()
+                //GeneratePartsList()
+                //writePartsList()
+                //}
+            }
+
 
         }
 
         private bool RefreshAccessToken()
         {
+            Console.WriteLine("RefreshAccessToken()");
+
             string CLIENT_ID = "1006233954353-1cauii1ksqvmip6kttlt2h9ku6hhpa4o.apps.googleusercontent.com";
             string CLIENT_SECRET = "vhA55KV3ZQTVKbbKVS5z41pi";
 

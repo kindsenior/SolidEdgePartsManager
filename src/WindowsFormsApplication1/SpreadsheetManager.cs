@@ -54,9 +54,25 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void ResetLinkWorksheet(WorksheetEntry worksheet)
+        {
+            Console.WriteLine("ResetLinkWorksheet(" + worksheet.Title.Text + ")");
+
+            AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
+            ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
+            ListFeed listFeed = m_service.Query(listQuery);
+            for (int i = listFeed.Entries.Count - 1; i >= 0; --i)
+            {
+                listFeed.Entries[i].Delete();
+                //ListEntry row = (ListEntry)listFeed.Entries[i];
+                //row.Delete();
+            }
+        }
 
         public void PasetToWorksheet(string worksheetTitle)
         {
+            Console.WriteLine("PasetToWorksheet(" + worksheetTitle + ")");
+
             SpreadsheetQuery query = new SpreadsheetQuery();
 
             SpreadsheetFeed feed = m_service.Query(query);
@@ -65,22 +81,20 @@ namespace WindowsFormsApplication1
                 if (spreadsheet.Title.Text == "JAXON2図番管理表")
                 {
                     m_spreadsheet = spreadsheet;
-                    Console.WriteLine(spreadsheet.Title.Text);
+                    Console.WriteLine("Spreadsheet Title: "+spreadsheet.Title.Text);
+                    //WorksheetEntry oldWorksheet = GetWorksheetEntry(worksheetTitle);
+                    //if (oldWorksheet != null) oldWorksheet.Delete();
+                    //WorksheetEntry worksheet = new WorksheetEntry();
+                    //worksheet.Title.Text = worksheetTitle;
+                    //worksheet.Cols = 8; worksheet.Rows = 100;
+                    //m_service.Insert(m_spreadsheet.Worksheets, worksheet);
                     WorksheetEntry worksheet = GetWorksheetEntry(worksheetTitle);
-                    if (worksheet == null)
-                    {
-                        WorksheetEntry newWorksheet = new WorksheetEntry();
-                        newWorksheet.Title.Text = worksheetTitle;
-                        newWorksheet.Cols = 8; newWorksheet.Rows = 100;
-                        m_service.Insert(m_spreadsheet.Worksheets, newWorksheet);
-                    }
-                    worksheet = GetWorksheetEntry(worksheetTitle);
-                    Console.WriteLine(worksheet.Title.Text);
+                    Console.WriteLine("Worksheet Title: " + worksheet.Title.Text);
 
-                    
+                    ResetLinkWorksheet(worksheet);
 
                     IDataObject data = Clipboard.GetDataObject();// get data from clipboard
-                    if (data.GetDataPresent(DataFormats.Text))
+                    if (data.GetDataPresent(DataFormats.Text) && false)
                     {
                         string clipboardStr = (string)data.GetData(DataFormats.Text);
                         //Console.WriteLine(clipboardStr);
@@ -93,6 +107,7 @@ namespace WindowsFormsApplication1
 
                         for (uint i = 0; i < headRowStrs.Length; ++i)
                         {
+                            Console.WriteLine(worksheet.CellFeedLink.ToString());
                             CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
                             CellFeed cellFeed = m_service.Query(cellQuery);
                             CellEntry entry = new CellEntry(1, i+1, headRowStrs[i]);
@@ -116,8 +131,7 @@ namespace WindowsFormsApplication1
                                 for (uint i = 0; i < cellStrs.Length; ++i)
                                 {
                                     newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[i], Value = cellStrs[i] });
-                                    Console.Write(" "+cellStrs[i]);
-                                } Console.WriteLine();
+                                }
                                 m_service.Insert(listFeed, newrow);
                             }
                         }

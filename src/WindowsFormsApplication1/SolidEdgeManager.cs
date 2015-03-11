@@ -21,6 +21,8 @@ namespace WindowsFormsApplication1
         //public List<SolidEdgeAssembly.AssemblyDocument> GetOccurenceFiles(string filename)
         public List<string> GetOccurenceFiles(string filename)
         {
+            Console.WriteLine("GetOccurenceFiles(" + filename + ")");
+
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgeAssembly.AssemblyDocument asm = null;
@@ -91,6 +93,7 @@ namespace WindowsFormsApplication1
 
         public void GetProperties(string filename)
         {
+            Console.WriteLine("GetProperties(" + filename + ")");
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgePart.PartDocument part = null;
@@ -155,8 +158,10 @@ namespace WindowsFormsApplication1
 
         }
 
-        public void GetPartsList(string filename)
+        public void CopyPartsListToClipboard(string filename)
         {
+            Console.WriteLine("CopyPartsListToClipboard(" + filename + ")");
+
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgeDraft.DraftDocument dft = null;
@@ -178,6 +183,9 @@ namespace WindowsFormsApplication1
 
                 Console.WriteLine("open draft");
                 dft = (SolidEdgeDraft.DraftDocument)documents.Open(filename);
+
+                dft.UpdatePropertyTextCacheAndDisplay();
+                dft.Save();
 
                 SolidEdgeDraft.PartsLists partsLists = dft.PartsLists;
                 Console.WriteLine(partsLists.Count.ToString());
