@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
@@ -69,23 +70,47 @@ namespace WindowsFormsApplication1
                     {
                         WorksheetEntry newWorksheet = new WorksheetEntry();
                         newWorksheet.Title.Text = worksheetTitle;
-                        newWorksheet.Cols = 30; newWorksheet.Rows = 100;
+                        newWorksheet.Cols = 8; newWorksheet.Rows = 20;
                         m_service.Insert(m_spreadsheet.Worksheets, newWorksheet);
                     }
                     worksheet = GetWorksheetEntry(worksheetTitle);
-                    Console.WriteLine(worksheet.Title);
+                    Console.WriteLine(worksheet.Title.Text);
 
                     CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
                     CellFeed cellFeed = m_service.Query(cellQuery);
-                    foreach (CellEntry cell in cellFeed.Entries)
+                    CellEntry entry = new CellEntry(1, 3, "c");
+                    cellFeed.Insert(entry);
+
+                    AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
+                    ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
+                    ListFeed listFeed = m_service.Query(listQuery);
+
+                    IDataObject data = Clipboard.GetDataObject();
+                    foreach (string fmt in data.GetFormats())
                     {
-                        if (cell.Row == (uint)1 )
-                        {
-                            Console.WriteLine("write to sheet");
-                            cell.InputValue = "200";
-                            cell.Update();
-                        }
+                        Console.WriteLine(fmt);
                     }
+
+                    //ListEntry newrow = new ListEntry();
+                    //newrow.Elements.Add(new ListEntry.Custom() { LocalName = "a", Value = "Joe" });
+                    //newrow.Elements.Add(new ListEntry.Custom() { LocalName = "b", Value = "Smith" });
+                    //m_service.Insert(listFeed, newrow);
+
+                    //foreach (ListEntry row in listFeed.Entries)
+                    //{
+                    //    // Print the first column's cell value
+                    //    Console.WriteLine(row.Title.Text);
+                    //    // Iterate over the remaining columns, and print each cell value
+                    //    foreach (ListEntry.Custom element in row.Elements)
+                    //    {
+                    //        Console.Write(element.Value);
+                    //        element.Value = "hoge";
+                    //    }
+                    //    Console.WriteLine();
+                    //    //row.Update();
+                    //    row.Delete();
+                    //}
+
                 }
             }
         }
