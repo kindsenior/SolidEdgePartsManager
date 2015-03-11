@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
@@ -86,10 +87,23 @@ namespace WindowsFormsApplication1
                     ListFeed listFeed = m_service.Query(listQuery);
 
                     IDataObject data = Clipboard.GetDataObject();
-                    foreach (string fmt in data.GetFormats())
+                    if (data.GetDataPresent(DataFormats.Text))
                     {
-                        Console.WriteLine(fmt);
+                        string clipboardStr = (string)data.GetData(DataFormats.Text);
+                        //Console.WriteLine(clipboardStr);
+
+                        string[] rowStrs = clipboardStr.Split('\n');
+                        foreach (string rowStr in rowStrs)
+                        {
+                            //string pattern = @"\t+";
+                            //Regex rgx = new Regex(pattern);
+                            //string[] cellStrs = rgx.Split(rowStr);
+                            string[] cellStrs = rowStr.Split('\t');
+
+                        }
+
                     }
+                    
 
                     //ListEntry newrow = new ListEntry();
                     //newrow.Elements.Add(new ListEntry.Custom() { LocalName = "a", Value = "Joe" });
