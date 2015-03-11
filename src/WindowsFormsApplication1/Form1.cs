@@ -117,9 +117,9 @@ namespace WindowsFormsApplication1
 
         private void ButtonUpdateAllPartsNumber_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(TextboxDestAsm.Text);
+            if(debug) MessageBox.Show("open asm: " + TextboxDestAsm.Text);
 
-            //if (!IsSolidEdge()) return;
+            if (!IsSolidEdge()) return;
 
             RefreshAccessToken();
 
@@ -127,22 +127,32 @@ namespace WindowsFormsApplication1
             service.setUserCredentials(TextboxImiAccount.Text, TextBoxImiPass.Text);
             Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
 
-            SpreadsheetManager spreadsheetManager = new SpreadsheetManager();
+            SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
             //spreadsheetManager.GetPartsPathFromGDrive(service);
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
-            solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
-            //for(){// limb
-            //GetOccurenceFiles();
-            //for(){// link
-            //createWorksheet()
-            //GeneratePartsList()
-            //writePartsList()
-            //}
+            //TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\Hand-link.asm";
+            //List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
+            //Console.WriteLine(occurrenceFiles.Count.ToString());
+            //foreach (String occurrenceFile in occurrenceFiles)
+            //{// limb
+            //    Console.WriteLine(occurrenceFile);
+            //    System.IO.Path.GetFileNameWithoutExtension(occurrenceFile);
+
+            //    solidedgeManager.GetProperties(occurrenceFile);
+                
+            //    //GetOccurenceFiles();
+            //    //for(){// link
+            //    //createWorksheet()
+            //    //GeneratePartsList()
+            //    //writePartsList()
+            //    //}
             //}
 
-
+            string dftname = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\dft\\Hand-link.dft";
+            solidedgeManager.GetPartsList(dftname);
+            spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
 
         }
 
