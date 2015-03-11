@@ -185,7 +185,8 @@ namespace WindowsFormsApplication1
                 dft = (SolidEdgeDraft.DraftDocument)documents.Open(filename);
 
                 dft.UpdatePropertyTextCacheAndDisplay();
-                dft.Save();
+                MessageBox.Show("Push update button if needed");
+                dft.SaveAs(filename);
 
                 SolidEdgeDraft.PartsLists partsLists = dft.PartsLists;
                 Console.WriteLine(partsLists.Count.ToString());

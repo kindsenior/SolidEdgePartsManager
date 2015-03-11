@@ -94,7 +94,7 @@ namespace WindowsFormsApplication1
                     ResetLinkWorksheet(worksheet);
 
                     IDataObject data = Clipboard.GetDataObject();// get data from clipboard
-                    if (data.GetDataPresent(DataFormats.Text) && false)
+                    if (data.GetDataPresent(DataFormats.Text))
                     {
                         string clipboardStr = (string)data.GetData(DataFormats.Text);
                         //Console.WriteLine(clipboardStr);
