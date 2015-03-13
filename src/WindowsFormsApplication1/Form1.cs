@@ -118,7 +118,7 @@ namespace WindowsFormsApplication1
         private void ButtonUpdateAllPartsNumber_Click(object sender, EventArgs e)
         {
             Console.WriteLine("UpdateAllPartsNumber()");
-            if(debug) MessageBox.Show("open asm: " + TextboxDestAsm.Text);
+            //if(debug) MessageBox.Show("open asm: " + TextboxDestAsm.Text);
 
             if (!IsSolidEdge()) return;
 
@@ -133,28 +133,27 @@ namespace WindowsFormsApplication1
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
-            TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\Arm-limb.asm";
+            TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\Jaxon2.asm";
             List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
             Console.WriteLine(occurrenceFiles.Count.ToString());
-            foreach (String occurrenceFile in occurrenceFiles)
+            foreach (string occurrenceFile in occurrenceFiles)
             {// limb
-                Console.WriteLine(occurrenceFile);
+                Console.WriteLine(" limb name: " + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile));
 
-                //solidedgeManager.GetProperties(occurrenceFile);
-
-                string dftname = System.IO.Path.GetDirectoryName(occurrenceFile) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile)+".dft";
-                solidedgeManager.CopyPartsListToClipboard(dftname);
-                spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
-
-                //GetOccurenceFiles();
-                //for(){// link
-                //createWorksheet()
-                //GeneratePartsList()
-                //writePartsList()
-                //}
+                List<string> linkFileNames = solidedgeManager.GetOccurenceFiles(occurrenceFile);
+                foreach (string linkFileName in linkFileNames)
+                {// link
+                    Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
+                    string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
+                    solidedgeManager.CopyPartsListToClipboard(dftname);
+                    spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
+                    Console.WriteLine();
+                }
+ 
+                Console.WriteLine();
             }
 
-
+            Console.WriteLine("Finish UpdateAllPartsNumber()");
         }
 
         private bool RefreshAccessToken()
@@ -188,23 +187,49 @@ namespace WindowsFormsApplication1
             //Console.WriteLine(uri.Query.ToString());
             //OAuthUtil.GetAccessToken(uri.Query, parameters);
 
-            string accessToken = "ya29.MAHytisyJiuz-nz8IPriQ-872u8hy-Xe0wsrRjgw9FdqufZmCHQPypBnSls5UR-uF9GNFy9ShchNRA";
-            string refreshToken = "1/nrxh65IqcBQS6erUO2hj3wRKJVyAWlGz_C2IWej68dg"; // リフレッシュトークンは変わらない?
-            parameters.AccessToken = accessToken;
-            parameters.RefreshToken = refreshToken;
-            OAuthUtil.RefreshAccessToken(parameters);
+            try
+            {
+                string accessToken = "ya29.MAHytisyJiuz-nz8IPriQ-872u8hy-Xe0wsrRjgw9FdqufZmCHQPypBnSls5UR-uF9GNFy9ShchNRA";
+                string refreshToken = "1/nrxh65IqcBQS6erUO2hj3wRKJVyAWlGz_C2IWej68dg"; // リフレッシュトークンは変わらない?
+                parameters.AccessToken = accessToken;
+                parameters.RefreshToken = refreshToken;
+                OAuthUtil.RefreshAccessToken(parameters);
 
-            //OAuthUtil.GetAccessToken(parameters);
-            accessToken = parameters.AccessToken;
-            Console.WriteLine(" Access Token: " + accessToken);
-            refreshToken = parameters.RefreshToken;
-            Console.WriteLine(" Refresh Token: " + refreshToken);
+                //OAuthUtil.GetAccessToken(parameters);
+                Console.WriteLine(" Access Token: " + parameters.AccessToken);
+                Console.WriteLine(" Refresh Token: " + parameters.RefreshToken);
 
-            GOAuth2RequestFactory requestFactory = new GOAuth2RequestFactory(null, "MySpreadsheetIntegration-v1", parameters);
-            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            service.RequestFactory = requestFactory;
+                GOAuth2RequestFactory requestFactory = new GOAuth2RequestFactory(null, "MySpreadsheetIntegration-v1", parameters);
+                SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+                service.RequestFactory = requestFactory;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Failed in getting Token.!!\n Prease check tokens and access code.");
+            }
+            finally
+            {
+
+            }
+
 
             return true;
+        }
+
+        private void ButtonUpdatePartsProperties_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("UpdatePartsProperties()");
+
+            if (!IsSolidEdge()) return;
+
+            RefreshAccessToken();
+            SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text,TextBoxImiPass.Text);
+            if (!spreadsheetManager.m_feedFlg) return;
+
+            spreadsheetManager.SetSpreadsheetByName("JAXON2図番管理表");
+            spreadsheetManager.GetPartsProperties();
+
+
         }
 
     }

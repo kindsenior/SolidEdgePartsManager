@@ -91,9 +91,9 @@ namespace WindowsFormsApplication1
             //return occurenceDocuments;
         }
 
-        public void GetProperties(string filename)
+        public void GetPartsProperties(string filename)
         {
-            Console.WriteLine("GetProperties(" + filename + ")");
+            Console.WriteLine("GetPartsProperties(" + filename + ")");
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgePart.PartDocument part = null;
@@ -186,7 +186,8 @@ namespace WindowsFormsApplication1
 
                 dft.UpdatePropertyTextCacheAndDisplay();
                 MessageBox.Show("Push update button if needed");
-                dft.SaveAs(filename);
+                //dft.SaveAs(filename);
+                dft.Save();
 
                 SolidEdgeDraft.PartsLists partsLists = dft.PartsLists;
                 Console.WriteLine(partsLists.Count.ToString());

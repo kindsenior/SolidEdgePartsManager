@@ -19,8 +19,32 @@ namespace WindowsFormsApplication1
             m_service = service;
         }
 
+        public SpreadsheetManager(string account, string pass)
+        {
+            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+            service.setUserCredentials(account + "@jsk.imi.i.u-tokyo.ac.jp", pass);
+            m_service = service;
+            Console.WriteLine(" account: " + account + "  pass: " + pass);
+
+            m_query = new SpreadsheetQuery();
+            m_feed = null;
+            try
+            {
+                m_feed = m_service.Query(m_query);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Spreadsheet access failed.!!\n Prease check account and password.");
+                m_feedFlg = false;
+            }
+
+        }
+
         private SpreadsheetEntry m_spreadsheet;
-        private SpreadsheetsService m_service; 
+        private SpreadsheetsService m_service;
+        private SpreadsheetQuery m_query;
+        private SpreadsheetFeed m_feed;
+        public bool m_feedFlg = true;
 
         private WorksheetEntry GetWorksheetEntry(string worksheetTitle)
         {
@@ -31,11 +55,57 @@ namespace WindowsFormsApplication1
             return null;
         }
 
-        public void GetPartsPathFromGDrive(SpreadsheetsService service)
+        public bool SetSpreadsheetByName(string spreadsheetName)
+        {
+            Console.WriteLine("SetSpreadsheetByName(" + spreadsheetName + ")");
+
+            foreach (SpreadsheetEntry spreadsheet in m_feed.Entries)
+            {
+                if (spreadsheet.Title.Text == spreadsheetName)
+                {
+                    m_spreadsheet = spreadsheet;
+                    Console.WriteLine("Set to spreadsheet: "+spreadsheet.Title.Text);
+                    return true;
+                }
+            }
+            MessageBox.Show("Spreadsheet '"+ spreadsheetName +"' not found");
+            return false;
+        }
+
+        public void GetPartsProperties()
+        {
+            Console.WriteLine("GetPartsProperties()");
+
+            WorksheetEntry worksheet = GetWorksheetEntry("発注リスト");
+
+            AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
+            ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
+            ListFeed listFeed = m_service.Query(listQuery);
+            
+            ListEntry headRow = (ListEntry)listFeed.Entries[0];
+            Console.WriteLine("Title: " + headRow.Title.Text + "rows: " + headRow.Elements.Count.ToString()+",  ");
+            foreach (ListEntry.Custom element in headRow.Elements)
+            {
+                Console.Write(" " + element.LocalName +" : " + element.Value);
+            } Console.WriteLine();
+
+            ListEntry row = (ListEntry)listFeed.Entries[1];
+            Console.WriteLine("Title: " + row.Title.Text + "rows: " + row.Elements.Count.ToString());
+            foreach (ListEntry.Custom element in row.Elements)
+            {
+                Console.Write(" " + element.LocalName + " : " + element.Value);
+            } Console.WriteLine();
+
+            //foreach (ListEntry row in listFeed.Entries)
+            //{
+            //}
+        }
+
+        public void GetPartsPathFromGDrive()
         {
             SpreadsheetQuery query = new SpreadsheetQuery();
 
-            SpreadsheetFeed feed = service.Query(query);
+            SpreadsheetFeed feed = m_service.Query(query);
             foreach (SpreadsheetEntry spreadsheet in feed.Entries)
             {
                 if (spreadsheet.Title.Text == "JAXON2図番管理表")
@@ -48,7 +118,7 @@ namespace WindowsFormsApplication1
                         WorksheetEntry newWorksheet = new WorksheetEntry();
                         newWorksheet.Title.Text = "Test";
                         newWorksheet.Cols = 10; newWorksheet.Rows = 20;
-                        service.Insert(m_spreadsheet.Worksheets, newWorksheet);
+                        m_service.Insert(m_spreadsheet.Worksheets, newWorksheet);
                     }
                 }
             }
@@ -74,8 +144,17 @@ namespace WindowsFormsApplication1
             Console.WriteLine("PasetToWorksheet(" + worksheetTitle + ")");
 
             SpreadsheetQuery query = new SpreadsheetQuery();
+            SpreadsheetFeed feed = null;
+            try
+            {
+                feed = m_service.Query(query);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Spreadsheet access failed.!!\n Prease check account and password.");
+                return;
+            }
 
-            SpreadsheetFeed feed = m_service.Query(query);
             foreach (SpreadsheetEntry spreadsheet in feed.Entries)
             {
                 if (spreadsheet.Title.Text == "JAXON2図番管理表")
@@ -89,6 +168,11 @@ namespace WindowsFormsApplication1
                     //worksheet.Cols = 8; worksheet.Rows = 100;
                     //m_service.Insert(m_spreadsheet.Worksheets, worksheet);
                     WorksheetEntry worksheet = GetWorksheetEntry(worksheetTitle);
+                    if (worksheet == null)
+                    {
+                        Console.WriteLine("Worksheet not found. Continue without updating link data worksheet.");
+                        return;
+                    }
                     Console.WriteLine("Worksheet Title: " + worksheet.Title.Text);
 
                     ResetLinkWorksheet(worksheet);
@@ -105,14 +189,14 @@ namespace WindowsFormsApplication1
                         //string[] headRowStrs = rowStrs[0].Split('\t');
                         string[] headRowStrs = new string[8] { "itemnum", "filename", "numbers", "process", "material", "order", "type", "path" };
 
-                        for (uint i = 0; i < headRowStrs.Length; ++i)
-                        {
-                            Console.WriteLine(worksheet.CellFeedLink.ToString());
-                            CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
-                            CellFeed cellFeed = m_service.Query(cellQuery);
-                            CellEntry entry = new CellEntry(1, i+1, headRowStrs[i]);
-                            cellFeed.Insert(entry);
-                        }
+                        //for (uint i = 0; i < headRowStrs.Length; ++i)
+                        //{
+                        //    Console.WriteLine(worksheet.CellFeedLink.ToString());
+                        //    CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
+                        //    CellFeed cellFeed = m_service.Query(cellQuery);
+                        //    CellEntry entry = new CellEntry(1, i+1, headRowStrs[i]);
+                        //    cellFeed.Insert(entry);
+                        //}
 
                         AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
                         ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
@@ -137,21 +221,6 @@ namespace WindowsFormsApplication1
                         }
 
                     }                    
-
-                    //foreach (ListEntry row in listFeed.Entries)
-                    //{
-                    //    // Print the first column's cell value
-                    //    Console.WriteLine(row.Title.Text);
-                    //    // Iterate over the remaining columns, and print each cell value
-                    //    foreach (ListEntry.Custom element in row.Elements)
-                    //    {
-                    //        Console.Write(element.Value);
-                    //        element.Value = "hoge";
-                    //    }
-                    //    Console.WriteLine();
-                    //    //row.Update();
-                    //    row.Delete();
-                    //}
 
                 }
             }

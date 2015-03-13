@@ -36,6 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TextBoxImiPass = new System.Windows.Forms.TextBox();
+            this.ButtonUpdatePartsProperties = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TextboxDestAsm
@@ -69,11 +70,11 @@
             // 
             // ButtonUpdateAllPartsNumber
             // 
-            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(631, 44);
+            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(571, 44);
             this.ButtonUpdateAllPartsNumber.Name = "ButtonUpdateAllPartsNumber";
-            this.ButtonUpdateAllPartsNumber.Size = new System.Drawing.Size(75, 23);
+            this.ButtonUpdateAllPartsNumber.Size = new System.Drawing.Size(135, 23);
             this.ButtonUpdateAllPartsNumber.TabIndex = 3;
-            this.ButtonUpdateAllPartsNumber.Text = "Update";
+            this.ButtonUpdateAllPartsNumber.Text = "Update All Parts List";
             this.ButtonUpdateAllPartsNumber.UseVisualStyleBackColor = true;
             this.ButtonUpdateAllPartsNumber.Click += new System.EventHandler(this.ButtonUpdateAllPartsNumber_Click);
             // 
@@ -109,14 +110,25 @@
             this.TextBoxImiPass.Location = new System.Drawing.Point(376, 46);
             this.TextBoxImiPass.Name = "TextBoxImiPass";
             this.TextBoxImiPass.PasswordChar = '*';
-            this.TextBoxImiPass.Size = new System.Drawing.Size(249, 19);
+            this.TextBoxImiPass.Size = new System.Drawing.Size(189, 19);
             this.TextBoxImiPass.TabIndex = 7;
+            // 
+            // ButtonUpdatePartsProperties
+            // 
+            this.ButtonUpdatePartsProperties.Location = new System.Drawing.Point(571, 73);
+            this.ButtonUpdatePartsProperties.Name = "ButtonUpdatePartsProperties";
+            this.ButtonUpdatePartsProperties.Size = new System.Drawing.Size(135, 23);
+            this.ButtonUpdatePartsProperties.TabIndex = 8;
+            this.ButtonUpdatePartsProperties.Text = "Update Parts Propeties";
+            this.ButtonUpdatePartsProperties.UseVisualStyleBackColor = true;
+            this.ButtonUpdatePartsProperties.Click += new System.EventHandler(this.ButtonUpdatePartsProperties_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
+            this.Controls.Add(this.ButtonUpdatePartsProperties);
             this.Controls.Add(this.TextBoxImiPass);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -142,6 +154,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TextBoxImiPass;
+        private System.Windows.Forms.Button ButtonUpdatePartsProperties;
     }
 }
 
