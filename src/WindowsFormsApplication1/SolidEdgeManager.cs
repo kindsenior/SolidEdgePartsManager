@@ -158,6 +158,102 @@ namespace WindowsFormsApplication1
 
         }
 
+        public void SetPartProperty(string filename, Dictionary<string,string> inputPropertySet)
+        {
+            Console.WriteLine("SetPartsProperty(" + filename + ",Dictionary)");
+            SolidEdgeFramework.Application application = null;
+            SolidEdgeFramework.Documents documents = null;
+            SolidEdgePart.PartDocument part = null;
+            SolidEdgeAssembly.AssemblyDocument asm = null;
+
+            try
+            {
+                //check if the file exists
+                if (!System.IO.File.Exists(filename))
+                    throw (new System.Exception("file not found: " + filename));
+
+                ////check if the file ext is dft
+                //if (System.IO.Path.GetExtension(filename) != ".par")
+                //    throw (new System.Exception("This is not a Part file: " + filename));
+
+                //connect to solidedge instance
+                application = (SolidEdgeFramework.Application)Marshal.GetActiveObject("SolidEdge.Application");
+                documents = application.Documents;
+                Console.WriteLine("solid edge found");
+
+                Console.WriteLine("open part/sheet metal/assembly");
+                part = (SolidEdgePart.PartDocument)documents.Open(filename);
+
+                SolidEdgeFramework.PropertySets propertySets = part.Properties;
+                Console.WriteLine(propertySets.Count.ToString());
+                foreach( SolidEdgeFramework.Properties propertySet in propertySets)
+                {
+                    //Console.WriteLine(properties.Name);
+                    if(propertySet.Name == "Custom")
+                    {
+                        //properties.Add("hoge", "fuga");
+                        foreach (string key in inputPropertySet.Keys)
+                        {
+                            bool keyFoundFlg = false;
+                            foreach (SolidEdgeFramework.Property property in propertySet)
+                            {
+                                if (key == property.Name)
+                                {
+                                    property.set_Value(inputPropertySet[key]);
+                                    keyFoundFlg = true;
+                                }
+                            }
+                            if (!keyFoundFlg)
+                            {
+                                propertySet.Add(key, inputPropertySet[key]);
+                            }
+                        }
+                        propertySet.Save();
+                    }
+                }
+                part.Save();
+
+                Console.WriteLine("close part");
+                part.Close(false);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (part != null)
+                {
+                    Marshal.ReleaseComObject(part);
+                    part = null;
+                }
+                if (documents != null)
+                {
+                    Marshal.ReleaseComObject(documents);
+                    documents = null;
+                }
+                if (application != null)
+                {
+                    Marshal.ReleaseComObject(application);
+                    application = null;
+                }
+            }
+
+        }
+
+
+        public void SetPartsProperties(Dictionary<string, Dictionary<string,string>> propertySetDictionary)
+        {
+            Console.WriteLine("SetAllPartsProperties()");
+
+            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
+            //foreach (string key in propertySetDictionary.Keys)
+            //{
+            //    SetPartProperty(key,propertySetDictionary[key]);
+            //}
+        }
+
+
         public void CopyPartsListToClipboard(string filename)
         {
             Console.WriteLine("CopyPartsListToClipboard(" + filename + ")");

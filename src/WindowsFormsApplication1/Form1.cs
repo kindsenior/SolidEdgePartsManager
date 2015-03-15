@@ -226,9 +226,12 @@ namespace WindowsFormsApplication1
             SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text,TextBoxImiPass.Text);
             if (!spreadsheetManager.m_feedFlg) return;
 
-            spreadsheetManager.SetSpreadsheetByName("JAXON2図番管理表");
-            spreadsheetManager.GetPartsProperties();
+            SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
+            spreadsheetManager.SetSpreadsheetByName("JAXON2図番管理表");
+            Dictionary<string,Dictionary<string, string>> propertySetDictionary  = spreadsheetManager.GetPartsProperties();
+
+            solidedgeManager.SetPartsProperties(propertySetDictionary);
 
         }
 

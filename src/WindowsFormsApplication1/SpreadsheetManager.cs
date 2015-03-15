@@ -72,7 +72,7 @@ namespace WindowsFormsApplication1
             return false;
         }
 
-        public List<Dictionary<string,string>> GetPartsProperties()
+        public Dictionary<string,Dictionary<string,string>> GetPartsProperties()
         {
             Console.WriteLine("GetPartsProperties()");
 
@@ -83,17 +83,17 @@ namespace WindowsFormsApplication1
             ListFeed listFeed = m_service.Query(listQuery);
             
             Dictionary<string, int> columnHeadDic = new Dictionary<string,int>();
-            columnHeadDic["part-num"] = 0;
-            columnHeadDic["part-name"] = 0;
-            columnHeadDic["part-path"] = 0;
+            columnHeadDic["図番"] = 0;
+            //columnHeadDic["part-name"] = 0;
+            columnHeadDic["パス"] = 0;
             //columnHeadDic["sym-asy"] = 0;
             //columnHeadDic["num-sym"] = 0;
             //columnHeadDic["num-asy"] = 0;
             //columnHeadDic["spare-sym"] = 0;
             //columnHeadDic["spare-asy"] = 0;
             //columnHeadDic["stock-sym"] = 0;
-            columnHeadDic["order-sym"] = 0;
-            columnHeadDic["order-asy"] = 0;
+            columnHeadDic["個数"] = 0;
+            //columnHeadDic["order-asy"] = 0;
             //columnHeadDic["maker"] = 0;
             //columnHeadDic["order-plan"] = 0;
             //columnHeadDic["order-state"] = 0;
@@ -102,7 +102,6 @@ namespace WindowsFormsApplication1
             //Check Column Head in Google Spreadsheet
             ListEntry secondRow = (ListEntry)listFeed.Entries[0];
             ListEntry.CustomElementCollection secondRowElements = (ListEntry.CustomElementCollection) secondRow.Elements;
-            Console.WriteLine(columnHeadDic.Keys.Count.ToString());
             for (int i = 0; i < secondRowElements.Count; ++i)
             {
                 string columnHead = secondRowElements[i].LocalName;
@@ -116,21 +115,31 @@ namespace WindowsFormsApplication1
                 }
             }
 
-            List<Dictionary<string, string>> propertyDictionaries = new List<Dictionary<string, string>>();
+            //Get parts properties
+            Dictionary<string, Dictionary<string,string>> propertySetDictionary = new Dictionary<string, Dictionary<string,string>>();
             foreach (ListEntry rowEntry in listFeed.Entries)
             {
                 if (rowEntry.Elements[0].Value != "")
                 {
-                    Dictionary<string, string> rowData = new Dictionary<string, string>();
+                    Dictionary<string,string> rowData = new Dictionary<string, string>();
                     foreach (string key in columnHeadDic.Keys)
                     {
                         rowData[key] = rowEntry.Elements[columnHeadDic[key]].Value;
                     }
-                    propertyDictionaries.Add(rowData);
+                    propertySetDictionary[rowEntry.Elements[columnHeadDic["パス"]].Value] = rowData;
                 }
             }
 
-            return propertyDictionaries;
+            //foreach (string key in propertySetDictionary.Keys)
+            //{
+            //    Console.Write(key + "    ");
+            //    foreach (string subkey in propertySetDictionary[key].Keys)
+            //    {
+            //        Console.WriteLine(" " + subkey + ": " + propertySetDictionary[key][subkey]);
+            //    } Console.WriteLine();
+            //}
+
+            return propertySetDictionary;
         }
 
         public void GetPartsPathFromGDrive()
