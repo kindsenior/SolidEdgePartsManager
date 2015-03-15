@@ -164,6 +164,7 @@ namespace WindowsFormsApplication1
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgePart.PartDocument part = null;
+            SolidEdgePart.SheetMetalDocument psm = null;
             SolidEdgeAssembly.AssemblyDocument asm = null;
 
             try
@@ -172,26 +173,39 @@ namespace WindowsFormsApplication1
                 if (!System.IO.File.Exists(filename))
                     throw (new System.Exception("file not found: " + filename));
 
-                ////check if the file ext is dft
-                //if (System.IO.Path.GetExtension(filename) != ".par")
-                //    throw (new System.Exception("This is not a Part file: " + filename));
-
                 //connect to solidedge instance
                 application = (SolidEdgeFramework.Application)Marshal.GetActiveObject("SolidEdge.Application");
                 documents = application.Documents;
                 Console.WriteLine("solid edge found");
 
-                Console.WriteLine("open part/sheet metal/assembly");
-                part = (SolidEdgePart.PartDocument)documents.Open(filename);
+                SolidEdgeFramework.PropertySets propertySets = null;
+                switch (System.IO.Path.GetExtension(filename))
+                {
+                    case ".par":
+                        Console.WriteLine("open part");
+                        part = (SolidEdgePart.PartDocument)documents.Open(filename);
+                        propertySets = part.Properties;
+                        break;
+                    case ".psm":
+                        Console.WriteLine("open psm");
+                        psm = (SolidEdgePart.SheetMetalDocument)documents.Open(filename);
+                        propertySets = psm.Properties;
+                        break;
+                    case ".asm":
+                        Console.WriteLine("open asm");
+                        asm = (SolidEdgeAssembly.AssemblyDocument)documents.Open(filename);
+                        propertySets = asm.Properties;
+                        break;
+                    default:
+                        MessageBox.Show("!!Bad Extention Type: " + System.IO.Path.GetExtension(filename) + "!!");
+                        return;
+                }
 
-                SolidEdgeFramework.PropertySets propertySets = part.Properties;
                 Console.WriteLine(propertySets.Count.ToString());
                 foreach( SolidEdgeFramework.Properties propertySet in propertySets)
                 {
-                    //Console.WriteLine(properties.Name);
                     if(propertySet.Name == "Custom")
                     {
-                        //properties.Add("hoge", "fuga");
                         foreach (string key in inputPropertySet.Keys)
                         {
                             bool keyFoundFlg = false;
@@ -211,10 +225,29 @@ namespace WindowsFormsApplication1
                         propertySet.Save();
                     }
                 }
-                part.Save();
 
-                Console.WriteLine("close part");
-                part.Close(false);
+                switch (System.IO.Path.GetExtension(filename))
+                {
+                    case ".par":
+                        part.Save();
+                        Console.WriteLine("close part"); 
+                        part.Close(false);
+                        break;
+                    case ".psm":
+                        psm.Save();
+                        Console.WriteLine("close psm"); 
+                        psm.Close(false);
+                        break;
+                    case ".asm":
+                        asm.Save();
+                        Console.WriteLine("close asm"); 
+                        asm.Close(false);
+                        break;
+                    default:
+                        MessageBox.Show("!!Bad Extention Type: " + System.IO.Path.GetExtension(filename) + "!!");
+                        return;
+                }
+
             }
             catch (System.Exception ex)
             {
@@ -226,6 +259,16 @@ namespace WindowsFormsApplication1
                 {
                     Marshal.ReleaseComObject(part);
                     part = null;
+                }
+                if (psm != null)
+                {
+                    Marshal.ReleaseComObject(psm);
+                    psm = null;
+                }
+                if (asm != null)
+                {
+                    Marshal.ReleaseComObject(asm);
+                    asm = null;
                 }
                 if (documents != null)
                 {
@@ -246,7 +289,9 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("SetAllPartsProperties()");
 
-            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
+            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
+            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm"]);
+            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm",propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm"]);
             //foreach (string key in propertySetDictionary.Keys)
             //{
             //    SetPartProperty(key,propertySetDictionary[key]);
