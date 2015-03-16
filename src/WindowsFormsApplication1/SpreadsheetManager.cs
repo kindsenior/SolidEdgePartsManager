@@ -83,9 +83,12 @@ namespace WindowsFormsApplication1
             ListFeed listFeed = m_service.Query(listQuery);
             
             Dictionary<string, int> columnHeadDic = new Dictionary<string,int>();
+            columnHeadDic["ロボット番号"] = 0;
             columnHeadDic["図番"] = 0;
-            //columnHeadDic["part-name"] = 0;
+            columnHeadDic["図番タイプ"] = 0;
             columnHeadDic["パス"] = 0;
+            //columnHeadDic["ファイル名 (完全パス)"] = 0;
+            //columnHeadDic["パス"] = 0;
             //columnHeadDic["sym-asy"] = 0;
             //columnHeadDic["num-sym"] = 0;
             //columnHeadDic["num-asy"] = 0;
@@ -93,11 +96,13 @@ namespace WindowsFormsApplication1
             //columnHeadDic["spare-asy"] = 0;
             //columnHeadDic["stock-sym"] = 0;
             columnHeadDic["個数"] = 0;
-            //columnHeadDic["order-asy"] = 0;
-            //columnHeadDic["maker"] = 0;
-            //columnHeadDic["order-plan"] = 0;
-            //columnHeadDic["order-state"] = 0;
-            //columnHeadDic["surface-process"] = 0;
+            //columnHeadDic["個数(鏡映)"] = 0;
+            columnHeadDic["発注先"] = 0;
+            //columnHeadDic["予定"] = 0;
+            //columnHeadDic["状態"] = 0;
+            columnHeadDic["表面処理"] = 0;
+            columnHeadDic["工程"] = 0;
+            //columnHeadDic["材質"] = 0;
 
             //Check Column Head in Google Spreadsheet
             ListEntry secondRow = (ListEntry)listFeed.Entries[0];
@@ -111,9 +116,10 @@ namespace WindowsFormsApplication1
                     if (key== columnHead)
                     {
                         columnHeadDic[key] = i;
+                        Console.Write("  " + key + " :" + i);
                     }
                 }
-            }
+            } Console.WriteLine();
 
             //Get parts properties
             Dictionary<string, Dictionary<string,string>> propertySetDictionary = new Dictionary<string, Dictionary<string,string>>();
@@ -121,11 +127,14 @@ namespace WindowsFormsApplication1
             {
                 if (rowEntry.Elements[0].Value != "")
                 {
+                    Console.WriteLine(rowEntry.Elements[columnHeadDic["図番"]].Value);
                     Dictionary<string,string> rowData = new Dictionary<string, string>();
                     foreach (string key in columnHeadDic.Keys)
                     {
+                        Console.Write(" " + key + ":" + rowEntry.Elements[columnHeadDic[key]].Value);
                         rowData[key] = rowEntry.Elements[columnHeadDic[key]].Value;
-                    }
+                    } Console.WriteLine();
+                    //propertySetDictionary[rowEntry.Elements[columnHeadDic["ファイル名 (完全パス)"]].Value] = rowData;
                     propertySetDictionary[rowEntry.Elements[columnHeadDic["パス"]].Value] = rowData;
                 }
             }
@@ -228,7 +237,7 @@ namespace WindowsFormsApplication1
                         Console.WriteLine(rowStrs.Length);
 
                         //string[] headRowStrs = rowStrs[0].Split('\t');
-                        string[] headRowStrs = new string[8] { "itemnum", "filename", "numbers", "process", "material", "order", "type", "path" };
+                        string[] headRowStrs = new string[9] { "itemnum", "filename", "numbers", "process", "material", "robotno", "order", "type", "path" };
 
                         //for (uint i = 0; i < headRowStrs.Length; ++i)
                         //{

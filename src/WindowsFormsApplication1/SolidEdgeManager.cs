@@ -91,72 +91,72 @@ namespace WindowsFormsApplication1
             //return occurenceDocuments;
         }
 
-        public void GetPartsProperties(string filename)
-        {
-            Console.WriteLine("GetPartsProperties(" + filename + ")");
-            SolidEdgeFramework.Application application = null;
-            SolidEdgeFramework.Documents documents = null;
-            SolidEdgePart.PartDocument part = null;
+        //public void GetPartsProperties(string filename)
+        //{
+        //    Console.WriteLine("GetPartsProperties(" + filename + ")");
+        //    SolidEdgeFramework.Application application = null;
+        //    SolidEdgeFramework.Documents documents = null;
+        //    SolidEdgePart.PartDocument part = null;
 
-            try
-            {
-                //check if the file exists
-                if (!System.IO.File.Exists(filename))
-                    throw (new System.Exception("file not found: " + filename));
+        //    try
+        //    {
+        //        //check if the file exists
+        //        if (!System.IO.File.Exists(filename))
+        //            throw (new System.Exception("file not found: " + filename));
 
-                //check if the file ext is dft
-                if (System.IO.Path.GetExtension(filename) != ".par")
-                    throw (new System.Exception("This is not a Part file: " + filename));
+        //        //check if the file ext is dft
+        //        if (System.IO.Path.GetExtension(filename) != ".par")
+        //            throw (new System.Exception("This is not a Part file: " + filename));
 
-                //connect to solidedge instance
-                application = (SolidEdgeFramework.Application)Marshal.GetActiveObject("SolidEdge.Application");
-                documents = application.Documents;
-                Console.WriteLine("solid edge found");
+        //        //connect to solidedge instance
+        //        application = (SolidEdgeFramework.Application)Marshal.GetActiveObject("SolidEdge.Application");
+        //        documents = application.Documents;
+        //        Console.WriteLine("solid edge found");
 
-                Console.WriteLine("open part");
-                part = (SolidEdgePart.PartDocument)documents.Open(filename);
+        //        Console.WriteLine("open part");
+        //        part = (SolidEdgePart.PartDocument)documents.Open(filename);
                 
-                SolidEdgeFramework.PropertySets properties = part.Properties;
-                Console.WriteLine(properties.Count.ToString());
-                for (int i = 1; i <= properties.Count; ++i )
-                {
-                    Console.WriteLine(properties.Item(i).Name);
-                    if (properties.Item(i).Name == "Custom")
-                    {
-                        for (int j = 1; j <= properties.Item(i).Count; ++j)
-                        {
-                            Console.WriteLine(" " +properties.Item(i).Item(j).Name+" "+properties.Item(i).Item(j).get_Value().ToString());
-                        }
-                    }
-                }
+        //        SolidEdgeFramework.PropertySets properties = part.Properties;
+        //        Console.WriteLine(properties.Count.ToString());
+        //        for (int i = 1; i <= properties.Count; ++i )
+        //        {
+        //            Console.WriteLine(properties.Item(i).Name);
+        //            if (properties.Item(i).Name == "Custom")
+        //            {
+        //                for (int j = 1; j <= properties.Item(i).Count; ++j)
+        //                {
+        //                    Console.WriteLine(" " +properties.Item(i).Item(j).Name+" "+properties.Item(i).Item(j).get_Value().ToString());
+        //                }
+        //            }
+        //        }
 
-                Console.WriteLine("close part");
-                part.Close(false);
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                if (part != null)
-                {
-                    Marshal.ReleaseComObject(part);
-                    part = null;
-                }
-                if (documents != null)
-                {
-                    Marshal.ReleaseComObject(documents);
-                    documents = null;
-                }
-                if (application != null)
-                {
-                    Marshal.ReleaseComObject(application);
-                    application = null;
-                }
-            }
+        //        Console.WriteLine("close part");
+        //        part.Close(false);
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        if (part != null)
+        //        {
+        //            Marshal.ReleaseComObject(part);
+        //            part = null;
+        //        }
+        //        if (documents != null)
+        //        {
+        //            Marshal.ReleaseComObject(documents);
+        //            documents = null;
+        //        }
+        //        if (application != null)
+        //        {
+        //            Marshal.ReleaseComObject(application);
+        //            application = null;
+        //        }
+        //    }
 
-        }
+        //}
 
         public void SetPartProperty(string filename, Dictionary<string,string> inputPropertySet)
         {
@@ -289,9 +289,9 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("SetAllPartsProperties()");
 
-            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
+            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
             SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm"]);
-            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm",propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm"]);
+            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm",propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm"]);
             //foreach (string key in propertySetDictionary.Keys)
             //{
             //    SetPartProperty(key,propertySetDictionary[key]);
