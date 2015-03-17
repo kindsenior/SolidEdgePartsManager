@@ -135,7 +135,6 @@ namespace WindowsFormsApplication1
 
             TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\Jaxon2.asm";
             List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
-            Console.WriteLine(occurrenceFiles.Count.ToString());
             foreach (string occurrenceFile in occurrenceFiles)
             {// limb
                 Console.WriteLine(" limb name: " + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile));

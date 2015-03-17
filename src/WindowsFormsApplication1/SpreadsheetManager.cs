@@ -230,10 +230,9 @@ namespace WindowsFormsApplication1
                         //Console.WriteLine(clipboardStr);
 
                         string[] rowStrs = clipboardStr.Split('\n');
-                        Console.WriteLine(rowStrs.Length);
 
                         //string[] headRowStrs = rowStrs[0].Split('\t');
-                        string[] headRowStrs = new string[14] { "itemnum", "filename", "num", "mirnum", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
+                        string[] headRowStrs = new string[13] { "itemnum", "filename", "num", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
 
                         //for (uint i = 0; i < headRowStrs.Length; ++i)
                         //{
@@ -248,23 +247,23 @@ namespace WindowsFormsApplication1
                         ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
                         ListFeed listFeed = m_service.Query(listQuery);
 
-                        foreach (string rowStr in rowStrs)
+                        for(int i = 0; i < rowStrs.Length; ++i)
                         {
                             //string pattern = @"\t+";
                             //Regex rgx = new Regex(pattern);
                             //string[] cellStrs = rgx.Split(rowStr);
-                            string[] cellStrs = rowStr.Split('\t');
+                            string[] cellStrs = rowStrs[i].Split('\t');
 
                             if (cellStrs.Length == headRowStrs.Length)
                             {
                                 ListEntry newrow = new ListEntry();
-                                for (uint i = 0; i < cellStrs.Length; ++i)
+                                for (uint j = 0; j < cellStrs.Length; ++j)
                                 {
-                                    newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[i], Value = cellStrs[i] });
+                                    newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[j], Value = cellStrs[j] });
                                 }
                                 m_service.Insert(listFeed, newrow);
                             }
-                            else
+                            else if( i != rowStrs.Length -1 )
                             {
                                 MessageBox.Show("Draft partslist column num is not!!" + headRowStrs.Count().ToString() + "\n Please change link draft partslist!!");
                                 return;
