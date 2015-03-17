@@ -89,7 +89,7 @@ namespace WindowsFormsApplication1
             columnHeadDic["パス"] = 0;
             //columnHeadDic["ファイル名 (完全パス)"] = 0;
             //columnHeadDic["パス"] = 0;
-            //columnHeadDic["sym-asy"] = 0;
+            columnHeadDic["対称性"] = 0;
             //columnHeadDic["num-sym"] = 0;
             //columnHeadDic["num-asy"] = 0;
             //columnHeadDic["spare-sym"] = 0;
@@ -98,8 +98,6 @@ namespace WindowsFormsApplication1
             columnHeadDic["個数"] = 0;
             //columnHeadDic["個数(鏡映)"] = 0;
             columnHeadDic["発注先"] = 0;
-            //columnHeadDic["予定"] = 0;
-            //columnHeadDic["状態"] = 0;
             columnHeadDic["表面処理"] = 0;
             columnHeadDic["工程"] = 0;
             //columnHeadDic["材質"] = 0;
@@ -237,7 +235,7 @@ namespace WindowsFormsApplication1
                         Console.WriteLine(rowStrs.Length);
 
                         //string[] headRowStrs = rowStrs[0].Split('\t');
-                        string[] headRowStrs = new string[9] { "itemnum", "filename", "numbers", "process", "material", "robotno", "order", "type", "path" };
+                        string[] headRowStrs = new string[13] { "itemnum", "filename", "numbers", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
 
                         //for (uint i = 0; i < headRowStrs.Length; ++i)
                         //{
@@ -267,6 +265,11 @@ namespace WindowsFormsApplication1
                                     newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[i], Value = cellStrs[i] });
                                 }
                                 m_service.Insert(listFeed, newrow);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Draft partslist column num is not!!" + headRowStrs.Count().ToString() + "\n Please change link draft partslist!!");
+                                return;
                             }
                         }
 

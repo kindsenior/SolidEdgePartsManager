@@ -204,7 +204,7 @@ namespace WindowsFormsApplication1
                 Console.WriteLine(propertySets.Count.ToString());
                 foreach( SolidEdgeFramework.Properties propertySet in propertySets)
                 {
-                    if(propertySet.Name == "Custom")
+                    if (propertySet.Name == "Custom")
                     {
                         foreach (string key in inputPropertySet.Keys)
                         {
@@ -219,6 +219,7 @@ namespace WindowsFormsApplication1
                             }
                             if (!keyFoundFlg)
                             {
+                                Console.WriteLine("  add propetry: " + key);
                                 propertySet.Add(key, inputPropertySet[key]);
                             }
                         }
@@ -229,18 +230,21 @@ namespace WindowsFormsApplication1
                 switch (System.IO.Path.GetExtension(filename))
                 {
                     case ".par":
+                        Console.WriteLine("save par");
                         part.Save();
-                        Console.WriteLine("close part"); 
+                        Console.WriteLine("close part");
                         part.Close(false);
                         break;
                     case ".psm":
+                        Console.WriteLine("save psm");
                         psm.Save();
-                        Console.WriteLine("close psm"); 
+                        Console.WriteLine("close psm");
                         psm.Close(false);
                         break;
                     case ".asm":
+                        Console.WriteLine("save asm");
                         asm.Save();
-                        Console.WriteLine("close asm"); 
+                        Console.WriteLine("close asm");
                         asm.Close(false);
                         break;
                     default:
@@ -251,7 +255,10 @@ namespace WindowsFormsApplication1
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                if (MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry)
+                {
+                    SetPartProperty(filename, inputPropertySet);
+                }
             }
             finally
             {
@@ -289,13 +296,14 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("SetAllPartsProperties()");
 
-            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
-            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm"]);
-            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm",propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm"]);
-            //foreach (string key in propertySetDictionary.Keys)
-            //{
-            //    SetPartProperty(key,propertySetDictionary[key]);
-            //}
+            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
+            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm"]);
+            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm",propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm"]);
+            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\freejoint-D40-65-encoder-base.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\freejoint-D40-65-encoder-base.par"]);            
+            foreach (string key in propertySetDictionary.Keys)
+            {
+                SetPartProperty(key, propertySetDictionary[key]);
+            }
         }
 
 
