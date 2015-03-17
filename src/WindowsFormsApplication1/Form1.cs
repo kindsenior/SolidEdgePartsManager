@@ -148,9 +148,11 @@ namespace WindowsFormsApplication1
                     spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
                     Console.WriteLine();
                 }
- 
+
                 Console.WriteLine();
             }
+
+            //solidedgeManager.CopyPartsListToClipboard("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\dft\\Hip-yaw-link.dft", CheckboxConfirmUpdate.Checked);
 
             MessageBox.Show("Finished updating all parts number");
         }

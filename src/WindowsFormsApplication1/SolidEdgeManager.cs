@@ -332,21 +332,28 @@ namespace WindowsFormsApplication1
                 Console.WriteLine("open draft");
                 dft = (SolidEdgeDraft.DraftDocument)documents.Open(filename);
 
-                dft.UpdatePropertyTextCacheAndDisplay();
+                //dft.UpdatePropertyTextCacheAndDisplay();
+                //dft.UpdatePropertyTextDisplay();
+                
                 if (ConfirmUpdateFlg)
                 {
                     MessageBox.Show("Push update button if needed");
                 }
                 //dft.SaveAs(filename);
-                dft.Save();
-
+                //dft.Save();
+                
                 SolidEdgeDraft.PartsLists partsLists = dft.PartsLists;
                 Console.WriteLine(partsLists.Count.ToString());
                 foreach(SolidEdgeDraft.PartsList partsList in partsLists )
                 {
+                    Console.WriteLine("update partslist");
+                    partsList.Update();
                     Console.WriteLine(partsList.AssemblyFileName);
                     partsList.CopyToClipboard();
                 }
+
+                Console.WriteLine("save draft");
+                dft.Save();
 
                 Console.WriteLine("close draft");
                 dft.Close(false);
