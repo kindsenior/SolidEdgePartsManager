@@ -87,8 +87,6 @@ namespace WindowsFormsApplication1
             columnHeadDic["図番"] = 0;
             columnHeadDic["図番タイプ"] = 0;
             columnHeadDic["パス"] = 0;
-            //columnHeadDic["ファイル名 (完全パス)"] = 0;
-            //columnHeadDic["パス"] = 0;
             columnHeadDic["対称性"] = 0;
             //columnHeadDic["num-sym"] = 0;
             //columnHeadDic["num-asy"] = 0;
@@ -96,7 +94,7 @@ namespace WindowsFormsApplication1
             //columnHeadDic["spare-asy"] = 0;
             //columnHeadDic["stock-sym"] = 0;
             columnHeadDic["個数"] = 0;
-            //columnHeadDic["個数(鏡映)"] = 0;
+            columnHeadDic["鏡映個数"] = 0;
             columnHeadDic["発注先"] = 0;
             columnHeadDic["表面処理"] = 0;
             columnHeadDic["工程"] = 0;

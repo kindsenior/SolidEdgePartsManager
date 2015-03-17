@@ -201,7 +201,6 @@ namespace WindowsFormsApplication1
                         return;
                 }
 
-                Console.WriteLine(propertySets.Count.ToString());
                 foreach( SolidEdgeFramework.Properties propertySet in propertySets)
                 {
                     if (propertySet.Name == "Custom")
