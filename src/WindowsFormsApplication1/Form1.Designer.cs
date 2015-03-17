@@ -37,6 +37,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TextBoxImiPass = new System.Windows.Forms.TextBox();
             this.ButtonUpdatePartsProperties = new System.Windows.Forms.Button();
+            this.CheckboxConfirmUpdate = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TextboxDestAsm
@@ -70,7 +71,7 @@
             // 
             // ButtonUpdateAllPartsNumber
             // 
-            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(571, 44);
+            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(571, 73);
             this.ButtonUpdateAllPartsNumber.Name = "ButtonUpdateAllPartsNumber";
             this.ButtonUpdateAllPartsNumber.Size = new System.Drawing.Size(135, 23);
             this.ButtonUpdateAllPartsNumber.TabIndex = 3;
@@ -115,7 +116,7 @@
             // 
             // ButtonUpdatePartsProperties
             // 
-            this.ButtonUpdatePartsProperties.Location = new System.Drawing.Point(571, 73);
+            this.ButtonUpdatePartsProperties.Location = new System.Drawing.Point(571, 102);
             this.ButtonUpdatePartsProperties.Name = "ButtonUpdatePartsProperties";
             this.ButtonUpdatePartsProperties.Size = new System.Drawing.Size(135, 23);
             this.ButtonUpdatePartsProperties.TabIndex = 8;
@@ -123,11 +124,24 @@
             this.ButtonUpdatePartsProperties.UseVisualStyleBackColor = true;
             this.ButtonUpdatePartsProperties.Click += new System.EventHandler(this.ButtonUpdatePartsProperties_Click);
             // 
+            // CheckboxConfirmUpdate
+            // 
+            this.CheckboxConfirmUpdate.AutoSize = true;
+            this.CheckboxConfirmUpdate.Checked = true;
+            this.CheckboxConfirmUpdate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckboxConfirmUpdate.Location = new System.Drawing.Point(461, 77);
+            this.CheckboxConfirmUpdate.Name = "CheckboxConfirmUpdate";
+            this.CheckboxConfirmUpdate.Size = new System.Drawing.Size(104, 16);
+            this.CheckboxConfirmUpdate.TabIndex = 9;
+            this.CheckboxConfirmUpdate.Text = "Confirm Update";
+            this.CheckboxConfirmUpdate.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
+            this.Controls.Add(this.CheckboxConfirmUpdate);
             this.Controls.Add(this.ButtonUpdatePartsProperties);
             this.Controls.Add(this.TextBoxImiPass);
             this.Controls.Add(this.label3);
@@ -155,6 +169,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TextBoxImiPass;
         private System.Windows.Forms.Button ButtonUpdatePartsProperties;
+        private System.Windows.Forms.CheckBox CheckboxConfirmUpdate;
     }
 }
 

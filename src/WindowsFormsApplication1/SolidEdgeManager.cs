@@ -306,7 +306,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void CopyPartsListToClipboard(string filename)
+        public void CopyPartsListToClipboard(string filename, bool ConfirmUpdateFlg = true)
         {
             Console.WriteLine("CopyPartsListToClipboard(" + filename + ")");
 
@@ -333,7 +333,10 @@ namespace WindowsFormsApplication1
                 dft = (SolidEdgeDraft.DraftDocument)documents.Open(filename);
 
                 dft.UpdatePropertyTextCacheAndDisplay();
-                MessageBox.Show("Push update button if needed");
+                if (ConfirmUpdateFlg)
+                {
+                    MessageBox.Show("Push update button if needed");
+                }
                 //dft.SaveAs(filename);
                 dft.Save();
 

@@ -145,7 +145,7 @@ namespace WindowsFormsApplication1
                 {// link
                     Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
                     string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
-                    solidedgeManager.CopyPartsListToClipboard(dftname);
+                    solidedgeManager.CopyPartsListToClipboard(dftname, CheckboxConfirmUpdate.Checked);
                     spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
                     Console.WriteLine();
                 }
@@ -153,7 +153,7 @@ namespace WindowsFormsApplication1
                 Console.WriteLine();
             }
 
-            Console.WriteLine("Finish UpdateAllPartsNumber()");
+            MessageBox.Show("Finished updating all parts number");
         }
 
         private bool RefreshAccessToken()
@@ -233,6 +233,7 @@ namespace WindowsFormsApplication1
 
             solidedgeManager.SetPartsProperties(propertySetDictionary);
 
+            MessageBox.Show("Finished updating parts properties");
         }
 
     }

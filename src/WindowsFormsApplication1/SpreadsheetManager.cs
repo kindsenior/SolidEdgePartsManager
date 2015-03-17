@@ -233,7 +233,7 @@ namespace WindowsFormsApplication1
                         Console.WriteLine(rowStrs.Length);
 
                         //string[] headRowStrs = rowStrs[0].Split('\t');
-                        string[] headRowStrs = new string[13] { "itemnum", "filename", "numbers", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
+                        string[] headRowStrs = new string[14] { "itemnum", "filename", "num", "mirnum", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
 
                         //for (uint i = 0; i < headRowStrs.Length; ++i)
                         //{
