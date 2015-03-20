@@ -48,7 +48,7 @@ namespace WindowsFormsApplication1
                 documents = application.Documents;
                 Console.WriteLine("solid edge found");
 
-                Console.WriteLine("open asm");
+                Console.WriteLine("open " + filename);
                 //draft = (SolidEdgeDraft.DraftDocument)documents.Add("SolidEdge.DraftDocument", Missing.Value);
                 asm = (SolidEdgeAssembly.AssemblyDocument)documents.Open(filename);
                 
@@ -341,26 +341,39 @@ namespace WindowsFormsApplication1
                 }
                 //dft.SaveAs(filename);
                 //dft.Save();
-                
+
                 SolidEdgeDraft.PartsLists partsLists = dft.PartsLists;
-                Console.WriteLine(partsLists.Count.ToString());
-                foreach(SolidEdgeDraft.PartsList partsList in partsLists )
-                {
-                    Console.WriteLine("update partslist");
-                    partsList.Update();
-                    Console.WriteLine(partsList.AssemblyFileName);
-                    partsList.CopyToClipboard();
-                }
+                //foreach (SolidEdgeDraft.PartsList partsList in partsLists)
+                //{
+                Console.WriteLine("update partslist: " + partsLists.Item(1).AssemblyFileName);
+                partsLists.Item(1).Update();
+                //}
+
+                //int changedAnnotationCount = 10;
+                //int detatchedAnnotationCount = 10;
+                //dft.AnnotationTrackerStatistics(out changedAnnotationCount, out detatchedAnnotationCount);
+                //Console.WriteLine(changedAnnotationCount + " " + detatchedAnnotationCount);
+
+                //if (dft.Dirty)
+                //{
+                //Console.WriteLine("Draft is modified scince the last time it was saved");
 
                 Console.WriteLine("save draft");
                 dft.Save();
+                //}
+
+                Console.WriteLine("copy to clipboard");
+                partsLists.Item(1).CopyToClipboard();
 
                 Console.WriteLine("close draft");
                 dft.Close(false);
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                if (MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry)
+                {
+                    CopyPartsListToClipboard(filename,ConfirmUpdateFlg);
+                }
             }
             finally
             {
