@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 using System.Data;
 using System.Drawing;
@@ -17,6 +18,53 @@ namespace WindowsFormsApplication1
 {
     class SolidEdgeManager
     {
+        private uint m_targetThreadId;
+        private uint m_mainWindowHandle;
+        private string m_windowName = "Solid Edge";
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [DllImport("user32.dll")]
+        extern static bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool BringWindowToTop(IntPtr hWnd);
+
+
+        delegate void WNDENUMPROC(IntPtr hwnd, int lParam);
+
+        //[DllImport("user32.dll")]
+        //private static extern int EnumChildWindows(IntPtr hWnd, WNDENUMPROC lpEnumFunc, int lParam);
+
+        [DllImport("user32.dll")]
+        private static extern int EnumThreadWindows(IntPtr hWnd, WNDENUMPROC lpEnumFunc, int lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+        
+        [DllImport("kernel32.dll")]
+        static extern IntPtr OpenThread(int dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+
+        void CALLBACKFUNC(IntPtr hwnd, int lParam)
+        {
+            uint nullProcessId = 0;
+            uint windowId = GetWindowThreadProcessId(hwnd, out nullProcessId);
+            StringBuilder builder = new StringBuilder();
+            GetWindowText(hwnd, builder, 100);
+            if (m_mainWindowHandle != (uint)hwnd && 0 <= builder.ToString().IndexOf(m_windowName))
+            {
+                Console.WriteLine("   handle:" + hwnd + " param: " + lParam + " id:" + windowId + " title:" + builder.ToString());
+                SetForegroundWindow(hwnd);
+            }
+        }
 
         //public List<SolidEdgeAssembly.AssemblyDocument> GetOccurenceFiles(string filename)
         public List<string> GetOccurenceFiles(string filename)
@@ -158,6 +206,35 @@ namespace WindowsFormsApplication1
 
         //}
 
+        public void SetDialogForeground()
+        {
+
+            // search all process
+            foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+            {
+                //compare window name
+                if (0 <= p.MainWindowTitle.IndexOf(m_windowName))
+                {
+                    Console.WriteLine("window title:" + p.MainWindowTitle + " handle:" + p.MainWindowHandle + " thread count:" + p.Threads.Count);
+                    m_mainWindowHandle = (uint)p.MainWindowHandle;
+
+                    //EnumChildWindows(p.MainWindowHandle, CALLBACKFUNC, 0);
+                    EnumThreadWindows(new IntPtr(p.Threads[0].Id), CALLBACKFUNC, 0);
+                }
+            }
+        }
+
+        public void NotOpenAsm()
+        {
+            Console.WriteLine("NotOpenAsm()");
+
+            Thread.Sleep(5000);
+
+            Console.WriteLine();
+            SetDialogForeground();
+            SendKeys.SendWait("%n");
+        }
+
         public void SetPartProperty(string filename, Dictionary<string,string> inputPropertySet)
         {
             Console.WriteLine("SetPartsProperty(" + filename + ",Dictionary)");
@@ -182,8 +259,15 @@ namespace WindowsFormsApplication1
                 switch (System.IO.Path.GetExtension(filename))
                 {
                     case ".par":
+                        Thread threadA = new Thread(new ThreadStart(NotOpenAsm));
+                        threadA.Start();
+
+                        Thread.Sleep(1000);
                         Console.WriteLine("open part");
                         part = (SolidEdgePart.PartDocument)documents.Open(filename);
+
+                        threadA.Join();
+
                         propertySets = part.Properties;
                         break;
                     case ".psm":
@@ -295,14 +379,14 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("SetAllPartsProperties()");
 
-            //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\CHEST\\spine-center.par"]);
+            SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\pulleycover-wrist.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\pulleycover-wrist.par"]);
             //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\common_parts\\harmonic\\CSD20\\CSD20-adapter-pin-atunyu.asm"]);
             //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm",propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\ARM\\arm-cable-carrier_outer.psm"]);
             //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\freejoint-D40-65-encoder-base.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\freejoint-D40-65-encoder-base.par"]);            
-            foreach (string key in propertySetDictionary.Keys)
-            {
-                SetPartProperty(key, propertySetDictionary[key]);
-            }
+            //foreach (string key in propertySetDictionary.Keys)
+            //{
+            //    SetPartProperty(key, propertySetDictionary[key]);
+            //}
         }
 
 
