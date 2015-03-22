@@ -179,9 +179,6 @@ namespace WindowsFormsApplication1
             ListFeed listFeed = m_service.Query(listQuery);
             for (int i = listFeed.Entries.Count - 1; i >= 0; --i)
             {
-                listFeed.Entries[i].Delete();
-                //ListEntry row = (ListEntry)listFeed.Entries[i];
-                //row.Delete();
             }
         }
 
