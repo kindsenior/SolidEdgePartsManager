@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -44,7 +45,10 @@ namespace WindowsFormsApplication1
         private SpreadsheetsService m_service;
         private SpreadsheetQuery m_query;
         private SpreadsheetFeed m_feed;
+        private WorksheetEntry m_worksheet;
         public bool m_feedFlg = true;
+        private string m_clipboardStr;
+        private Thread m_thread;
 
         private WorksheetEntry GetWorksheetEntry(string worksheetTitle)
         {
@@ -182,9 +186,60 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void PasteToWorksheetThreaded()
+        {
+            Console.WriteLine("PasteToWorksheetThreaded()");
+
+            //ResetLinkWorksheet(m_worksheet);
+
+            string[] rowStrs = m_clipboardStr.Split('\n');
+
+            //string[] headRowStrs = rowStrs[0].Split('\t');
+            string[] headRowStrs = new string[13] { "itemnum", "filename", "num", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
+
+            //for (uint i = 0; i < headRowStrs.Length; ++i)
+            //{
+            //    Console.WriteLine(worksheet.CellFeedLink.ToString());
+            //    CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
+            //    CellFeed cellFeed = m_service.Query(cellQuery);
+            //    CellEntry entry = new CellEntry(1, i+1, headRowStrs[i]);
+            //    cellFeed.Insert(entry);
+            //}
+
+            AtomLink listFeedLink = m_worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
+            ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
+            ListFeed listFeed = m_service.Query(listQuery);
+            
+
+            for (int i = 0; i < rowStrs.Length; ++i)
+            {
+                //string pattern = @"\t+";
+                //Regex rgx = new Regex(pattern);
+                //string[] cellStrs = rgx.Split(rowStr);
+                string[] cellStrs = rowStrs[i].Split('\t');
+
+                if (cellStrs.Length == headRowStrs.Length)
+                {
+                    ListEntry newrow = new ListEntry();
+                    for (uint j = 0; j < cellStrs.Length; ++j)
+                    {
+                        newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[j], Value = cellStrs[j] });
+                    }
+                    m_service.Insert(listFeed, newrow);
+                }
+                else if (i != rowStrs.Length - 1)
+                {
+                    MessageBox.Show("Draft partslist column num is not!!" + headRowStrs.Count().ToString() + "\n Please change link draft partslist!!");
+                    return;
+                }
+            }
+        }
+
         public void PasetToWorksheet(string worksheetTitle, string clipboardStr)
         {
             Console.WriteLine("PasetToWorksheet(" + worksheetTitle + ")");
+
+            m_clipboardStr = clipboardStr;
 
             SpreadsheetQuery query = new SpreadsheetQuery();
             SpreadsheetFeed feed = null;
@@ -210,64 +265,16 @@ namespace WindowsFormsApplication1
                     //worksheet.Title.Text = worksheetTitle;
                     //worksheet.Cols = 8; worksheet.Rows = 100;
                     //m_service.Insert(m_spreadsheet.Worksheets, worksheet);
-                    WorksheetEntry worksheet = GetWorksheetEntry(worksheetTitle);
-                    if (worksheet == null)
+                    m_worksheet = GetWorksheetEntry(worksheetTitle);
+                    if (m_worksheet == null)
                     {
                         Console.WriteLine("Worksheet not found. Continue without updating link data worksheet.");
                         return;
                     }
-                    Console.WriteLine("Worksheet Title: " + worksheet.Title.Text);
+                    Console.WriteLine("Worksheet Title: " + m_worksheet.Title.Text);
 
-                    ResetLinkWorksheet(worksheet);
-
-                    //IDataObject data = Clipboard.GetDataObject();// get data from clipboard
-                    //if (data.GetDataPresent(DataFormats.Text))
-                    //{
-                        //string clipboardStr = (string)data.GetData(DataFormats.Text);
-                        //Console.WriteLine(clipboardStr);
-
-                        string[] rowStrs = clipboardStr.Split('\n');
-
-                        //string[] headRowStrs = rowStrs[0].Split('\t');
-                        string[] headRowStrs = new string[13] { "itemnum", "filename", "num", "process", "material", "robotno", "order", "type", "path", "sym", "maker", "surface", "model" };
-
-                        //for (uint i = 0; i < headRowStrs.Length; ++i)
-                        //{
-                        //    Console.WriteLine(worksheet.CellFeedLink.ToString());
-                        //    CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
-                        //    CellFeed cellFeed = m_service.Query(cellQuery);
-                        //    CellEntry entry = new CellEntry(1, i+1, headRowStrs[i]);
-                        //    cellFeed.Insert(entry);
-                        //}
-
-                        AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
-                        ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
-                        ListFeed listFeed = m_service.Query(listQuery);
-
-                        for(int i = 0; i < rowStrs.Length; ++i)
-                        {
-                            //string pattern = @"\t+";
-                            //Regex rgx = new Regex(pattern);
-                            //string[] cellStrs = rgx.Split(rowStr);
-                            string[] cellStrs = rowStrs[i].Split('\t');
-
-                            if (cellStrs.Length == headRowStrs.Length)
-                            {
-                                ListEntry newrow = new ListEntry();
-                                for (uint j = 0; j < cellStrs.Length; ++j)
-                                {
-                                    newrow.Elements.Add(new ListEntry.Custom() { LocalName = headRowStrs[j], Value = cellStrs[j] });
-                                }
-                                m_service.Insert(listFeed, newrow);
-                            }
-                            else if( i != rowStrs.Length -1 )
-                            {
-                                MessageBox.Show("Draft partslist column num is not!!" + headRowStrs.Count().ToString() + "\n Please change link draft partslist!!");
-                                return;
-                            }
-                        }
-
-                    //}                
+                    m_thread = new Thread(new ThreadStart(PasteToWorksheetThreaded));
+                    m_thread.Start();
 
                 }
             }

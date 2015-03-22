@@ -128,7 +128,6 @@ namespace WindowsFormsApplication1
             service.setUserCredentials(TextboxImiAccount.Text+"@jsk.imi.i.u-tokyo.ac.jp", TextBoxImiPass.Text);
             Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
 
-            SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
             //spreadsheetManager.GetPartsPathFromGDrive(service);
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
@@ -143,18 +142,23 @@ namespace WindowsFormsApplication1
                 List<string> linkFileNames = solidedgeManager.GetOccurenceFiles(occurrenceFile);
                 foreach (string linkFileName in linkFileNames)
                 {// link
-                    Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
-                    string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
-                    string partsListStr;
-                    solidedgeManager.GetPartsListAsString(dftname, out partsListStr, CheckboxConfirmUpdate.Checked);
-                    //link nameは一意でなければならない
-                    partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName),partsListStr);
-                    //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
+                    if (System.IO.Path.GetFileNameWithoutExtension(linkFileName) == "Waist-link")
+                    {
+                        Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
+                        string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
+                        string partsListStr;
+                        solidedgeManager.GetPartsListAsString(dftname, out partsListStr, CheckboxConfirmUpdate.Checked);
+                        //link nameは一意でなければならない
+                        partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName), partsListStr);
+                        //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
+                    }
                 }
             } Console.WriteLine();
 
+
             foreach (System.Collections.Generic.KeyValuePair<string,string> partsListPair in partsListDictionary)
             {
+                SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
                 if(partsListPair.Key == "Waist-link")
                     spreadsheetManager.PasetToWorksheet(partsListPair.Key, partsListPair.Value);
             }
