@@ -382,13 +382,14 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void CopyPartsListToClipboard(string filename, bool ConfirmUpdateFlg = true)
+        public void GetPartsListAsString(string filename, out string clipboardStr, bool ConfirmUpdateFlg = true)
         {
             Console.WriteLine("CopyPartsListToClipboard(" + filename + ")");
 
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgeDraft.DraftDocument dft = null;
+            clipboardStr = "";
 
             try
             {
@@ -441,6 +442,14 @@ namespace WindowsFormsApplication1
                 Console.WriteLine("copy to clipboard");
                 partsLists.Item(1).CopyToClipboard();
 
+                Console.WriteLine("store data from clipboard to string");
+                IDataObject data = Clipboard.GetDataObject();// get data from clipboard
+                if (data.GetDataPresent(DataFormats.Text))
+                {
+                    clipboardStr = (string)data.GetData(DataFormats.Text);
+                    Console.WriteLine(clipboardStr);
+                }
+
                 Console.WriteLine("close draft");
                 dft.Close(false);
             }
@@ -448,7 +457,7 @@ namespace WindowsFormsApplication1
             {
                 if (MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry)
                 {
-                    CopyPartsListToClipboard(filename,ConfirmUpdateFlg);
+                    GetPartsListAsString(filename,out clipboardStr,ConfirmUpdateFlg);
                 }
             }
             finally
@@ -469,7 +478,7 @@ namespace WindowsFormsApplication1
                     application = null;
                 }
             }
-
+            
         }
 
     }

@@ -135,6 +135,7 @@ namespace WindowsFormsApplication1
 
             TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\Jaxon2.asm";
             List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
+            Dictionary<string, string> partsListDictionary = new Dictionary<string,string>();
             foreach (string occurrenceFile in occurrenceFiles)
             {// limb
                 Console.WriteLine(" limb name: " + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile));
@@ -144,12 +145,18 @@ namespace WindowsFormsApplication1
                 {// link
                     Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
                     string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
-                    solidedgeManager.CopyPartsListToClipboard(dftname, CheckboxConfirmUpdate.Checked);
-                    spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname));
-                    Console.WriteLine();
+                    string partsListStr;
+                    solidedgeManager.GetPartsListAsString(dftname, out partsListStr, CheckboxConfirmUpdate.Checked);
+                    //link nameは一意でなければならない
+                    partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName),partsListStr);
+                    //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
                 }
+            } Console.WriteLine();
 
-                Console.WriteLine();
+            foreach (System.Collections.Generic.KeyValuePair<string,string> partsListPair in partsListDictionary)
+            {
+                if(partsListPair.Key == "Waist-link")
+                    spreadsheetManager.PasetToWorksheet(partsListPair.Key, partsListPair.Value);
             }
 
             //solidedgeManager.CopyPartsListToClipboard("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\dft\\Hip-yaw-link.dft", CheckboxConfirmUpdate.Checked);

@@ -185,7 +185,7 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void PasetToWorksheet(string worksheetTitle)
+        public void PasetToWorksheet(string worksheetTitle, string clipboardStr)
         {
             Console.WriteLine("PasetToWorksheet(" + worksheetTitle + ")");
 
@@ -223,10 +223,10 @@ namespace WindowsFormsApplication1
 
                     ResetLinkWorksheet(worksheet);
 
-                    IDataObject data = Clipboard.GetDataObject();// get data from clipboard
-                    if (data.GetDataPresent(DataFormats.Text))
-                    {
-                        string clipboardStr = (string)data.GetData(DataFormats.Text);
+                    //IDataObject data = Clipboard.GetDataObject();// get data from clipboard
+                    //if (data.GetDataPresent(DataFormats.Text))
+                    //{
+                        //string clipboardStr = (string)data.GetData(DataFormats.Text);
                         //Console.WriteLine(clipboardStr);
 
                         string[] rowStrs = clipboardStr.Split('\n');
@@ -270,7 +270,7 @@ namespace WindowsFormsApplication1
                             }
                         }
 
-                    }                    
+                    //}                
 
                 }
             }
