@@ -37,7 +37,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TextBoxImiPass = new System.Windows.Forms.TextBox();
             this.ButtonUpdatePartsProperties = new System.Windows.Forms.Button();
-            this.CheckboxConfirmUpdate = new System.Windows.Forms.CheckBox();
+            this.CheckboxAutoRetry = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TextboxDestAsm
@@ -126,22 +126,22 @@
             // 
             // CheckboxConfirmUpdate
             // 
-            this.CheckboxConfirmUpdate.AutoSize = true;
-            this.CheckboxConfirmUpdate.Checked = true;
-            this.CheckboxConfirmUpdate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckboxConfirmUpdate.Location = new System.Drawing.Point(461, 77);
-            this.CheckboxConfirmUpdate.Name = "CheckboxConfirmUpdate";
-            this.CheckboxConfirmUpdate.Size = new System.Drawing.Size(104, 16);
-            this.CheckboxConfirmUpdate.TabIndex = 9;
-            this.CheckboxConfirmUpdate.Text = "Confirm Update";
-            this.CheckboxConfirmUpdate.UseVisualStyleBackColor = true;
+            this.CheckboxAutoRetry.AutoSize = true;
+            this.CheckboxAutoRetry.Checked = true;
+            this.CheckboxAutoRetry.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckboxAutoRetry.Location = new System.Drawing.Point(461, 77);
+            this.CheckboxAutoRetry.Name = "CheckboxConfirmUpdate";
+            this.CheckboxAutoRetry.Size = new System.Drawing.Size(80, 16);
+            this.CheckboxAutoRetry.TabIndex = 9;
+            this.CheckboxAutoRetry.Text = "Auto Retry";
+            this.CheckboxAutoRetry.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
-            this.Controls.Add(this.CheckboxConfirmUpdate);
+            this.Controls.Add(this.CheckboxAutoRetry);
             this.Controls.Add(this.ButtonUpdatePartsProperties);
             this.Controls.Add(this.TextBoxImiPass);
             this.Controls.Add(this.label3);
@@ -169,7 +169,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TextBoxImiPass;
         private System.Windows.Forms.Button ButtonUpdatePartsProperties;
-        private System.Windows.Forms.CheckBox CheckboxConfirmUpdate;
+        private System.Windows.Forms.CheckBox CheckboxAutoRetry;
     }
 }
 
