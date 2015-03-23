@@ -21,6 +21,7 @@ namespace WindowsFormsApplication1
         //private uint m_targetThreadId;
         private uint m_mainWindowHandle;
         static private string m_windowName = "Solid Edge";
+        private uint m_retryCount = 0;
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -228,7 +229,7 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void SetPartProperty(string filename, Dictionary<string,string> inputPropertySet)
+        public void SetPartProperty(string filename, Dictionary<string,string> inputPropertySet, bool autoRetryFlg = false)
         {
             Console.WriteLine("SetPartsProperty(" + filename + ",Dictionary)");
             SolidEdgeFramework.Application application = null;
@@ -330,13 +331,17 @@ namespace WindowsFormsApplication1
             }
             catch (System.Exception ex)
             {
-                if (MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry)
+                if ( autoRetryFlg && m_retryCount <= 2||
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry )
                 {
+                    ++m_retryCount;
+                    if (autoRetryFlg) System.Threading.Thread.Sleep(1000);
                     SetPartProperty(filename, inputPropertySet);
                 }
             }
             finally
             {
+                m_retryCount = 0;
                 if (part != null)
                 {
                     Marshal.ReleaseComObject(part);
@@ -367,7 +372,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void SetPartsProperties(Dictionary<string, Dictionary<string,string>> propertySetDictionary)
+        public void SetPartsProperties(Dictionary<string, Dictionary<string,string>> propertySetDictionary, bool autoRetryFlg = false)
         {
             Console.WriteLine("SetAllPartsProperties()");
 
@@ -377,7 +382,7 @@ namespace WindowsFormsApplication1
             //SetPartProperty("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\freejoint-D40-65-encoder-base.par", propertySetDictionary["\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\freejoint-D40-65-encoder-base.par"]);            
             foreach (string key in propertySetDictionary.Keys)
             {
-                SetPartProperty(key, propertySetDictionary[key]);
+                SetPartProperty(key, propertySetDictionary[key], autoRetryFlg);
             }
         }
 

@@ -246,7 +246,7 @@ namespace WindowsFormsApplication1
             spreadsheetManager.SetSpreadsheetByName("JAXON2図番管理表");
             Dictionary<string,Dictionary<string, string>> propertySetDictionary  = spreadsheetManager.GetPartsProperties();
 
-            solidedgeManager.SetPartsProperties(propertySetDictionary);
+            solidedgeManager.SetPartsProperties(propertySetDictionary,CheckboxAutoRetry.Checked);
 
             MessageBox.Show("Finished updating parts properties");
         }
