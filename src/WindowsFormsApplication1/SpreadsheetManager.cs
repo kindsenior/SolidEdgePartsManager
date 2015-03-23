@@ -250,7 +250,7 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void PasetToWorksheet(string worksheetTitle, string clipboardStr)
+        public void PasteToWorksheet(string worksheetTitle, string clipboardStr)
         {
             Console.WriteLine("PasetToWorksheet(" + worksheetTitle + ")");
 
@@ -288,8 +288,9 @@ namespace WindowsFormsApplication1
                     }
                     Console.WriteLine("Worksheet Title: " + m_worksheet.Title.Text);
 
-                    m_thread = new Thread(new ThreadStart(PasteToWorksheetThreaded));
-                    m_thread.Start();
+                    //m_thread = new Thread(new ThreadStart(PasteToWorksheetThreaded));
+                    //m_thread.Start();
+                    PasteToWorksheetThreaded();
 
                 }
             }

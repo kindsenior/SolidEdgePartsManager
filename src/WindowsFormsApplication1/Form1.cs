@@ -157,7 +157,7 @@ namespace WindowsFormsApplication1
             foreach (System.Collections.Generic.KeyValuePair<string,string> partsListPair in partsListDictionary)
             {
                 SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
-                spreadsheetManager.PasetToWorksheet(partsListPair.Key, partsListPair.Value);
+                spreadsheetManager.PasteToWorksheet(partsListPair.Key, partsListPair.Value);
                 spreadsheetManagerList.Add(spreadsheetManager);
             }
 
