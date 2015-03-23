@@ -174,6 +174,20 @@ namespace WindowsFormsApplication1
             }
         }
 
+        public void Join()
+        {
+            Console.WriteLine("Joint()");
+            if (m_thread != null)
+            {
+                m_thread.Join();
+                Console.WriteLine("Finished updating " + m_worksheet.Title.Text);
+            }
+            else
+            {
+                Console.WriteLine("thread slot is null");
+            }
+        }
+
         private void ResetLinkWorksheet(WorksheetEntry worksheet)
         {
             Console.WriteLine("ResetLinkWorksheet(" + worksheet.Title.Text + ")");
@@ -183,6 +197,7 @@ namespace WindowsFormsApplication1
             ListFeed listFeed = m_service.Query(listQuery);
             for (int i = listFeed.Entries.Count - 1; i >= 0; --i)
             {
+                listFeed.Entries[i].Delete();
             }
         }
 
@@ -190,7 +205,7 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("PasteToWorksheetThreaded()");
 
-            //ResetLinkWorksheet(m_worksheet);
+            ResetLinkWorksheet(m_worksheet);
 
             string[] rowStrs = m_clipboardStr.Split('\n');
 

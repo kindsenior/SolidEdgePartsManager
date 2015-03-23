@@ -142,25 +142,28 @@ namespace WindowsFormsApplication1
                 List<string> linkFileNames = solidedgeManager.GetOccurenceFiles(occurrenceFile);
                 foreach (string linkFileName in linkFileNames)
                 {// link
-                    if (System.IO.Path.GetFileNameWithoutExtension(linkFileName) == "Waist-link")
-                    {
-                        Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
-                        string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
-                        string partsListStr;
-                        solidedgeManager.GetPartsListAsString(dftname, out partsListStr, CheckboxConfirmUpdate.Checked);
-                        //link nameは一意でなければならない
-                        partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName), partsListStr);
-                        //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
-                    }
+                    Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
+                    string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
+                    string partsListStr;
+                    solidedgeManager.GetPartsListAsString(dftname, out partsListStr, CheckboxConfirmUpdate.Checked);
+                    //link nameは一意でなければならない
+                    partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName), partsListStr);
+                    //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
                 }
             } Console.WriteLine();
 
 
+            List<SpreadsheetManager> spreadsheetManagerList = new List<SpreadsheetManager>();
             foreach (System.Collections.Generic.KeyValuePair<string,string> partsListPair in partsListDictionary)
             {
                 SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
-                if(partsListPair.Key == "Waist-link")
-                    spreadsheetManager.PasetToWorksheet(partsListPair.Key, partsListPair.Value);
+                spreadsheetManager.PasetToWorksheet(partsListPair.Key, partsListPair.Value);
+                spreadsheetManagerList.Add(spreadsheetManager);
+            }
+
+            foreach (SpreadsheetManager spreadsheetManager in spreadsheetManagerList)
+            {
+                spreadsheetManager.Join();
             }
 
             //solidedgeManager.CopyPartsListToClipboard("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\dft\\Hip-yaw-link.dft", CheckboxConfirmUpdate.Checked);
