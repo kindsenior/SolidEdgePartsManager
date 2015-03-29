@@ -102,6 +102,7 @@ namespace WindowsFormsApplication1
             columnHeadDic["発注先"] = 0;
             columnHeadDic["表面処理"] = 0;
             columnHeadDic["工程"] = 0;
+            columnHeadDic["型番"] = 0;
             //columnHeadDic["材質"] = 0;
 
             //Check Column Head in Google Spreadsheet
