@@ -149,8 +149,32 @@ namespace WindowsFormsApplication1
             //    } Console.WriteLine();
             //}
 
+            resolveMirrorPartsNum(ref propertySetDictionary);
+
             return propertySetDictionary;
         }
+
+        private void resolveMirrorPartsNum(ref Dictionary<string, Dictionary<string,string>> propertySetDictionary)
+        {
+            Console.WriteLine("resolveMirrorPartsNum()");
+
+            foreach (System.Collections.Generic.KeyValuePair<string,Dictionary<string,string>> propertySet in propertySetDictionary)
+            {
+                string fileName = propertySet.Key;
+                string mirFileName = System.IO.Path.GetDirectoryName(fileName) + "\\"
+                        + System.IO.Path.GetFileNameWithoutExtension(fileName)
+                        + "_mir" + System.IO.Path.GetExtension(fileName);
+                if (propertySetDictionary.ContainsKey(mirFileName))
+                {
+                    Console.WriteLine("found mirror file:" + mirFileName);
+                    Dictionary<string,string> mirPropertySet = propertySetDictionary[mirFileName];
+                    propertySet.Value["個数"]     = (int.Parse(propertySet.Value["個数"])  + int.Parse(mirPropertySet["鏡映個数"])).ToString();
+                    propertySet.Value["鏡映個数"] = (int.Parse(mirPropertySet["個数"])     + int.Parse(propertySet.Value["鏡映個数"])).ToString();
+                    Console.WriteLine("num:" + propertySet.Value["個数"] + " mirNum:"+propertySet.Value["鏡映個数"]);
+                }
+            }
+        }
+
 
         //public void GetPartsPathFromGDrive()
         //{
