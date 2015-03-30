@@ -152,28 +152,28 @@ namespace WindowsFormsApplication1
             return propertySetDictionary;
         }
 
-        public void GetPartsPathFromGDrive()
-        {
-            SpreadsheetQuery query = new SpreadsheetQuery();
+        //public void GetPartsPathFromGDrive()
+        //{
+        //    SpreadsheetQuery query = new SpreadsheetQuery();
 
-            SpreadsheetFeed feed = m_service.Query(query);
-            foreach (SpreadsheetEntry spreadsheet in feed.Entries)
-            {
-                if (spreadsheet.Title.Text == "JAXON2図番管理表")
-                {
-                    m_spreadsheet = spreadsheet;
-                    Console.WriteLine(spreadsheet.Title.Text);
-                    WorksheetEntry worksheet = GetWorksheetEntry("Test");
-                    if (worksheet == null)
-                    {
-                        WorksheetEntry newWorksheet = new WorksheetEntry();
-                        newWorksheet.Title.Text = "Test";
-                        newWorksheet.Cols = 10; newWorksheet.Rows = 20;
-                        m_service.Insert(m_spreadsheet.Worksheets, newWorksheet);
-                    }
-                }
-            }
-        }
+        //    SpreadsheetFeed feed = m_service.Query(query);
+        //    foreach (SpreadsheetEntry spreadsheet in feed.Entries)
+        //    {
+        //        if (spreadsheet.Title.Text == "JAXON2図番管理表")
+        //        {
+        //            m_spreadsheet = spreadsheet;
+        //            Console.WriteLine(spreadsheet.Title.Text);
+        //            WorksheetEntry worksheet = GetWorksheetEntry("Test");
+        //            if (worksheet == null)
+        //            {
+        //                WorksheetEntry newWorksheet = new WorksheetEntry();
+        //                newWorksheet.Title.Text = "Test";
+        //                newWorksheet.Cols = 10; newWorksheet.Rows = 20;
+        //                m_service.Insert(m_spreadsheet.Worksheets, newWorksheet);
+        //            }
+        //        }
+        //    }
+        //}
 
         public void Join()
         {
