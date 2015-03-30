@@ -387,7 +387,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void GetPartsListAsString(string filename, out string clipboardStr, bool ConfirmUpdateFlg = true)
+        public void GetPartsListAsString(string filename, out string clipboardStr, bool ConfirmUpdateFlg = false)
         {
             Console.WriteLine("CopyPartsListToClipboard(" + filename + ")");
 
@@ -417,10 +417,6 @@ namespace WindowsFormsApplication1
                 //dft.UpdatePropertyTextCacheAndDisplay();
                 //dft.UpdatePropertyTextDisplay();
                 
-                if (ConfirmUpdateFlg)
-                {
-                    MessageBox.Show("Push update button if needed");
-                }
                 //dft.SaveAs(filename);
                 //dft.Save();
 

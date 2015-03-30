@@ -145,7 +145,7 @@ namespace WindowsFormsApplication1
                     Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
                     string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
                     string partsListStr;
-                    solidedgeManager.GetPartsListAsString(dftname, out partsListStr, CheckboxAutoRetry.Checked);
+                    solidedgeManager.GetPartsListAsString(dftname, out partsListStr);
                     //link nameは一意でなければならない
                     partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName), partsListStr);
                     //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
