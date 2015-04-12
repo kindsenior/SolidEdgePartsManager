@@ -153,22 +153,39 @@ namespace WindowsFormsApplication1
             } Console.WriteLine();
 
 
-            List<SpreadsheetManager> spreadsheetManagerList = new List<SpreadsheetManager>();
+            //List<SpreadsheetManager> spreadsheetManagerList = new List<SpreadsheetManager>();
             foreach (System.Collections.Generic.KeyValuePair<string,string> partsListPair in partsListDictionary)
             {
-                SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
-                spreadsheetManager.PasteToWorksheet(partsListPair.Key, partsListPair.Value);
-                spreadsheetManagerList.Add(spreadsheetManager);
+                //SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
+                //spreadsheetManager.PasteToWorksheet(partsListPair.Key, partsListPair.Value);
+                //spreadsheetManagerList.Add(spreadsheetManager);
+                convertStringToCsv(partsListPair.Key, partsListPair.Value);
             }
 
-            foreach (SpreadsheetManager spreadsheetManager in spreadsheetManagerList)
-            {
-                spreadsheetManager.Join();
-            }
-
+            //foreach (SpreadsheetManager spreadsheetManager in spreadsheetManagerList)
+            //{
+                //spreadsheetManager.Join();
+            //}
+             
             //solidedgeManager.CopyPartsListToClipboard("\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\LEG\\dft\\Hip-yaw-link.dft", CheckboxConfirmUpdate.Checked);
 
             MessageBox.Show("Finished updating all parts number");
+        }
+
+        private void convertStringToCsv(string linkName, string partsListStr)
+        {
+            Console.WriteLine("convertStringToCsv( " + linkName + ",<partsListStr>)");
+
+            Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
+            System.IO.StreamWriter writer = new System.IO.StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)+ "\\" + linkName + ".csv", false, sjisEnc);
+
+            string[] rowStrings = partsListStr.Split(new Char[] { '\n' });
+            foreach (string rowString in rowStrings)
+            {
+                Console.WriteLine(rowString.Replace('\t',','));
+                writer.WriteLine(rowString.Replace('\t', ','));
+            }
+            writer.Close();
         }
 
         private bool RefreshAccessToken()
