@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
 
+using Google.Apis.Auth.OAuth2;
 
 namespace WindowsFormsApplication1
 {
