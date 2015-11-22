@@ -23,6 +23,7 @@ namespace WindowsFormsApplication1
 
         public SpreadsheetManager(string account, string pass)
         {
+            Console.WriteLine("SpreadsheetManager(" + account + ",<pass>)");
             SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
             service.setUserCredentials(account + "@jsk.imi.i.u-tokyo.ac.jp", pass);
             m_service = service;
@@ -36,7 +37,7 @@ namespace WindowsFormsApplication1
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show("Spreadsheet access failed.!!\n Prease check account and password.");
+                MessageBox.Show(ex.Message);
                 m_feedFlg = false;
             }
 
