@@ -197,8 +197,8 @@ namespace WindowsFormsApplication1
 
             string SCOPE = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://spreadsheets.google.com/feeds https://docs.google.com/feeds";
 
-            //string REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
-            string REDIRECT_URI = "http://localhost";
+            string REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+            //string REDIRECT_URI = "http://localhost";
 
             OAuth2Parameters parameters = new OAuth2Parameters();
             parameters.ClientId = CLIENT_ID;
@@ -210,7 +210,7 @@ namespace WindowsFormsApplication1
             //Console.WriteLine(authorizationUrl);
             //Console.WriteLine("Please visit the URL above to authorize your OAuth request token.  Once that is complete, type in your access code to continue...");
             //parameters.AccessCode = Console.ReadLine();
-            parameters.AccessCode = "4/deIE1CH-cRFBTSdrsk4u78d0dYulzBzP5-XzSw2z9L4.Ys4jiJaGcykSBrG_bnfDxpJ2zoLzlwI";
+            parameters.AccessCode = "4/3lEgvRBZ2cBMc1jRUxDEhiz13dEl64dy-bUcsqatV5k";
             Console.WriteLine(" AuthorizationCode(AccessCode): " + parameters.AccessCode);
 
             //string redirectUrl = "http://www.example.com/oauth2callback?code=SOME-RETURNED-VALUE";
@@ -221,8 +221,8 @@ namespace WindowsFormsApplication1
 
             try
             {
-                string accessToken = "ya29.MAHytisyJiuz-nz8IPriQ-872u8hy-Xe0wsrRjgw9FdqufZmCHQPypBnSls5UR-uF9GNFy9ShchNRA";
-                string refreshToken = "1/nrxh65IqcBQS6erUO2hj3wRKJVyAWlGz_C2IWej68dg"; // リフレッシュトークンは変わらない?
+                string accessToken = "ya29.MQL5AOvvhiis0bFQU6EAjV-853JnJwXuOoJAdmNBUTuHtu9vLbWqH2KRZSoDcL8r-mGc";
+                string refreshToken = "1/C6fE1PhY0_5mBO1bB8ZWdXh7vH4I62AKRvKRB8T6ADZIgOrJDtdun6zK6XiATCKT";// リフレッシュトークンは変わらない?
                 parameters.AccessToken = accessToken;
                 parameters.RefreshToken = refreshToken;
                 OAuthUtil.RefreshAccessToken(parameters);
