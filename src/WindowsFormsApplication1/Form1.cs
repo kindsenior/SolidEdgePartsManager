@@ -237,7 +237,7 @@ namespace WindowsFormsApplication1
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show("Failed in getting Token.!!\n Prease check tokens and access code.");
+                MessageBox.Show("RefreshAccessToken() error\n" + ex.Message + "\nProbably failed in getting Token.!!\n Prease check tokens and access code.");
             }
             finally
             {

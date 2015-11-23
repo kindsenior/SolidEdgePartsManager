@@ -47,7 +47,7 @@ namespace WindowsFormsApplication1
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("SpreadsheetManager() error\n" + ex.Message);
                 m_feedFlg = false;
             }
 
