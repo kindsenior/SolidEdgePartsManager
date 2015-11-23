@@ -21,13 +21,23 @@ namespace WindowsFormsApplication1
             m_service = service;
         }
 
-        public SpreadsheetManager(string account, string pass)
+        //public SpreadsheetManager(string account, string pass)
+        public SpreadsheetManager()
         {
-            Console.WriteLine("SpreadsheetManager(" + account + ",<pass>)");
-            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            service.setUserCredentials(account + "@jsk.imi.i.u-tokyo.ac.jp", pass);
+            Console.WriteLine("SpreadsheetManager()");
+
+            //Console.WriteLine("SpreadsheetManager(" + account + ",<pass>)");
+            //SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+            //service.setUserCredentials(account + "@jsk.imi.i.u-tokyo.ac.jp", pass);
+            //m_service = service;
+            //Console.WriteLine(" account: " + account + "  pass: " + pass);
+
+            SpreadsheetsService service = new SpreadsheetsService("SolidEdgePartsManager")
+            {
+                Credentials = new GDataCredentials(GoogleAuthorizationManager.userCredential.Token.TokenType + " " + GoogleAuthorizationManager.userCredential.Token.AccessToken),
+                RequestFactory = GoogleAuthorizationManager.requestFactory
+            };
             m_service = service;
-            Console.WriteLine(" account: " + account + "  pass: " + pass);
 
             m_query = new SpreadsheetQuery();
             m_feed = null;

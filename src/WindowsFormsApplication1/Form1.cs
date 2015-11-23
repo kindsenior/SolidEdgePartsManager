@@ -255,7 +255,8 @@ namespace WindowsFormsApplication1
             if (!IsSolidEdge()) return;
 
             RefreshAccessToken();
-            SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text,TextBoxImiPass.Text);
+            //SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text, TextBoxImiPass.Text);
+            SpreadsheetManager spreadsheetManager = new SpreadsheetManager();
             if (!spreadsheetManager.m_feedFlg) return;
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
