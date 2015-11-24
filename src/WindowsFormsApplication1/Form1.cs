@@ -16,8 +16,11 @@ using IWshRuntimeLibrary; // for shortcuts, needs windows script host object mod
 //using System.IO;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
-
-
+using Google.Apis.Drive.v2;
+using Google.Apis.Drive.v2.Data;
+using Google.Apis.Requests;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
 
 namespace WindowsFormsApplication1
 {
@@ -159,7 +162,8 @@ namespace WindowsFormsApplication1
                 //SpreadsheetManager spreadsheetManager = new SpreadsheetManager(service);
                 //spreadsheetManager.PasteToWorksheet(partsListPair.Key, partsListPair.Value);
                 //spreadsheetManagerList.Add(spreadsheetManager);
-                convertStringToCsv(partsListPair.Key, partsListPair.Value);
+                string fileName = convertStringToCsv(partsListPair.Key, partsListPair.Value);
+                uploadCsvFile(fileName);
             }
 
             //foreach (SpreadsheetManager spreadsheetManager in spreadsheetManagerList)
@@ -172,20 +176,63 @@ namespace WindowsFormsApplication1
             MessageBox.Show("Finished updating all parts number");
         }
 
-        private void convertStringToCsv(string linkName, string partsListStr)
+        private string convertStringToCsv(string linkName, string partsListStr)
         {
             Console.WriteLine("convertStringToCsv( " + linkName + ",<partsListStr>)");
 
             Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
-            System.IO.StreamWriter writer = new System.IO.StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)+ "\\" + linkName + ".csv", false, sjisEnc);
-
-            string[] rowStrings = partsListStr.Split(new Char[] { '\n' });
+            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)+ "\\" + linkName + ".csv";
+            System.IO.StreamWriter writer = new System.IO.StreamWriter(fileName, false, sjisEnc);
+            
+            List<string> rowStrings = new List<string>(partsListStr.Split(new Char[] { '\n' }));
+            rowStrings.RemoveAt(rowStrings.Count - 1);//空行を削除
             foreach (string rowString in rowStrings)
             {
-                Console.WriteLine(rowString.Replace('\t',','));
-                writer.WriteLine(rowString.Replace('\t', ','));
+                string replacedString = rowString.Replace(',', '-');
+                replacedString = replacedString.Replace('\t', ',');
+                Console.WriteLine(replacedString);
+                writer.WriteLine(replacedString);
             }
             writer.Close();
+
+            return fileName;
+        }
+
+        private void uploadCsvFile(string fileName)
+        {
+            Console.WriteLine("uploadCsvFile(" + fileName + ")");
+
+            // drive service
+            DriveService service = new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = GoogleAuthorizationManager.userCredential,
+                ApplicationName = "SolidEdgePartsManager",
+            });
+
+            // file
+            File body = new File();
+            body.Title = System.IO.Path.GetFileName(fileName);
+            body.Description = "parts list of " + System.IO.Path.GetFileNameWithoutExtension(fileName);
+            body.MimeType = "text/plain";
+            //Documents/STARO/JSK/設計ディレクトリを指定
+            body.Parents = new List<ParentReference>() { new ParentReference() { Id = "0B0Hp35qR3oqsfnA3NEprOU5BTldON2tnSjhicFFzNnFNallYVWVQbWYxdlpjNlJyQ1JuaEU" } };
+            
+            // file contents and upload
+            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+            System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
+            try
+            {
+                FilesResource.InsertMediaUpload request = service.Files.Insert(body, stream, "text/plain");
+                request.Upload();
+
+                File file = request.ResponseBody;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("CSV file upload error.\n" + ex.Message);
+            }
+
+            System.IO.File.Delete(fileName);
         }
 
         private bool RefreshAccessToken()
