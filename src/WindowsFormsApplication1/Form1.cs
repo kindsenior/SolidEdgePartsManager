@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 using System.Reflection;
 using System.Runtime.InteropServices; // for com
-using IWshRuntimeLibrary; // for shortcuts, needs windows script host object model
+//using IWshRuntimeLibrary; // for shortcuts, needs windows script host object model
 
 //using System.Xml;
 //using System.IO;
