@@ -122,7 +122,7 @@ namespace WindowsFormsApplication1
 
             if (!IsSolidEdge()) return;
 
-            RefreshAccessToken();
+            //RefreshAccessToken();
 
             SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
             service.setUserCredentials(TextboxImiAccount.Text+"@jsk.imi.i.u-tokyo.ac.jp", TextBoxImiPass.Text);
@@ -254,7 +254,7 @@ namespace WindowsFormsApplication1
 
             if (!IsSolidEdge()) return;
 
-            RefreshAccessToken();
+            //RefreshAccessToken();
             //SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text, TextBoxImiPass.Text);
             SpreadsheetManager spreadsheetManager = new SpreadsheetManager();
             if (!spreadsheetManager.m_feedFlg) return;
