@@ -303,7 +303,7 @@ namespace WindowsFormsApplication1
 
             //RefreshAccessToken();
             //SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text, TextBoxImiPass.Text);
-            SpreadsheetManager spreadsheetManager = new SpreadsheetManager();
+            SpreadsheetManager spreadsheetManager = SpreadsheetManager.Instance;
             if (!spreadsheetManager.m_feedFlg) return;
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();

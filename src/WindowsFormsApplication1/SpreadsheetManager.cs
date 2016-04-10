@@ -14,15 +14,24 @@ using Google.Apis.Auth.OAuth2;
 
 namespace WindowsFormsApplication1
 {
-    class SpreadsheetManager
+    public sealed class SpreadsheetManager
     {
-        public SpreadsheetManager(SpreadsheetsService service)
-        {
-            m_service = service;
-        }
+        //public SpreadsheetManager(SpreadsheetsService service)
+        //{
+        //    m_service = service;
+        //}
 
+        //for singleton
+        private static SpreadsheetManager _singleInstance = new SpreadsheetManager();
+        public static SpreadsheetManager Instance
+        {
+            get
+            {
+                return _singleInstance;
+            }
+        }
         //public SpreadsheetManager(string account, string pass)
-        public SpreadsheetManager()
+        private SpreadsheetManager()
         {
             Console.WriteLine("SpreadsheetManager()");
 
