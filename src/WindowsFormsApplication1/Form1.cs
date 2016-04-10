@@ -202,14 +202,7 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("uploadCsvFile(" + fileName + ")");
 
-            // drive service
-            DriveService service = new DriveService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = GoogleAuthorizationManager.userCredential,
-                ApplicationName = "SolidEdgePartsManager",
-            });
-
-            // file
+            // file creation
             File body = new File();
             body.Title = System.IO.Path.GetFileName(fileName);
             body.Description = "parts list of " + System.IO.Path.GetFileNameWithoutExtension(fileName);
@@ -217,20 +210,13 @@ namespace WindowsFormsApplication1
             //Documents/STARO/JSK/設計ディレクトリを指定
             body.Parents = new List<ParentReference>() { new ParentReference() { Id = "0B0Hp35qR3oqsfnA3NEprOU5BTldON2tnSjhicFFzNnFNallYVWVQbWYxdlpjNlJyQ1JuaEU" } };
             
-            // file contents and upload
+            // file contents
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
-            try
-            {
-                FilesResource.InsertMediaUpload request = service.Files.Insert(body, stream, "text/plain");
-                request.Upload();
 
-                File file = request.ResponseBody;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("CSV file upload error.\n" + ex.Message);
-            }
+            //file upload
+            GoogleDriveManager googleDriveManager = GoogleDriveManager.Instance;
+            googleDriveManager.uploadFile(body, stream);
 
             System.IO.File.Delete(fileName);
         }
