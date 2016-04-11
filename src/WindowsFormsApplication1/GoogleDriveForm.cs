@@ -12,6 +12,8 @@ namespace WindowsFormsApplication1
 {
     public partial class GoogleDriveForm : Form
     {
+        private List<String> directoryPathList;
+
         public GoogleDriveForm()
         {
             InitializeComponent();
