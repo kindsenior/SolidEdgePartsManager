@@ -302,5 +302,11 @@ namespace WindowsFormsApplication1
             MessageBox.Show("Finished updating parts properties");
         }
 
+        private void ButtonSelectDestSheet_Click(object sender, EventArgs e)
+        {
+            GoogleDriveForm googleDriveForm = new GoogleDriveForm();
+            googleDriveForm.Show();
+        }
+
     }
 }
