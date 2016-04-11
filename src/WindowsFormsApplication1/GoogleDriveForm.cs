@@ -65,5 +65,18 @@ namespace WindowsFormsApplication1
                 UpdateListViewFile(directoryPathList.Last());
             }
         }
+
+        private void ListViewFile_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (ListViewFile.SelectedItems.Count > 0)
+            {
+                System.Windows.Forms.ListViewItem selectedItem = ListViewFile.SelectedItems[0];
+                if (selectedItem.SubItems[3].Text == "application/vnd.google-apps.spreadsheet")
+                {
+                    TextBoxSelectedSpreadsheet.Text = selectedItem.Text.ToString();
+                }
+            }
+        }
+
     }
 }

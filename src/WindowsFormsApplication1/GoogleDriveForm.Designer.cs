@@ -53,6 +53,7 @@
             this.ListViewFile.Size = new System.Drawing.Size(470, 457);
             this.ListViewFile.TabIndex = 0;
             this.ListViewFile.UseCompatibleStateImageBehavior = false;
+            this.ListViewFile.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.ListViewFile_ItemSelectionChanged);
             this.ListViewFile.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewFile_DoubleClick);
             // 
             // columnHeader1
