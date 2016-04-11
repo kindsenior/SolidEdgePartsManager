@@ -34,7 +34,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ButtonMoveToUpDirectory = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.TextBoxSelectedDirectory = new System.Windows.Forms.TextBox();
+            this.TextBoxSelectedSpreadsheet = new System.Windows.Forms.TextBox();
             this.ButtonSelect = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -83,18 +83,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 507);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 12);
+            this.label1.Size = new System.Drawing.Size(115, 12);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Selected directory";
+            this.label1.Text = "Selected spreadsheet";
             // 
-            // TextBoxSelectedDirectory
+            // TextBoxSelectedSpreadsheet
             // 
-            this.TextBoxSelectedDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextBoxSelectedSpreadsheet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxSelectedDirectory.Location = new System.Drawing.Point(117, 504);
-            this.TextBoxSelectedDirectory.Name = "TextBoxSelectedDirectory";
-            this.TextBoxSelectedDirectory.Size = new System.Drawing.Size(203, 19);
-            this.TextBoxSelectedDirectory.TabIndex = 3;
+            this.TextBoxSelectedSpreadsheet.Location = new System.Drawing.Point(127, 504);
+            this.TextBoxSelectedSpreadsheet.Name = "TextBoxSelectedSpreadsheet";
+            this.TextBoxSelectedSpreadsheet.Size = new System.Drawing.Size(193, 19);
+            this.TextBoxSelectedSpreadsheet.TabIndex = 3;
             // 
             // ButtonSelect
             // 
@@ -123,7 +123,7 @@
             this.ClientSize = new System.Drawing.Size(494, 531);
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.ButtonSelect);
-            this.Controls.Add(this.TextBoxSelectedDirectory);
+            this.Controls.Add(this.TextBoxSelectedSpreadsheet);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ButtonMoveToUpDirectory);
             this.Controls.Add(this.ListViewFile);
@@ -142,7 +142,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button ButtonMoveToUpDirectory;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox TextBoxSelectedDirectory;
+        private System.Windows.Forms.TextBox TextBoxSelectedSpreadsheet;
         private System.Windows.Forms.Button ButtonSelect;
         private System.Windows.Forms.Button ButtonCancel;
     }
