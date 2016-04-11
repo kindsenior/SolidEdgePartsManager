@@ -52,5 +52,15 @@ namespace WindowsFormsApplication1
                 return false;
             }
         }
+
+        public IList<Google.Apis.Drive.v2.Data.File> getChildFolder(String parentId = "root")
+        {
+            Console.WriteLine("GoogleDriveManager.getChildFolder(" + parentId + ")");
+            FilesResource.ListRequest request = m_service.Files.List();
+            request.Q = "mimeType = 'application/vnd.google-apps.folder' and '" + parentId + "' in parents and trashed = false"
+                + "or mimeType = 'application/vnd.google-apps.spreadsheet' and '" + parentId + "' in parents and trashed = false";
+            IList<Google.Apis.Drive.v2.Data.File> files = request.Execute().Items;
+            return files;
+        }
     }
 }
