@@ -16,17 +16,18 @@ namespace WindowsFormsApplication1
         {
             InitializeComponent();
 
-            ListViewDirectory.View = View.Details;
+            ListViewFile.View = View.Details;
 
-            UpdateListViewDirectory();
-            ListViewDirectory.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            directoryPathList = new List<String>() {"root"};
+            UpdateListViewFile();
+            ListViewFile.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-        private void UpdateListViewDirectory(String parentId = "root")
+        private void UpdateListViewFile(String parentId = "root")
         {
             GoogleDriveManager googleDriveManager = GoogleDriveManager.Instance;
 
-            ListViewDirectory.Items.Clear();
+            ListViewFile.Items.Clear();
             ListViewItem item = null;
             ListViewItem.ListViewSubItem[] subItems;
             foreach (Google.Apis.Drive.v2.Data.File file in googleDriveManager.getChildFolder(parentId))// get and add child dirs
@@ -34,22 +35,33 @@ namespace WindowsFormsApplication1
                 item = new ListViewItem(file.Title.ToString(), 0);
                 subItems = new ListViewItem.ListViewSubItem[]
                     {new ListViewItem.ListViewSubItem(item, file.OwnerNames[0].ToString()),
-                     new ListViewItem.ListViewSubItem(item, file.Id.ToString())};
+                     new ListViewItem.ListViewSubItem(item, file.Id.ToString()),
+                     new ListViewItem.ListViewSubItem(item, file.MimeType.ToString())};
                 item.SubItems.AddRange(subItems);
-                ListViewDirectory.Items.Add(item);
+                ListViewFile.Items.Add(item);
             }
         }
 
-        private void ListViewDirectory_DoubleClick(object sender, MouseEventArgs e)
+        private void ListViewFile_DoubleClick(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("GoogleDriveForm.ListViewDirectory_DoubleClick(" + ListViewDirectory.SelectedItems[0].Text.ToString() + ")");
-            System.Windows.Forms.ListViewItem selectedItem = ListViewDirectory.SelectedItems[0];
-            UpdateListViewDirectory(selectedItem.SubItems[2].Text.ToString());
+            Console.WriteLine("GoogleDriveForm.ListViewDirectory_DoubleClick(" + ListViewFile.SelectedItems[0].Text.ToString() + ")");
+            System.Windows.Forms.ListViewItem selectedItem = ListViewFile.SelectedItems[0];
+            if (selectedItem.SubItems[3].Text == "application/vnd.google-apps.folder")// ディレクトリがクリックされた時だけ
+            {
+                String id = selectedItem.SubItems[2].Text.ToString();
+                directoryPathList.Add(id);
+                UpdateListViewFile(id);
+            }
         }
 
         private void ButtonMoveToUpDirectory_Click(object sender, EventArgs e)
         {
-            UpdateListViewDirectory();
+            int count = directoryPathList.Count;
+            if (count > 1)
+            {
+                directoryPathList.RemoveAt(directoryPathList.Count - 1);
+                UpdateListViewFile(directoryPathList.Last());
+            }
         }
     }
 }

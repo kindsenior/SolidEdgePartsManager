@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ListViewDirectory = new System.Windows.Forms.ListView();
+            this.ListViewFile = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -39,21 +39,21 @@
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // ListViewDirectory
+            // ListViewFile
             // 
-            this.ListViewDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ListViewFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListViewDirectory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ListViewFile.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            this.ListViewDirectory.Location = new System.Drawing.Point(12, 37);
-            this.ListViewDirectory.Name = "ListViewDirectory";
-            this.ListViewDirectory.Size = new System.Drawing.Size(470, 457);
-            this.ListViewDirectory.TabIndex = 0;
-            this.ListViewDirectory.UseCompatibleStateImageBehavior = false;
-            this.ListViewDirectory.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewDirectory_DoubleClick);
+            this.ListViewFile.Location = new System.Drawing.Point(12, 37);
+            this.ListViewFile.Name = "ListViewFile";
+            this.ListViewFile.Size = new System.Drawing.Size(470, 457);
+            this.ListViewFile.TabIndex = 0;
+            this.ListViewFile.UseCompatibleStateImageBehavior = false;
+            this.ListViewFile.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewFile_DoubleClick);
             // 
             // columnHeader1
             // 
@@ -126,7 +126,7 @@
             this.Controls.Add(this.TextBoxSelectedDirectory);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ButtonMoveToUpDirectory);
-            this.Controls.Add(this.ListViewDirectory);
+            this.Controls.Add(this.ListViewFile);
             this.Name = "GoogleDriveForm";
             this.Text = "GoogleDriveForm";
             this.ResumeLayout(false);
@@ -136,7 +136,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView ListViewDirectory;
+        private System.Windows.Forms.ListView ListViewFile;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
