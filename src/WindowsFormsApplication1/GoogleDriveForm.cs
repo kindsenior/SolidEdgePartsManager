@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1
     public partial class GoogleDriveForm : Form
     {
         private List<String> directoryPathList;
+        private const int idIdx = 2, typeIdx = 3;
 
         public GoogleDriveForm()
         {
@@ -48,9 +49,9 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("GoogleDriveForm.ListViewDirectory_DoubleClick(" + ListViewFile.SelectedItems[0].Text.ToString() + ")");
             System.Windows.Forms.ListViewItem selectedItem = ListViewFile.SelectedItems[0];
-            if (selectedItem.SubItems[3].Text == "application/vnd.google-apps.folder")// ディレクトリがクリックされた時だけ
+            if (selectedItem.SubItems[typeIdx].Text == "application/vnd.google-apps.folder")// ディレクトリがクリックされた時だけ
             {
-                String id = selectedItem.SubItems[2].Text.ToString();
+                String id = selectedItem.SubItems[idIdx].Text.ToString();
                 directoryPathList.Add(id);
                 UpdateListViewFile(id);
             }
@@ -71,7 +72,7 @@ namespace WindowsFormsApplication1
             if (ListViewFile.SelectedItems.Count > 0)
             {
                 System.Windows.Forms.ListViewItem selectedItem = ListViewFile.SelectedItems[0];
-                if (selectedItem.SubItems[3].Text == "application/vnd.google-apps.spreadsheet")
+                if (selectedItem.SubItems[typeIdx].Text == "application/vnd.google-apps.spreadsheet")
                 {
                     TextBoxSelectedSpreadsheet.Text = selectedItem.Text.ToString();
                 }
