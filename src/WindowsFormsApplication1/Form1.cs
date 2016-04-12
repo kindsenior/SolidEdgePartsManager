@@ -27,11 +27,16 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         bool debug;
-        private String destSheetId;
+        private CustomedSettings settings;
+        private SheetData destSheetData;
+
 
         public Form1()
         {
             InitializeComponent();
+            settings = new CustomedSettings();
+            destSheetData = new SheetData();
+
 #if DEBUG
             debug = true;
 #else
@@ -296,7 +301,7 @@ namespace WindowsFormsApplication1
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
             //spreadsheetManager.SetSpreadsheetByName("JAXON2図番管理表");
-            spreadsheetManager.SetSpreadsheetById(destSheetId);
+            spreadsheetManager.SetSpreadsheetById(destSheetData.id);
             Dictionary<string, Dictionary<string, string>> propertySetDictionary = spreadsheetManager.GetPartsProperties();
 
             solidedgeManager.SetPartsProperties(propertySetDictionary,CheckboxAutoRetry.Checked);
@@ -309,8 +314,8 @@ namespace WindowsFormsApplication1
             GoogleDriveForm googleDriveForm = new GoogleDriveForm();
             if (googleDriveForm.ShowDialog() == DialogResult.OK)
             {
-                destSheetId = googleDriveForm.selectedId;
-                TextBoxDestSheet.Text = googleDriveForm.selectedName;
+                destSheetData = googleDriveForm.selectedSheetData;
+                TextBoxDestSheet.Text = destSheetData.name;
             }
             googleDriveForm.Dispose();
         }

@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
+    public struct SheetData
+    {
+        public String name, id;
+    }
+
     public partial class GoogleDriveForm : Form
     {
         private List<String> directoryPathList;
         private const int idIdx = 2, typeIdx = 3;
-        public String selectedName, selectedId;
+        public SheetData selectedSheetData;
 
         public GoogleDriveForm()
         {
@@ -75,9 +80,9 @@ namespace WindowsFormsApplication1
                 System.Windows.Forms.ListViewItem selectedItem = ListViewFile.SelectedItems[0];
                 if (selectedItem.SubItems[typeIdx].Text == "application/vnd.google-apps.spreadsheet")
                 {
-                    selectedName = selectedItem.Text.ToString();
-                    selectedId = selectedItem.SubItems[idIdx].Text.ToString();
-                    TextBoxSelectedSpreadsheet.Text = selectedName;
+                    selectedSheetData.name = selectedItem.Text.ToString();
+                    selectedSheetData.id = selectedItem.SubItems[idIdx].Text.ToString();
+                    TextBoxSelectedSpreadsheet.Text = selectedSheetData.name;
                 }
             }
         }
