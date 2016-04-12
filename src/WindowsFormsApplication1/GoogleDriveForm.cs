@@ -14,6 +14,7 @@ namespace WindowsFormsApplication1
     {
         private List<String> directoryPathList;
         private const int idIdx = 2, typeIdx = 3;
+        public String selectedName, selectedId;
 
         public GoogleDriveForm()
         {
@@ -74,9 +75,21 @@ namespace WindowsFormsApplication1
                 System.Windows.Forms.ListViewItem selectedItem = ListViewFile.SelectedItems[0];
                 if (selectedItem.SubItems[typeIdx].Text == "application/vnd.google-apps.spreadsheet")
                 {
-                    TextBoxSelectedSpreadsheet.Text = selectedItem.Text.ToString();
+                    selectedName = selectedItem.Text.ToString();
+                    selectedId = selectedItem.SubItems[idIdx].Text.ToString();
+                    TextBoxSelectedSpreadsheet.Text = selectedName;
                 }
             }
+        }
+
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ButtonSelect_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
     }

@@ -27,6 +27,7 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         bool debug;
+        private String destSheetId;
 
         public Form1()
         {
@@ -305,7 +306,12 @@ namespace WindowsFormsApplication1
         private void ButtonSelectDestSheet_Click(object sender, EventArgs e)
         {
             GoogleDriveForm googleDriveForm = new GoogleDriveForm();
-            googleDriveForm.Show();
+            if (googleDriveForm.ShowDialog() == DialogResult.OK)
+            {
+                destSheetId = googleDriveForm.selectedId;
+                TextBoxDestSheet.Text = googleDriveForm.selectedName;
+            }
+            googleDriveForm.Dispose();
         }
 
     }

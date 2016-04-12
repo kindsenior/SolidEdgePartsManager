@@ -100,22 +100,26 @@
             // ButtonSelect
             // 
             this.ButtonSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonSelect.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.ButtonSelect.Location = new System.Drawing.Point(326, 502);
             this.ButtonSelect.Name = "ButtonSelect";
             this.ButtonSelect.Size = new System.Drawing.Size(75, 23);
             this.ButtonSelect.TabIndex = 4;
             this.ButtonSelect.Text = "Select";
             this.ButtonSelect.UseVisualStyleBackColor = true;
+            this.ButtonSelect.Click += new System.EventHandler(this.ButtonSelect_Click);
             // 
             // ButtonCancel
             // 
             this.ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ButtonCancel.Location = new System.Drawing.Point(407, 502);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.ButtonCancel.TabIndex = 5;
             this.ButtonCancel.Text = "Cancel";
             this.ButtonCancel.UseVisualStyleBackColor = true;
+            this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // GoogleDriveForm
             // 
@@ -143,8 +147,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button ButtonMoveToUpDirectory;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox TextBoxSelectedSpreadsheet;
         private System.Windows.Forms.Button ButtonSelect;
         private System.Windows.Forms.Button ButtonCancel;
+        public System.Windows.Forms.TextBox TextBoxSelectedSpreadsheet;
     }
 }
