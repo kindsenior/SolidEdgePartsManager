@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1
         public CustomedSettings()
         {
             DestSheetDataHashSet = new HashSet<SheetData>();
+            SelectedSheetIdx = 0;
         }
 
         [UserScopedSetting()]
@@ -25,6 +26,19 @@ namespace WindowsFormsApplication1
             set
             {
                 this["DestSheetDataHashSet"] = value;
+            }
+        }
+
+        [UserScopedSetting()]
+        public int SelectedSheetIdx
+        {
+            get
+            {
+                return (int)this["SelectedSheetIdx"];
+            }
+            set
+            {
+                this["SelectedSheetIdx"] = value;
             }
         }
     }

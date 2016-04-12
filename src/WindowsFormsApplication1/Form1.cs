@@ -42,6 +42,7 @@ namespace WindowsFormsApplication1
             foreach( SheetData sheetData in settings.DestSheetDataHashSet){
                 ComboBoxDestSheet.Items.Add(sheetData.name);
             }
+            ComboBoxDestSheet.SelectedIndex = settings.SelectedSheetIdx;
 
 #if DEBUG
             debug = true;
@@ -331,7 +332,10 @@ namespace WindowsFormsApplication1
 
         private void ComboBoxDestSheet_SelectedIndexChanged(object sender, EventArgs e)
         {
-            destSheetData = settings.DestSheetDataHashSet.ElementAt(ComboBoxDestSheet.SelectedIndex);
+            int selectedIdx = ComboBoxDestSheet.SelectedIndex;
+            destSheetData = settings.DestSheetDataHashSet.ElementAt(selectedIdx);
+            settings.SelectedSheetIdx = selectedIdx;
+            settings.Save();
         }
 
     }
