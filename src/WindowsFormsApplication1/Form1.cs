@@ -37,6 +37,12 @@ namespace WindowsFormsApplication1
             settings = new CustomedSettings();
             destSheetData = new SheetData();
 
+            settings.Reload();
+            Console.WriteLine(settings.DestSheetDataHashSet.Count);
+            foreach( SheetData sheetData in settings.DestSheetDataHashSet){
+                ComboBoxDestSheet.Items.Add(sheetData.name);
+            }
+
 #if DEBUG
             debug = true;
 #else
@@ -315,9 +321,17 @@ namespace WindowsFormsApplication1
             if (googleDriveForm.ShowDialog() == DialogResult.OK)
             {
                 destSheetData = googleDriveForm.selectedSheetData;
-                TextBoxDestSheet.Text = destSheetData.name;
+                ComboBoxDestSheet.Items.Add(destSheetData.name);
+                settings.DestSheetDataHashSet.Add(destSheetData);
+                ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
+                settings.Save();
             }
             googleDriveForm.Dispose();
+        }
+
+        private void ComboBoxDestSheet_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            destSheetData = settings.DestSheetDataHashSet.ElementAt(ComboBoxDestSheet.SelectedIndex);
         }
 
     }

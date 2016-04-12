@@ -34,9 +34,9 @@
             this.ButtonUpdateAllPartsNumber = new System.Windows.Forms.Button();
             this.ButtonUpdatePartsProperties = new System.Windows.Forms.Button();
             this.CheckboxAutoRetry = new System.Windows.Forms.CheckBox();
-            this.TextBoxDestSheet = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ButtonSelectDestSheet = new System.Windows.Forms.Button();
+            this.ComboBoxDestSheet = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // TextboxDestAsm
@@ -100,13 +100,6 @@
             this.CheckboxAutoRetry.Text = "Auto Retry";
             this.CheckboxAutoRetry.UseVisualStyleBackColor = true;
             // 
-            // TextBoxDestSheet
-            // 
-            this.TextBoxDestSheet.Location = new System.Drawing.Point(74, 37);
-            this.TextBoxDestSheet.Name = "TextBoxDestSheet";
-            this.TextBoxDestSheet.Size = new System.Drawing.Size(491, 19);
-            this.TextBoxDestSheet.TabIndex = 10;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -126,14 +119,22 @@
             this.ButtonSelectDestSheet.UseVisualStyleBackColor = true;
             this.ButtonSelectDestSheet.Click += new System.EventHandler(this.ButtonSelectDestSheet_Click);
             // 
+            // ComboBoxDestSheet
+            // 
+            this.ComboBoxDestSheet.Location = new System.Drawing.Point(74, 37);
+            this.ComboBoxDestSheet.Name = "ComboBoxDestSheet";
+            this.ComboBoxDestSheet.Size = new System.Drawing.Size(491, 20);
+            this.ComboBoxDestSheet.TabIndex = 0;
+            this.ComboBoxDestSheet.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDestSheet_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
+            this.Controls.Add(this.ComboBoxDestSheet);
             this.Controls.Add(this.ButtonSelectDestSheet);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.TextBoxDestSheet);
             this.Controls.Add(this.CheckboxAutoRetry);
             this.Controls.Add(this.ButtonUpdatePartsProperties);
             this.Controls.Add(this.ButtonUpdateAllPartsNumber);
@@ -155,9 +156,9 @@
         private System.Windows.Forms.Button ButtonUpdateAllPartsNumber;
         private System.Windows.Forms.Button ButtonUpdatePartsProperties;
         private System.Windows.Forms.CheckBox CheckboxAutoRetry;
-        private System.Windows.Forms.TextBox TextBoxDestSheet;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ButtonSelectDestSheet;
+        private System.Windows.Forms.ComboBox ComboBoxDestSheet;
     }
 }
 
