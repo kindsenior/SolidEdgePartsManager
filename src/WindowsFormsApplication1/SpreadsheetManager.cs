@@ -106,17 +106,18 @@ namespace WindowsFormsApplication1
             string url = "https://spreadsheets.google.com/feeds/spreadsheets/" + id;
             SpreadsheetQuery query = new SpreadsheetQuery(url);
             Console.WriteLine("spreadsheet query:" + query.Uri.ToString());
-            SpreadsheetFeed feed = m_service.Query(query);
-            if (feed.Entries.Count > 0)
+            try
             {
+                SpreadsheetFeed feed = m_service.Query(query);
                 m_spreadsheet = (SpreadsheetEntry)feed.Entries[0];
-                return true;
             }
-            else
+            catch (SystemException ex)
             {
-                MessageBox.Show("Spreadsheet '" + id + "' not found");
+                MessageBox.Show(ex.Message + "\nSpreadsheet '" + id + "' not found");
                 return false;
             }
+
+            return true;
         }
 
         public Dictionary<string,Dictionary<string,string>> GetPartsProperties()
