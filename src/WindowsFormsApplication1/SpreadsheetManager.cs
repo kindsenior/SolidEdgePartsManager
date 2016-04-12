@@ -50,26 +50,26 @@ namespace WindowsFormsApplication1
             };
             m_service = service;
 
-            m_query = new SpreadsheetQuery();
-            m_feed = null;
-            try
-            {
-                m_feed = m_service.Query(m_query);
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("SpreadsheetManager() error\n" + ex.Message);
-                m_feedFlg = false;
-            }
+            //m_query = new SpreadsheetQuery();
+            //m_feed = null;
+            //try
+            //{
+                //m_feed = m_service.Query(m_query);
+            //}
+            //catch (System.Exception ex)
+            //{
+                //MessageBox.Show("SpreadsheetManager() error\n" + ex.Message);
+                //m_feedFlg = false;
+            //}
 
         }
 
         private SpreadsheetEntry m_spreadsheet;
         private SpreadsheetsService m_service;
-        private SpreadsheetQuery m_query;
-        private SpreadsheetFeed m_feed;
+        //private SpreadsheetQuery m_query;
+        //private SpreadsheetFeed m_feed;
         private WorksheetEntry m_worksheet;
-        public bool m_feedFlg = true;
+        //public bool m_feedFlg = true;
         private string m_clipboardStr;
         private Thread m_thread;
 
@@ -82,22 +82,23 @@ namespace WindowsFormsApplication1
             return null;
         }
 
-        public bool SetSpreadsheetByName(string spreadsheetName)
-        {
-            Console.WriteLine("SetSpreadsheetByName(" + spreadsheetName + ")");
+        //old code
+        //public bool SetSpreadsheetByName(string spreadsheetName)
+        //{
+        //    Console.WriteLine("SetSpreadsheetByName(" + spreadsheetName + ")");
 
-            foreach (SpreadsheetEntry spreadsheet in m_feed.Entries)
-            {
-                if (spreadsheet.Title.Text == spreadsheetName)
-                {
-                    m_spreadsheet = spreadsheet;
-                    Console.WriteLine("Set to spreadsheet: "+spreadsheet.Title.Text);
-                    return true;
-                }
-            }
-            MessageBox.Show("Spreadsheet '"+ spreadsheetName +"' not found");
-            return false;
-        }
+        //    foreach (SpreadsheetEntry spreadsheet in m_feed.Entries)
+        //    {
+        //        if (spreadsheet.Title.Text == spreadsheetName)
+        //        {
+        //            m_spreadsheet = spreadsheet;
+        //            Console.WriteLine("Set to spreadsheet: "+spreadsheet.Title.Text);
+        //            return true;
+        //        }
+        //    }
+        //    MessageBox.Show("Spreadsheet '"+ spreadsheetName +"' not found");
+        //    return false;
+        //}
 
         public bool SetSpreadsheetById(string id)
         {

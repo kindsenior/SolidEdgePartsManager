@@ -128,9 +128,9 @@ namespace WindowsFormsApplication1
 
             //RefreshAccessToken();
 
-            SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            service.setUserCredentials(TextboxImiAccount.Text+"@jsk.imi.i.u-tokyo.ac.jp", TextBoxImiPass.Text);
-            Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
+            //SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+            //service.setUserCredentials(TextboxImiAccount.Text+"@jsk.imi.i.u-tokyo.ac.jp", TextBoxImiPass.Text);
+            //Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
 
             //spreadsheetManager.GetPartsPathFromGDrive(service);
 
@@ -291,7 +291,7 @@ namespace WindowsFormsApplication1
             //RefreshAccessToken();
             //SpreadsheetManager spreadsheetManager = new SpreadsheetManager(TextboxImiAccount.Text, TextBoxImiPass.Text);
             SpreadsheetManager spreadsheetManager = SpreadsheetManager.Instance;
-            if (!spreadsheetManager.m_feedFlg) return;
+            //if (!spreadsheetManager.m_feedFlg) return;
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 

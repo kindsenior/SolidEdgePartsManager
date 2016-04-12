@@ -37,10 +37,6 @@
             this.TextBoxDestSheet = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ButtonSelectDestSheet = new System.Windows.Forms.Button();
-            this.TextBoxImiPass = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.TextboxImiAccount = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // TextboxDestAsm
@@ -130,41 +126,6 @@
             this.ButtonSelectDestSheet.UseVisualStyleBackColor = true;
             this.ButtonSelectDestSheet.Click += new System.EventHandler(this.ButtonSelectDestSheet_Click);
             // 
-            // TextBoxImiPass
-            // 
-            this.TextBoxImiPass.AllowDrop = true;
-            this.TextBoxImiPass.Location = new System.Drawing.Point(376, 86);
-            this.TextBoxImiPass.Name = "TextBoxImiPass";
-            this.TextBoxImiPass.PasswordChar = '*';
-            this.TextBoxImiPass.Size = new System.Drawing.Size(189, 19);
-            this.TextBoxImiPass.TabIndex = 7;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(340, 89);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 12);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Pass";
-            // 
-            // TextboxImiAccount
-            // 
-            this.TextboxImiAccount.AllowDrop = true;
-            this.TextboxImiAccount.Location = new System.Drawing.Point(109, 86);
-            this.TextboxImiAccount.Name = "TextboxImiAccount";
-            this.TextboxImiAccount.Size = new System.Drawing.Size(225, 19);
-            this.TextboxImiAccount.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 89);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 12);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "JSK imi Account";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -175,10 +136,6 @@
             this.Controls.Add(this.TextBoxDestSheet);
             this.Controls.Add(this.CheckboxAutoRetry);
             this.Controls.Add(this.ButtonUpdatePartsProperties);
-            this.Controls.Add(this.TextBoxImiPass);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.TextboxImiAccount);
             this.Controls.Add(this.ButtonUpdateAllPartsNumber);
             this.Controls.Add(this.ButtonLoadDestAsm);
             this.Controls.Add(this.label1);
@@ -201,10 +158,6 @@
         private System.Windows.Forms.TextBox TextBoxDestSheet;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ButtonSelectDestSheet;
-        private System.Windows.Forms.TextBox TextBoxImiPass;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox TextboxImiAccount;
-        private System.Windows.Forms.Label label2;
     }
 }
 
