@@ -99,6 +99,26 @@ namespace WindowsFormsApplication1
             return false;
         }
 
+        public bool SetSpreadsheetById(string id)
+        {
+            Console.WriteLine("SetSpreadsheetById(" + id + ")");
+
+            string url = "https://spreadsheets.google.com/feeds/spreadsheets/" + id;
+            SpreadsheetQuery query = new SpreadsheetQuery(url);
+            Console.WriteLine("spreadsheet query:" + query.Uri.ToString());
+            SpreadsheetFeed feed = m_service.Query(query);
+            if (feed.Entries.Count > 0)
+            {
+                m_spreadsheet = (SpreadsheetEntry)feed.Entries[0];
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Spreadsheet '" + id + "' not found");
+                return false;
+            }
+        }
+
         public Dictionary<string,Dictionary<string,string>> GetPartsProperties()
         {
             Console.WriteLine("GetPartsProperties()");
