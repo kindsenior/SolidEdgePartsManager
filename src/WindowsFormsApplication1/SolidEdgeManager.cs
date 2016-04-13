@@ -301,7 +301,7 @@ namespace WindowsFormsApplication1
         private ProcessType ManipulateProperty(string filename, Dictionary<string,string> inputPropertySet,
             Func<Dictionary<string,string>, ProcessType> func, bool autoRetryFlg = false)
         {
-            Console.WriteLine("SetPartsProperty(" + filename + ",Dictionary)");
+            Console.WriteLine("ManipulateProperty(" + filename + ",Dictionary)");
             SolidEdgeFramework.Application application = null;
             SolidEdgeFramework.Documents documents = null;
             SolidEdgePart.PartDocument part = null;
@@ -462,6 +462,7 @@ namespace WindowsFormsApplication1
                     Console.WriteLine("  skip " + fileBaseName);
                     break;
                 case ProcessType.Exception:
+                    Console.WriteLine("  exception " + fileBaseName);
                     break;
                 default:
                     MessageBox.Show("No such ProcessType:" + processType.ToString("g"));// enumを文字列に変換
