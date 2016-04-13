@@ -236,19 +236,35 @@ namespace WindowsFormsApplication1
         {
             foreach (SolidEdgeFramework.Properties propertySet in m_propertySets)
             {
+                Console.WriteLine("propertySet.Name:" + propertySet.Name);
                 if (propertySet.Name == "Custom")
                 {
+                    string keyName = "ProcessType";
                     foreach (SolidEdgeFramework.Property property in propertySet)
                     {
-                        if (property.Name == "ProcessType")
+                        if (property.Name == keyName)
                         {
                             Console.WriteLine("  found ProcessType property");
                             return (ProcessType) Enum.Parse(typeof(ProcessType), property.get_Value());
                         }
                     }
+                    //ProcessTypeがなかった時の処理
+                    ProcessTypeForm processTypeForm = new ProcessTypeForm();
+                    if (processTypeForm.ShowDialog() == DialogResult.OK)
+                    {
+                        ProcessType processType = (ProcessType) processTypeForm.ComboBoxProcessType.SelectedValue;
+                        Console.WriteLine("  add ProcessType:" + processType.ToString("g"));
+                        propertySet.Add(keyName, processType.ToString("g"));
+                        propertySet.Save();
+                        return processType;
+                    }
+                    else
+                    {
+                        Console.WriteLine("  skipped or closed ProcessTypeForm");
+                        return ProcessType.Exception;
+                    }
                 }
             }
-            //ProcessTypeがなかった時の処理
 
             return ProcessType.Exception;
         }

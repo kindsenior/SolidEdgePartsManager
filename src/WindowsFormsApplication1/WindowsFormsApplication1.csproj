@@ -171,6 +171,12 @@
       <DependentUpon>GoogleDriveForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GoogleDriveManager.cs" />
+    <Compile Include="ProcessTypeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcessTypeForm.Designer.cs">
+      <DependentUpon>ProcessTypeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolidEdgeManager.cs" />
@@ -180,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GoogleDriveForm.resx">
       <DependentUpon>GoogleDriveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessTypeForm.resx">
+      <DependentUpon>ProcessTypeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
