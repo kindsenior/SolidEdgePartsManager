@@ -232,6 +232,27 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private ProcessType GetProcessType_impl(Dictionary<string, string> dummyDictionary)
+        {
+            foreach (SolidEdgeFramework.Properties propertySet in m_propertySets)
+            {
+                if (propertySet.Name == "Custom")
+                {
+                    foreach (SolidEdgeFramework.Property property in propertySet)
+                    {
+                        if (property.Name == "ProcessType")
+                        {
+                            Console.WriteLine("  found ProcessType property");
+                            return (ProcessType) Enum.Parse(typeof(ProcessType), property.get_Value());
+                        }
+                    }
+                }
+            }
+            //ProcessTypeがなかった時の処理
+
+            return ProcessType.Exception;
+        }
+
         private ProcessType SetPartProparty_impl(Dictionary<string, string> inputPropertySet)
         {
             foreach (SolidEdgeFramework.Properties propertySet in m_propertySets)
@@ -385,6 +406,51 @@ namespace WindowsFormsApplication1
             }
 
             return processType;
+        }
+
+        private ProcessType GetProcessType(string filename, bool autoRetryFlg = false)
+        {
+            Dictionary<string, string> dummyDictionary = new Dictionary<string, string>();
+            return ManipulateProperty(filename, dummyDictionary, GetProcessType_impl, autoRetryFlg);
+        }
+
+        public void createPartsListDictionary(ref Dictionary<string, string> partsListDictionary, string fileName, bool autoRetryFlg = false)
+        {
+            string fileBaseName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+            ProcessType processType = GetProcessType(fileName, autoRetryFlg);
+            switch (processType)
+            {
+                case ProcessType.Add:// link level
+                    {
+                        Console.WriteLine("  add: " + fileBaseName);
+                        string dftname = System.IO.Path.GetDirectoryName(fileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(fileName) + ".dft";
+                        string partsListStr;
+                        GetPartsListAsString(dftname, out partsListStr);
+                        //link nameは一意でなければならない
+                        partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(fileName), partsListStr);
+                        //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
+                    }
+                    break;
+                case ProcessType.Open:// limb level
+                    {
+                        Console.WriteLine("  open " + fileBaseName);
+                        List<string> childFileNames = GetOccurenceFiles(fileName);
+                        foreach (string childFileName in childFileNames)
+                        {// link
+                            Console.WriteLine("  child name: " + System.IO.Path.GetFileNameWithoutExtension(childFileName));
+                            createPartsListDictionary(ref partsListDictionary, childFileName, autoRetryFlg);
+                        }
+                    }
+                    break;
+                case ProcessType.Skip:
+                    Console.WriteLine("  skip " + fileBaseName);
+                    break;
+                case ProcessType.Exception:
+                    break;
+                default:
+                    MessageBox.Show("No such ProcessType:" + processType.ToString("g"));// enumを文字列に変換
+                    break;
+            }
         }
 
         public void SetPartProperty(string filename, Dictionary<string, string> inputPropertySet, bool autoRetryFlg = false)

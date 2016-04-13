@@ -188,19 +188,8 @@ namespace WindowsFormsApplication1
             Dictionary<string, string> partsListDictionary = new Dictionary<string,string>();
             foreach (string occurrenceFile in occurrenceFiles)
             {// limb
-                Console.WriteLine(" limb name: " + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile));
-
-                List<string> linkFileNames = solidedgeManager.GetOccurenceFiles(occurrenceFile);
-                foreach (string linkFileName in linkFileNames)
-                {// link
-                    Console.WriteLine("  link name: " + System.IO.Path.GetFileNameWithoutExtension(linkFileName));
-                    string dftname = System.IO.Path.GetDirectoryName(linkFileName) + "\\dft\\" + System.IO.Path.GetFileNameWithoutExtension(linkFileName) + ".dft";
-                    string partsListStr;
-                    solidedgeManager.GetPartsListAsString(dftname, out partsListStr);
-                    //link nameは一意でなければならない
-                    partsListDictionary.Add(System.IO.Path.GetFileNameWithoutExtension(linkFileName), partsListStr);
-                    //spreadsheetManager.PasetToWorksheet(System.IO.Path.GetFileNameWithoutExtension(dftname), partsListStr);
-                }
+                Console.WriteLine(" occurence file name: " + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile));
+                solidedgeManager.createPartsListDictionary(ref partsListDictionary, occurrenceFile, CheckboxAutoRetry.Checked);
             } Console.WriteLine();
 
 
