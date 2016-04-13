@@ -38,16 +38,32 @@ namespace WindowsFormsApplication1
             destSheetData = new SheetData();
 
             //reflect settings
-            foreach (String fname in settings.DestAsmHashSet)
+            if (settings.DestAsmHashSet == null)
             {
-                ComboBoxDestAsm.Items.Add(fname);
+                settings.DestAsmHashSet = new HashSet<string>();
+                settings.SelectedAsmIdx = -1;
             }
-            ComboBoxDestAsm.SelectedIndex = settings.SelectedAsmIdx;
-            foreach(SheetData sheetData in settings.DestSheetDataHashSet)
+            else
             {
-                ComboBoxDestSheet.Items.Add(sheetData.name);
+                foreach (String fname in settings.DestAsmHashSet)
+                {
+                    ComboBoxDestAsm.Items.Add(fname);
+                }
+                ComboBoxDestAsm.SelectedIndex = settings.SelectedAsmIdx;
             }
-            ComboBoxDestSheet.SelectedIndex = settings.SelectedSheetIdx;
+            if (settings.DestSheetDataHashSet == null)
+            {
+                settings.DestSheetDataHashSet = new HashSet<SheetData>();
+                settings.SelectedSheetIdx = -1;
+            }
+            else
+            {
+                foreach (SheetData sheetData in settings.DestSheetDataHashSet)
+                {
+                    ComboBoxDestSheet.Items.Add(sheetData.name);
+                }
+                ComboBoxDestSheet.SelectedIndex = settings.SelectedSheetIdx;
+            }
 
 #if DEBUG
             debug = true;
