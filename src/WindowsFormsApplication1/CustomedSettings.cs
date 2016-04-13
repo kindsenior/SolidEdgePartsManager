@@ -10,10 +10,31 @@ namespace WindowsFormsApplication1
 {
     public class CustomedSettings : ApplicationSettingsBase
     {
-        public CustomedSettings()
+
+        [UserScopedSetting()]
+        public HashSet<String> DestAsmHashSet
         {
-            DestSheetDataHashSet = new HashSet<SheetData>();
-            SelectedSheetIdx = 0;
+            get
+            {
+                return (HashSet<String>)this["DestAsmHashSet"];
+            }
+            set
+            {
+                this["DestAsmHashSet"] = value;
+            }
+        }
+
+        [UserScopedSetting()]
+        public int SelectedAsmIdx
+        {
+            get
+            {
+                return (int)this["SelectedAsmIdx"];
+            }
+            set
+            {
+                this["SelectedAsmIdx"] = value;
+            }
         }
 
         [UserScopedSetting()]

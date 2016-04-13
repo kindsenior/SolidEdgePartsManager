@@ -37,9 +37,14 @@ namespace WindowsFormsApplication1
             settings = new CustomedSettings();
             destSheetData = new SheetData();
 
-            settings.Reload();
-            Console.WriteLine(settings.DestSheetDataHashSet.Count);
-            foreach( SheetData sheetData in settings.DestSheetDataHashSet){
+            //reflect settings
+            foreach (String fname in settings.DestAsmHashSet)
+            {
+                ComboBoxDestAsm.Items.Add(fname);
+            }
+            ComboBoxDestAsm.SelectedIndex = settings.SelectedAsmIdx;
+            foreach(SheetData sheetData in settings.DestSheetDataHashSet)
+            {
                 ComboBoxDestSheet.Items.Add(sheetData.name);
             }
             ComboBoxDestSheet.SelectedIndex = settings.SelectedSheetIdx;
