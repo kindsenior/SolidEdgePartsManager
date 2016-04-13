@@ -86,7 +86,20 @@ namespace WindowsFormsApplication1
             return ret;
         }
 
-        private void TextboxDestAsm_DragDrop(object sender, DragEventArgs e)
+        private void AddAndSelectComboBox(String str)
+        {
+            if(ComboBoxDestAsm.Items.Contains(str))
+            {
+                ComboBoxDestAsm.SelectedIndex = ComboBoxDestAsm.Items.IndexOf(str);
+            }
+            else {
+                settings.DestAsmHashSet.Add(str);
+                ComboBoxDestAsm.Items.Add(str);
+                ComboBoxDestAsm.Text = str;
+            }
+        }
+
+        private void ComboBoxDestAsm_DragDrop(object sender, DragEventArgs e)
         {
             string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (s.Length > 0)
@@ -95,20 +108,20 @@ namespace WindowsFormsApplication1
                 string ext = System.IO.Path.GetExtension(s[0]);
                 if (ext == ".asm")
                 {
-                    TextboxDestAsm.Text = s[0];
+                    AddAndSelectComboBox(s[0]);
                 }
                 else if (ext == ".lnk")
                 {
                     string filename = ResolveShorcut(s[0]);
                     if (System.IO.Path.GetExtension(filename) == ".asm")
                     {
-                        TextboxDestAsm.Text = s[0];
+                        AddAndSelectComboBox(s[0]);
                     }
                 }
             }
         }
 
-        private void TextboxDestAsm_DragEnter(object sender, DragEventArgs e)
+        private void ComboBoxDestAsm_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.All;
@@ -126,7 +139,7 @@ namespace WindowsFormsApplication1
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                TextboxDestAsm.Text = dialog.FileName;
+                AddAndSelectComboBox(dialog.FileName);
             }
             dialog.Dispose();
         }
@@ -148,8 +161,8 @@ namespace WindowsFormsApplication1
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
-            TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\Jaxon2.asm";
-            List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(TextboxDestAsm.Text);
+            //TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\Jaxon2.asm";
+            List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(ComboBoxDestAsm.Text);
             Dictionary<string, string> partsListDictionary = new Dictionary<string,string>();
             foreach (string occurrenceFile in occurrenceFiles)
             {// limb

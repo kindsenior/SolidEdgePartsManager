@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TextboxDestAsm = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonLoadDestAsm = new System.Windows.Forms.Button();
             this.ButtonUpdateAllPartsNumber = new System.Windows.Forms.Button();
@@ -37,17 +36,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ButtonSelectDestSheet = new System.Windows.Forms.Button();
             this.ComboBoxDestSheet = new System.Windows.Forms.ComboBox();
+            this.ComboBoxDestAsm = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // TextboxDestAsm
-            // 
-            this.TextboxDestAsm.AllowDrop = true;
-            this.TextboxDestAsm.Location = new System.Drawing.Point(74, 12);
-            this.TextboxDestAsm.Name = "TextboxDestAsm";
-            this.TextboxDestAsm.Size = new System.Drawing.Size(491, 19);
-            this.TextboxDestAsm.TabIndex = 0;
-            this.TextboxDestAsm.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextboxDestAsm_DragDrop);
-            this.TextboxDestAsm.DragEnter += new System.Windows.Forms.DragEventHandler(this.TextboxDestAsm_DragEnter);
             // 
             // label1
             // 
@@ -127,11 +117,26 @@
             this.ComboBoxDestSheet.TabIndex = 0;
             this.ComboBoxDestSheet.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDestSheet_SelectedIndexChanged);
             // 
+            // ComboBoxDestAsm
+            // 
+            this.ComboBoxDestAsm.AllowDrop = true;
+            this.ComboBoxDestAsm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxDestAsm.FormattingEnabled = true;
+            this.ComboBoxDestAsm.Location = new System.Drawing.Point(74, 10);
+            this.ComboBoxDestAsm.Name = "ComboBoxDestAsm";
+            this.ComboBoxDestAsm.Size = new System.Drawing.Size(491, 20);
+            this.ComboBoxDestAsm.TabIndex = 13;
+            this.ComboBoxDestAsm.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxDestAsm_SelectionChangeCommitted);
+            this.ComboBoxDestAsm.TextChanged += new System.EventHandler(this.ComboBoxDestAsm_TextChanged);
+            this.ComboBoxDestAsm.DragDrop += new System.Windows.Forms.DragEventHandler(this.ComboBoxDestAsm_DragDrop);
+            this.ComboBoxDestAsm.DragEnter += new System.Windows.Forms.DragEventHandler(this.ComboBoxDestAsm_DragEnter);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
+            this.Controls.Add(this.ComboBoxDestAsm);
             this.Controls.Add(this.ComboBoxDestSheet);
             this.Controls.Add(this.ButtonSelectDestSheet);
             this.Controls.Add(this.label4);
@@ -140,9 +145,9 @@
             this.Controls.Add(this.ButtonUpdateAllPartsNumber);
             this.Controls.Add(this.ButtonLoadDestAsm);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.TextboxDestAsm);
             this.Name = "Form1";
             this.Text = "SolidEdge Parts Manager";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ComboBoxDestAsm_DragDrop);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,7 +155,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox TextboxDestAsm;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ButtonLoadDestAsm;
         private System.Windows.Forms.Button ButtonUpdateAllPartsNumber;
@@ -159,6 +163,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ButtonSelectDestSheet;
         private System.Windows.Forms.ComboBox ComboBoxDestSheet;
+        private System.Windows.Forms.ComboBox ComboBoxDestAsm;
     }
 }
 
