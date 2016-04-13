@@ -111,6 +111,7 @@
             // 
             // ComboBoxDestSheet
             // 
+            this.ComboBoxDestSheet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxDestSheet.Location = new System.Drawing.Point(74, 37);
             this.ComboBoxDestSheet.Name = "ComboBoxDestSheet";
             this.ComboBoxDestSheet.Size = new System.Drawing.Size(491, 20);
