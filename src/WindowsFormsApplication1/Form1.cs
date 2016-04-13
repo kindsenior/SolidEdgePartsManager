@@ -356,5 +356,21 @@ namespace WindowsFormsApplication1
             settings.Save();
         }
 
+        //Textをプログラムで書き換えた時はなぜか2回実行される
+        private void ComboBoxDestAsm_TextChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("ComboBoxDestAsm_TextChanged() idx:" + ComboBoxDestAsm.SelectedIndex + " text:" + ComboBoxDestAsm.Text);
+            settings.SelectedAsmIdx = ComboBoxDestAsm.SelectedIndex;
+            settings.Save();
+        }
+
+        //プルダウンをGUIで変更した時に実行
+        private void ComboBoxDestAsm_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Console.WriteLine("ComboBoxDestAsm_SelectionChangedCommitted() idx:" + ComboBoxDestAsm.SelectedIndex);
+            settings.SelectedAsmIdx = ComboBoxDestAsm.SelectedIndex;
+            settings.Save();
+        }
+
     }
 }
