@@ -357,10 +357,17 @@ namespace WindowsFormsApplication1
             if (googleDriveForm.ShowDialog() == DialogResult.OK)
             {
                 destSheetData = googleDriveForm.selectedSheetData;
-                ComboBoxDestSheet.Items.Add(destSheetData.name);
-                settings.DestSheetDataHashSet.Add(destSheetData);
-                ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
-                settings.Save();
+                if (ComboBoxDestSheet.Items.Contains(destSheetData))
+                {
+                    ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
+                }
+                else
+                {
+                    settings.DestSheetDataHashSet.Add(destSheetData);
+                    ComboBoxDestSheet.Items.Add(destSheetData.name);
+                    ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
+                    //ComboBoxDestSheet.Text = destSheetData.name;
+                }
             }
             googleDriveForm.Dispose();
         }
