@@ -97,7 +97,8 @@ namespace WindowsFormsApplication1
             {
                 ComboBoxDestAsm.SelectedIndex = ComboBoxDestAsm.Items.IndexOf(str);
             }
-            else {
+            else
+            {
                 settings.DestAsmHashSet.Add(str);
                 ComboBoxDestAsm.Items.Add(str);
                 ComboBoxDestAsm.Text = str;
