@@ -346,7 +346,7 @@ namespace WindowsFormsApplication1
             spreadsheetManager.SetSpreadsheetById(destSheetData.id);
             Dictionary<string, Dictionary<string, string>> propertySetDictionary = spreadsheetManager.GetPartsProperties();
 
-            solidedgeManager.SetPartsProperties(propertySetDictionary,CheckboxAutoRetry.Checked);
+            solidedgeManager.SetPartsProperties(propertySetDictionary, CheckboxAutoRetry.Checked);
 
             MessageBox.Show("Finished updating parts properties");
         }

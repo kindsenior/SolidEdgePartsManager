@@ -16,12 +16,15 @@ using IWshRuntimeLibrary; // for shortcuts, needs windows script host object mod
 
 namespace WindowsFormsApplication1
 {
+    enum ProcessType { Add, Open, Skip, Exception };
+
     class SolidEdgeManager
     {
         //private uint m_targetThreadId;
         private uint m_mainWindowHandle;
         static private string m_windowName = "Solid Edge";
         private uint m_retryCount = 0;
+        private SolidEdgeFramework.PropertySets m_propertySets;
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -229,7 +232,37 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void SetPartProperty(string filename, Dictionary<string,string> inputPropertySet, bool autoRetryFlg = false)
+        private ProcessType SetPartProparty_impl(Dictionary<string, string> inputPropertySet)
+        {
+            foreach (SolidEdgeFramework.Properties propertySet in m_propertySets)
+            {
+                if (propertySet.Name == "Custom")
+                {
+                    foreach (string key in inputPropertySet.Keys)
+                    {
+                        bool keyFoundFlg = false;
+                        foreach (SolidEdgeFramework.Property property in propertySet)
+                        {
+                            if (key == property.Name)
+                            {
+                                property.set_Value(inputPropertySet[key]);
+                                keyFoundFlg = true;
+                            }
+                        }
+                        if (!keyFoundFlg)
+                        {
+                            Console.WriteLine("  add propetry: " + key);
+                            propertySet.Add(key, inputPropertySet[key]);
+                        }
+                    }
+                    propertySet.Save();
+                }
+            }
+            return ProcessType.Exception;
+        }
+        
+        private ProcessType ManipulateProperty(string filename, Dictionary<string,string> inputPropertySet,
+            Func<Dictionary<string,string>, ProcessType> func, bool autoRetryFlg = false)
         {
             Console.WriteLine("SetPartsProperty(" + filename + ",Dictionary)");
             SolidEdgeFramework.Application application = null;
@@ -237,6 +270,7 @@ namespace WindowsFormsApplication1
             SolidEdgePart.PartDocument part = null;
             SolidEdgePart.SheetMetalDocument psm = null;
             SolidEdgeAssembly.AssemblyDocument asm = null;
+            ProcessType processType;
 
             try
             {
@@ -252,57 +286,37 @@ namespace WindowsFormsApplication1
                 Thread threadA = new Thread(new ThreadStart(NotOpenAsm));
                 threadA.Start();
 
-                SolidEdgeFramework.PropertySets propertySets = null;
+                //開く&プロパティ取得
+                m_propertySets = null;
                 switch (System.IO.Path.GetExtension(filename))
                 {
                     case ".par":
                         Console.WriteLine("open part");
                         part = (SolidEdgePart.PartDocument)documents.Open(filename);
                         threadA.Join();
-                        propertySets = part.Properties;
+                        m_propertySets = part.Properties;
                         break;
                     case ".psm":
                         Console.WriteLine("open psm");
                         psm = (SolidEdgePart.SheetMetalDocument)documents.Open(filename);
                         threadA.Join();
-                        propertySets = psm.Properties;
+                        m_propertySets = psm.Properties;
                         break;
                     case ".asm":
                         Console.WriteLine("open asm");
                         asm = (SolidEdgeAssembly.AssemblyDocument)documents.Open(filename);
                         threadA.Join();
-                        propertySets = asm.Properties;
+                        m_propertySets = asm.Properties;
                         break;
                     default:
                         MessageBox.Show("!!Bad Extention Type: " + System.IO.Path.GetExtension(filename) + "!!");
-                        return;
+                        return ProcessType.Exception;
                 }
 
-                foreach( SolidEdgeFramework.Properties propertySet in propertySets)
-                {
-                    if (propertySet.Name == "Custom")
-                    {
-                        foreach (string key in inputPropertySet.Keys)
-                        {
-                            bool keyFoundFlg = false;
-                            foreach (SolidEdgeFramework.Property property in propertySet)
-                            {
-                                if (key == property.Name)
-                                {
-                                    property.set_Value(inputPropertySet[key]);
-                                    keyFoundFlg = true;
-                                }
-                            }
-                            if (!keyFoundFlg)
-                            {
-                                Console.WriteLine("  add propetry: " + key);
-                                propertySet.Add(key, inputPropertySet[key]);
-                            }
-                        }
-                        propertySet.Save();
-                    }
-                }
+                //プロパティ処理
+                processType = func(inputPropertySet);
 
+                //保存&閉じる
                 switch (System.IO.Path.GetExtension(filename))
                 {
                     case ".par":
@@ -325,18 +339,19 @@ namespace WindowsFormsApplication1
                         break;
                     default:
                         MessageBox.Show("!!Bad Extention Type: " + System.IO.Path.GetExtension(filename) + "!!");
-                        return;
+                        return ProcessType.Exception;
                 }
 
             }
             catch (System.Exception ex)
             {
+                processType = ProcessType.Exception;
                 if ( autoRetryFlg && m_retryCount <= 2||
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry )
                 {
                     ++m_retryCount;
                     if (autoRetryFlg) System.Threading.Thread.Sleep(1000);
-                    SetPartProperty(filename, inputPropertySet);
+                    processType = ManipulateProperty(filename, inputPropertySet, func);
                 }
             }
             finally
@@ -369,8 +384,13 @@ namespace WindowsFormsApplication1
                 }
             }
 
+            return processType;
         }
 
+        public void SetPartProperty(string filename, Dictionary<string, string> inputPropertySet, bool autoRetryFlg = false)
+        {
+            ManipulateProperty(filename, inputPropertySet, SetPartProparty_impl, autoRetryFlg);
+        }
 
         public void SetPartsProperties(Dictionary<string, Dictionary<string,string>> propertySetDictionary, bool autoRetryFlg = false)
         {
