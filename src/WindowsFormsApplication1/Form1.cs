@@ -172,14 +172,8 @@ namespace WindowsFormsApplication1
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
 
             //TextboxDestAsm.Text = "\\\\andromeda\\share1\\STARO\\CAD\\JAXON2\\Jaxon2.asm";
-            List<string> occurrenceFiles = solidedgeManager.GetOccurenceFiles(ComboBoxDestAsm.Text);
-            Dictionary<string, string> partsListDictionary = new Dictionary<string,string>();
-            foreach (string occurrenceFile in occurrenceFiles)
-            {// limb
-                Console.WriteLine(" occurence file name: " + System.IO.Path.GetFileNameWithoutExtension(occurrenceFile));
-                solidedgeManager.createPartsListDictionary(ref partsListDictionary, occurrenceFile, CheckboxAutoRetry.Checked);
-            } Console.WriteLine();
-
+            Dictionary<string, string> partsListDictionary = new Dictionary<string, string>();
+            solidedgeManager.createPartsListDictionary(ref partsListDictionary, ComboBoxDestAsm.Text, CheckboxAutoRetry.Checked);
 
             //List<SpreadsheetManager> spreadsheetManagerList = new List<SpreadsheetManager>();
             foreach (System.Collections.Generic.KeyValuePair<string,string> partsListPair in partsListDictionary)
