@@ -33,6 +33,7 @@
             this.ButtonSkip = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TextBoxFileName = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ComboBoxProcessType
@@ -41,13 +42,13 @@
             this.ComboBoxProcessType.FormattingEnabled = true;
             this.ComboBoxProcessType.Location = new System.Drawing.Point(90, 103);
             this.ComboBoxProcessType.Name = "ComboBoxProcessType";
-            this.ComboBoxProcessType.Size = new System.Drawing.Size(130, 20);
+            this.ComboBoxProcessType.Size = new System.Drawing.Size(150, 20);
             this.ComboBoxProcessType.TabIndex = 0;
             // 
             // ButtonOK
             // 
             this.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOK.Location = new System.Drawing.Point(226, 101);
+            this.ButtonOK.Location = new System.Drawing.Point(246, 101);
             this.ButtonOK.Name = "ButtonOK";
             this.ButtonOK.Size = new System.Drawing.Size(75, 23);
             this.ButtonOK.TabIndex = 1;
@@ -58,7 +59,7 @@
             // ButtonSkip
             // 
             this.ButtonSkip.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-            this.ButtonSkip.Location = new System.Drawing.Point(307, 101);
+            this.ButtonSkip.Location = new System.Drawing.Point(327, 101);
             this.ButtonSkip.Name = "ButtonSkip";
             this.ButtonSkip.Size = new System.Drawing.Size(75, 23);
             this.ButtonSkip.TabIndex = 2;
@@ -77,17 +78,29 @@
             // 
             // TextBoxFileName
             // 
-            this.TextBoxFileName.Location = new System.Drawing.Point(90, 78);
+            this.TextBoxFileName.Location = new System.Drawing.Point(90, 23);
             this.TextBoxFileName.Name = "TextBoxFileName";
             this.TextBoxFileName.ReadOnly = true;
             this.TextBoxFileName.Size = new System.Drawing.Size(292, 19);
             this.TextBoxFileName.TabIndex = 4;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(14, 48);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(388, 47);
+            this.textBox1.TabIndex = 5;
+            this.textBox1.Text = "Add: パーツリストを作成する(Linkレベル)\r\nOpen: この階層ではパーツリストを作成せずに，アセンブリを展開する(Limbレベル)\r\nSkip: 何も" +
+    "処理せずに次のアセンブリまたはパーツ,シートメタルを処理する\r\nException: 使わない";
+            // 
             // ProcessTypeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 136);
+            this.ClientSize = new System.Drawing.Size(409, 136);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.TextBoxFileName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ButtonSkip);
@@ -107,5 +120,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TextBoxFileName;
         public System.Windows.Forms.ComboBox ComboBoxProcessType;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
