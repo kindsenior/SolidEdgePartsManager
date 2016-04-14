@@ -107,7 +107,7 @@ namespace WindowsFormsApplication1
             return ret;
         }
 
-        private void AddAndSelectComboBox(String str)
+        private void AddAndSelectComboBoxDestAsm(String str)
         {
             if(ComboBoxDestAsm.Items.Contains(str))
             {
@@ -130,14 +130,14 @@ namespace WindowsFormsApplication1
                 string ext = System.IO.Path.GetExtension(s[0]);
                 if (ext == ".asm")
                 {
-                    AddAndSelectComboBox(s[0]);
+                    AddAndSelectComboBoxDestAsm(s[0]);
                 }
                 else if (ext == ".lnk")
                 {
                     string filename = ResolveShorcut(s[0]);
                     if (System.IO.Path.GetExtension(filename) == ".asm")
                     {
-                        AddAndSelectComboBox(s[0]);
+                        AddAndSelectComboBoxDestAsm(s[0]);
                     }
                 }
             }
@@ -161,7 +161,7 @@ namespace WindowsFormsApplication1
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                AddAndSelectComboBox(dialog.FileName);
+                AddAndSelectComboBoxDestAsm(dialog.FileName);
             }
             dialog.Dispose();
         }
