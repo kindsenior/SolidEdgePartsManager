@@ -35,13 +35,6 @@ namespace WindowsFormsApplication1
         {
             Console.WriteLine("SpreadsheetManager()");
 
-            //old for OAuth1
-            //Console.WriteLine("SpreadsheetManager(" + account + ",<pass>)");
-            //SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            //service.setUserCredentials(account + "@jsk.imi.i.u-tokyo.ac.jp", pass);
-            //m_service = service;
-            //Console.WriteLine(" account: " + account + "  pass: " + pass);
-
             //for OAuth2
             SpreadsheetsService service = new SpreadsheetsService("SolidEdgePartsManager")
             {

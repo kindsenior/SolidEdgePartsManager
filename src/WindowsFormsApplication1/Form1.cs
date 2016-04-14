@@ -167,12 +167,6 @@ namespace WindowsFormsApplication1
 
             if (!IsSolidEdge()) return;
 
-            //RefreshAccessToken();
-
-            //SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-            //service.setUserCredentials(TextboxImiAccount.Text+"@jsk.imi.i.u-tokyo.ac.jp", TextBoxImiPass.Text);
-            //Console.WriteLine(" account: " + TextboxImiAccount.Text + "  pass: " + TextBoxImiPass.Text);
-
             //spreadsheetManager.GetPartsPathFromGDrive(service);
 
             SolidEdgeManager solidedgeManager = new SolidEdgeManager();
@@ -250,66 +244,6 @@ namespace WindowsFormsApplication1
 
             System.IO.File.Delete(fileName);
         }
-
-        //private bool RefreshAccessToken()
-        //{
-        //    Console.WriteLine("RefreshAccessToken()");
-
-        //    string CLIENT_ID = "1006233954353-1cauii1ksqvmip6kttlt2h9ku6hhpa4o.apps.googleusercontent.com";
-        //    string CLIENT_SECRET = "vhA55KV3ZQTVKbbKVS5z41pi";
-
-        //    string SCOPE = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://spreadsheets.google.com/feeds https://docs.google.com/feeds";
-
-        //    string REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
-        //    //string REDIRECT_URI = "http://localhost";
-
-        //    OAuth2Parameters parameters = new OAuth2Parameters();
-        //    parameters.ClientId = CLIENT_ID;
-        //    parameters.ClientSecret = CLIENT_SECRET;
-        //    parameters.RedirectUri = REDIRECT_URI;
-        //    parameters.Scope = SCOPE;
-
-        //    //string authorizationUrl = OAuthUtil.CreateOAuth2AuthorizationUrl(parameters);
-        //    //Console.WriteLine(authorizationUrl);
-        //    //Console.WriteLine("Please visit the URL above to authorize your OAuth request token.  Once that is complete, type in your access code to continue...");
-        //    //parameters.AccessCode = Console.ReadLine();
-        //    parameters.AccessCode = "4/3lEgvRBZ2cBMc1jRUxDEhiz13dEl64dy-bUcsqatV5k";
-        //    Console.WriteLine(" AuthorizationCode(AccessCode): " + parameters.AccessCode);
-
-        //    //string redirectUrl = "http://www.example.com/oauth2callback?code=SOME-RETURNED-VALUE";
-        //    //string redirectUrl = "https://code.google.com/apis/console?code=SOME-RETURNED-VALUE";
-        //    //Uri uri = new Uri(redirectUrl);
-        //    //Console.WriteLine(uri.Query.ToString());
-        //    //OAuthUtil.GetAccessToken(uri.Query, parameters);
-
-        //    try
-        //    {
-        //        string accessToken = "ya29.MQL5AOvvhiis0bFQU6EAjV-853JnJwXuOoJAdmNBUTuHtu9vLbWqH2KRZSoDcL8r-mGc";
-        //        string refreshToken = "1/C6fE1PhY0_5mBO1bB8ZWdXh7vH4I62AKRvKRB8T6ADZIgOrJDtdun6zK6XiATCKT";// リフレッシュトークンは変わらない?
-        //        parameters.AccessToken = accessToken;
-        //        parameters.RefreshToken = refreshToken;
-        //        OAuthUtil.RefreshAccessToken(parameters);
-
-        //        //OAuthUtil.GetAccessToken(parameters);
-        //        Console.WriteLine(" Access Token: " + parameters.AccessToken);
-        //        Console.WriteLine(" Refresh Token: " + parameters.RefreshToken);
-
-        //        GOAuth2RequestFactory requestFactory = new GOAuth2RequestFactory(null, "MySpreadsheetIntegration-v1", parameters);
-        //        SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-        //        service.RequestFactory = requestFactory;
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        MessageBox.Show("RefreshAccessToken() error\n" + ex.Message + "\nProbably failed in getting Token.!!\n Prease check tokens and access code.");
-        //    }
-        //    finally
-        //    {
-
-        //    }
-
-
-        //    return true;
-        //}
 
         private void ButtonUpdatePartsProperties_Click(object sender, EventArgs e)
         {
