@@ -37,6 +37,8 @@
             this.ButtonSelectDestSheet = new System.Windows.Forms.Button();
             this.ComboBoxDestSheet = new System.Windows.Forms.ComboBox();
             this.ComboBoxDestAsm = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -60,7 +62,7 @@
             // 
             // ButtonUpdateAllPartsNumber
             // 
-            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(571, 113);
+            this.ButtonUpdateAllPartsNumber.Location = new System.Drawing.Point(98, 83);
             this.ButtonUpdateAllPartsNumber.Name = "ButtonUpdateAllPartsNumber";
             this.ButtonUpdateAllPartsNumber.Size = new System.Drawing.Size(135, 23);
             this.ButtonUpdateAllPartsNumber.TabIndex = 3;
@@ -70,7 +72,7 @@
             // 
             // ButtonUpdatePartsProperties
             // 
-            this.ButtonUpdatePartsProperties.Location = new System.Drawing.Point(571, 142);
+            this.ButtonUpdatePartsProperties.Location = new System.Drawing.Point(98, 112);
             this.ButtonUpdatePartsProperties.Name = "ButtonUpdatePartsProperties";
             this.ButtonUpdatePartsProperties.Size = new System.Drawing.Size(135, 23);
             this.ButtonUpdatePartsProperties.TabIndex = 8;
@@ -83,7 +85,7 @@
             this.CheckboxAutoRetry.AutoSize = true;
             this.CheckboxAutoRetry.Checked = true;
             this.CheckboxAutoRetry.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckboxAutoRetry.Location = new System.Drawing.Point(461, 117);
+            this.CheckboxAutoRetry.Location = new System.Drawing.Point(12, 87);
             this.CheckboxAutoRetry.Name = "CheckboxAutoRetry";
             this.CheckboxAutoRetry.Size = new System.Drawing.Size(80, 16);
             this.CheckboxAutoRetry.TabIndex = 9;
@@ -132,11 +134,31 @@
             this.ComboBoxDestAsm.DragDrop += new System.Windows.Forms.DragEventHandler(this.ComboBoxDestAsm_DragDrop);
             this.ComboBoxDestAsm.DragEnter += new System.Windows.Forms.DragEventHandler(this.ComboBoxDestAsm_DragEnter);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(239, 88);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(160, 12);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Asmからパーツリストのcsvを作成";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(239, 117);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(188, 12);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Spreadsheetの内容をプロパティに反映";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 261);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.ComboBoxDestAsm);
             this.Controls.Add(this.ComboBoxDestSheet);
             this.Controls.Add(this.ButtonSelectDestSheet);
@@ -165,6 +187,8 @@
         private System.Windows.Forms.Button ButtonSelectDestSheet;
         private System.Windows.Forms.ComboBox ComboBoxDestSheet;
         private System.Windows.Forms.ComboBox ComboBoxDestAsm;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 
