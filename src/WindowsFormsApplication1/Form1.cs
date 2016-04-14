@@ -109,16 +109,10 @@ namespace WindowsFormsApplication1
 
         private void AddAndSelectComboBoxDestAsm(String str)
         {
-            if(ComboBoxDestAsm.Items.Contains(str))
-            {
-                ComboBoxDestAsm.SelectedIndex = ComboBoxDestAsm.Items.IndexOf(str);
-            }
-            else
-            {
-                settings.DestAsmHashSet.Add(str);
-                ComboBoxDestAsm.Items.Add(str);
-                ComboBoxDestAsm.Text = str;
-            }
+            settings.DestAsmHashSet.Add(str);
+            if (settings.DestAsmHashSet.Count != ComboBoxDestAsm.Items.Count) ComboBoxDestAsm.Items.Add(str);
+            //ComboBoxDestAsm.Text = str;
+            ComboBoxDestAsm.SelectedIndex = ComboBoxDestAsm.Items.IndexOf(str);
         }
 
         private void ComboBoxDestAsm_DragDrop(object sender, DragEventArgs e)
@@ -345,17 +339,9 @@ namespace WindowsFormsApplication1
             if (googleDriveForm.ShowDialog() == DialogResult.OK)
             {
                 destSheetData = googleDriveForm.selectedSheetData;
-                if (ComboBoxDestSheet.Items.Contains(destSheetData))
-                {
-                    ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
-                }
-                else
-                {
-                    settings.DestSheetDataHashSet.Add(destSheetData);
-                    ComboBoxDestSheet.Items.Add(destSheetData.name);
-                    ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
-                    //ComboBoxDestSheet.Text = destSheetData.name;
-                }
+                settings.DestSheetDataHashSet.Add(destSheetData);
+                if (settings.DestSheetDataHashSet.Count != ComboBoxDestSheet.Items.Count) ComboBoxDestSheet.Items.Add(destSheetData.name);
+                ComboBoxDestSheet.SelectedIndex = ComboBoxDestSheet.Items.IndexOf(destSheetData.name);
             }
             googleDriveForm.Dispose();
         }
