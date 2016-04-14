@@ -244,8 +244,7 @@ namespace WindowsFormsApplication1
             body.Title = System.IO.Path.GetFileName(fileName);
             body.Description = "parts list of " + System.IO.Path.GetFileNameWithoutExtension(fileName);
             body.MimeType = "text/plain";
-            //Documents/STARO/JSK/設計ディレクトリを指定
-            body.Parents = new List<ParentReference>() { new ParentReference() { Id = "0B0Hp35qR3oqsfnA3NEprOU5BTldON2tnSjhicFFzNnFNallYVWVQbWYxdlpjNlJyQ1JuaEU" } };
+            body.Parents = new List<ParentReference>() { new ParentReference() { Id = destSheetData.parentId } };// DestSheetのディレクトリを指定
             
             // file contents
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);

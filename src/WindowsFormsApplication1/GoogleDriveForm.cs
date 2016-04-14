@@ -12,14 +12,14 @@ namespace WindowsFormsApplication1
 {
     public struct SheetData
     {
-        public String name, id;
+        public String name, id, parentId;
     }
 
     public partial class GoogleDriveForm : Form
     {
-        private List<String> directoryPathList;
-        private const int idIdx = 2, typeIdx = 3;
-        public SheetData selectedSheetData;
+        private List<String> directoryPathList;// 過去のディレクトリの移動履歴リスト
+        private const int idIdx = 2, typeIdx = 3, parentIdIdx = 4;// ListViewFile.Items.SubItems内のインデクス
+        public SheetData selectedSheetData;// 選択中のSpreadsheetのデータ (Form1クラスからはこの変数にアクセスする)
 
         public GoogleDriveForm()
         {
@@ -43,9 +43,10 @@ namespace WindowsFormsApplication1
             {
                 item = new ListViewItem(file.Title.ToString(), 0);
                 subItems = new ListViewItem.ListViewSubItem[]
-                    {new ListViewItem.ListViewSubItem(item, file.OwnerNames[0].ToString()),
-                     new ListViewItem.ListViewSubItem(item, file.Id.ToString()),
-                     new ListViewItem.ListViewSubItem(item, file.MimeType.ToString())};
+                    {new ListViewItem.ListViewSubItem(item, file.OwnerNames[0].ToString()),// owner name
+                     new ListViewItem.ListViewSubItem(item, file.Id.ToString()),// id
+                     new ListViewItem.ListViewSubItem(item, file.MimeType.ToString()),// mime type
+                     new ListViewItem.ListViewSubItem(item, file.Parents[0].Id.ToString())};// parent id
                 item.SubItems.AddRange(subItems);
                 ListViewFile.Items.Add(item);
             }
@@ -82,6 +83,7 @@ namespace WindowsFormsApplication1
                 {
                     selectedSheetData.name = selectedItem.Text.ToString();
                     selectedSheetData.id = selectedItem.SubItems[idIdx].Text.ToString();
+                    selectedSheetData.parentId = selectedItem.SubItems[parentIdIdx].Text.ToString();
                     TextBoxSelectedSpreadsheet.Text = selectedSheetData.name;
                 }
             }
