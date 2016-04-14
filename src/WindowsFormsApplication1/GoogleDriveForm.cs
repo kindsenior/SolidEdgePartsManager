@@ -32,6 +32,7 @@ namespace WindowsFormsApplication1
             ListViewFile.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
+        //Google Drive上のファイル・ディレクトリの表示リストを更新
         private void UpdateListViewFile(String parentId = "root")
         {
             GoogleDriveManager googleDriveManager = GoogleDriveManager.Instance;

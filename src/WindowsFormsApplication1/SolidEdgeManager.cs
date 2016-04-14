@@ -232,6 +232,7 @@ namespace WindowsFormsApplication1
             }
         }
 
+        //asmとparがカウント(Add)か展開(Open)かスキップ(Skip)かを判断する
         private ProcessType GetProcessType_impl(Dictionary<string, string> dummyDictionary)
         {
             foreach (SolidEdgeFramework.Properties propertySet in m_propertySets)
@@ -298,6 +299,7 @@ namespace WindowsFormsApplication1
             return ProcessType.Exception;
         }
         
+        //SolidEdgeファイルを開く前後の共通処理
         private ProcessType ManipulateProperty(string filename, Dictionary<string,string> inputPropertySet,
             Func<Dictionary<string,string>, ProcessType> func, bool autoRetryFlg = false)
         {
@@ -432,6 +434,8 @@ namespace WindowsFormsApplication1
 
         public void createPartsListDictionary(ref Dictionary<string, string> partsListDictionary, string fileName, bool autoRetryFlg = false)
         {
+            Console.WriteLine("createPartsListDictionary() file:" + fileName);
+
             string fileBaseName = System.IO.Path.GetFileNameWithoutExtension(fileName);
             ProcessType processType = GetProcessType(fileName, autoRetryFlg);
             switch (processType)

@@ -37,8 +37,8 @@ namespace WindowsFormsApplication1
             settings = new CustomedSettings();
             destSheetData = new SheetData();
 
-            //reflect settings
-            if (settings.DestAsmHashSet == null)
+            //reflect ComboBoxの設定値
+            if (settings.DestAsmHashSet == null)// 設定が保存されていない場合
             {
                 settings.DestAsmHashSet = new HashSet<string>();
                 settings.SelectedAsmIdx = -1;
@@ -51,7 +51,7 @@ namespace WindowsFormsApplication1
                 }
                 ComboBoxDestAsm.SelectedIndex = settings.SelectedAsmIdx;
             }
-            if (settings.DestSheetDataHashSet == null)
+            if (settings.DestSheetDataHashSet == null)// 設定が保存されていない場合
             {
                 settings.DestSheetDataHashSet = new HashSet<SheetData>();
                 settings.SelectedSheetIdx = -1;
@@ -163,7 +163,6 @@ namespace WindowsFormsApplication1
         private void ButtonUpdateAllPartsNumber_Click(object sender, EventArgs e)
         {
             Console.WriteLine("UpdateAllPartsNumber()");
-            //if(debug) MessageBox.Show("open asm: " + TextboxDestAsm.Text);
 
             if (!IsSolidEdge()) return;
 
@@ -276,6 +275,7 @@ namespace WindowsFormsApplication1
 
         private void ComboBoxDestSheet_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Console.WriteLine("ComboBoxDestSheet_SelectedIndexChanged() idx:" + ComboBoxDestSheet.SelectedIndex);
             int selectedIdx = ComboBoxDestSheet.SelectedIndex;
             destSheetData = settings.DestSheetDataHashSet.ElementAt(selectedIdx);
             settings.SelectedSheetIdx = selectedIdx;
