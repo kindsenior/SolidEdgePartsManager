@@ -164,7 +164,7 @@ namespace WindowsFormsApplication1
             Dictionary<string, Dictionary<string,string>> propertySetDictionary = new Dictionary<string, Dictionary<string,string>>();
             foreach (ListEntry rowEntry in listFeed.Entries)
             {
-                if (rowEntry.Elements[columnHeadDic["図番タイプ"]].Value != "")// 図番タイプが空欄だとプロパティが更新できない
+                if (rowEntry.Elements[columnHeadDic["図番タイプ"]].Value != "" && rowEntry.Elements[columnHeadDic["図番タイプ"]].Value != "図番タイプ")// 図番タイプが空欄だとプロパティが更新できない
                 {
                     Console.WriteLine(rowEntry.Elements[columnHeadDic["図番"]].Value);
                     Dictionary<string,string> rowData = new Dictionary<string, string>();
